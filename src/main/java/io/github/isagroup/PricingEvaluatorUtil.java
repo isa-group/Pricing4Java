@@ -47,11 +47,10 @@ public class PricingEvaluatorUtil {
         claims.put("authorities", pricingContext.getUserAuthorities());
 
         PlanContextManager planContextManager = new PlanContextManager();
-        planContextManager.userContext = pricingContext.getUserContext();
+        planContextManager.setUserContext(pricingContext.getUserContext());
+        planContextManager.setPlanContext(pricingContext.getPlanContext());
 
-        planContextManager.planContext = pricingContext.getPlanContext();
-
-        Map<String, Feature> evaluationConext = pricingContext.getFeatures();
+        Map<String, Feature> evaluationContext = pricingContext.getFeatures();
 
         ExpressionParser parser = new SpelExpressionParser();
         EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
@@ -59,11 +58,11 @@ public class PricingEvaluatorUtil {
 
         Map<String, Object> featureStatus;
 
-        for (String key : evaluationConext.keySet()) {
+        for (String key : evaluationContext.keySet()) {
 
             featureStatus = new HashMap<>();
 
-            String expression = evaluationConext.get(key).getExpression();
+            String expression = evaluationContext.get(key).getExpression();
 
             if (!expression.trim().equals("")) {
                 Boolean eval = parser.parseExpression(expression).getValue(context, planContextManager,
@@ -79,8 +78,8 @@ public class PricingEvaluatorUtil {
 
                 String userContextStatusKey = expression.split("\\[[\\\"|']")[1].split("[\\\"|']\\]")[0].trim();
 
-                featureStatus.put("used", planContextManager.userContext.get(userContextStatusKey));
-                featureStatus.put("limit", planContextManager.planContext.get(key));
+                featureStatus.put("used", planContextManager.getUserContext().get(userContextStatusKey));
+                featureStatus.put("limit", planContextManager.getPlanContext().get(key));
 
             } else {
                 featureStatus.put("used", null);
@@ -91,8 +90,8 @@ public class PricingEvaluatorUtil {
         }
 
         claims.put("features", featureMap);
-        claims.put("userContext", planContextManager.userContext);
-        claims.put("planContext", planContextManager.planContext);
+        claims.put("userContext", planContextManager.getUserContext());
+        claims.put("planContext", planContextManager.getPlanContext());
 
         String subject = "Default";
 

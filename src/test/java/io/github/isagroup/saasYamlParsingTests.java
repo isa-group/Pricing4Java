@@ -25,7 +25,7 @@ public class SaasYamlParsingTests {
         assertEquals(true, pricingManager.getPlans().get("BASIC").getFeatures().get("apiClient").getDefaultValue(),
                 "The deafult value of the apiClient feature should be true");
         assertEquals(10000,
-                pricingManager.plans.get("BASIC").getUsageLimits().get("callsToPostmanApi").getDefaultValue(),
+                pricingManager.getPlans().get("BASIC").getUsageLimits().get("callsToPostmanApi").getDefaultValue(),
                 "The default value of the callsToPostmanApi usageLimit should be 10000, as it must be copied from the defaultValue");
     }
 
@@ -40,7 +40,7 @@ public class SaasYamlParsingTests {
         assertEquals(true,
                 pricingManager.getPlans().get("STARTER").getFeatures().get("versionHistory").getDefaultValue(),
                 "The deafult value of the versionHistory feature should be true");
-        assertEquals(100, pricingManager.plans.get("STARTER").getUsageLimits().get("teamsLimit").getDefaultValue(),
+        assertEquals(100, pricingManager.getPlans().get("STARTER").getUsageLimits().get("teamsLimit").getDefaultValue(),
                 "The default value of the teamsLimit usageLimit should be 100, as it must be copied from the defaultValue");
     }
 
@@ -56,7 +56,8 @@ public class SaasYamlParsingTests {
         assertEquals(false, pricingManager.getPlans().get("APPS_FOR_BUSINESS").getFeatures().get("sharedCalendars")
                 .getDefaultValue(), "The deafult value of the sharedCalendars feature should be false");
         assertEquals(300,
-                pricingManager.plans.get("BUSINESS_PREMIUM").getUsageLimits().get("webinarsMaxLimit").getDefaultValue(),
+                pricingManager.getPlans().get("BUSINESS_PREMIUM").getUsageLimits().get("webinarsMaxLimit")
+                        .getDefaultValue(),
                 "The default value of the teamsLimit usageLimit for the plan BUSINESS_PREMIUM should be 300, as it must be copied from the defaultValue");
     }
 
@@ -71,7 +72,7 @@ public class SaasYamlParsingTests {
         assertEquals(true, pricingManager.getPlans().get("BASIC").getFeatures().get("search").getDefaultValue(),
                 "The deafult value of the search feature should be true");
         assertEquals(Double.POSITIVE_INFINITY,
-                pricingManager.plans.get("ENTERPRISE").getUsageLimits().get("numberOfBuilders").getValue(),
+                pricingManager.getPlans().get("ENTERPRISE").getUsageLimits().get("numberOfBuilders").getValue(),
                 "The value of the numberOfBuilders usageLimit for the plan ENTERPRISE should be infinite, is it's customizable");
     }
 
@@ -87,7 +88,8 @@ public class SaasYamlParsingTests {
                 pricingManager.getPlans().get("STARTER").getFeatures().get("leadManagement").getDefaultValue(),
                 "The deafult value of the leadManagement feature should be true");
         assertEquals(Double.POSITIVE_INFINITY,
-                pricingManager.plans.get("ENTERPRISE").getUsageLimits().get("numberOfProcessesAndFlows").getValue(),
+                pricingManager.getPlans().get("ENTERPRISE").getUsageLimits().get("numberOfProcessesAndFlows")
+                        .getValue(),
                 "The value of the numberOfProcessesAndFlows usageLimit for the plan ENTERPRISE should be infinite, is it's customizable");
     }
 

@@ -84,6 +84,11 @@ public abstract class PricingContext {
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getValue()));
     };
 
+    public final Map<String, Object> getUsageLimitsContext() {
+
+        return this.getPricingManager().getPlanUsageLimits(this.getUserPlan());
+    }
+
     /**
      * This method returns the features declared on the pricing configuration.
      * 

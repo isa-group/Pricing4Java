@@ -2,7 +2,13 @@ package io.github.isagroup.models;
 
 import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PlanContextManager {
-    public Map<String, Object> userContext;
-    public Map<String, Object> planContext;
+    private Map<String, Object> userContext;
+    private Map<String, Object> planContext;
+    private Map<String, Object> usageLimitsContext;
 }

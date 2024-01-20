@@ -55,8 +55,8 @@ public class PricingPlanAwareAspect {
 
         PlanContextManager planContextManager = new PlanContextManager();
 
-        planContextManager.userContext = userContext;
-        planContextManager.planContext = planContext;
+        planContextManager.setUserContext(userContext);
+        planContextManager.setPlanContext(planContext);
 
         try {
             String expression = evaluationContext.get(featureId).getServerExpression();
