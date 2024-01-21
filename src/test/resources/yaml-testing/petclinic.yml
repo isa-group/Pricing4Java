@@ -1,40 +1,53 @@
+saasName: petclinic
+day: 15
+month: 1
+year: 2024
+currency: EUR
+hasAnnualPayment: false
 features:
   maxPets:
-    defaultValue: 2
     description: maxPets description
+    valueType: NUMERIC
+    defaultValue: 2
+    type: DOMAIN
     expression: userContext['pets'] < planContext['maxPets']
     serverExpression: userContext['pets'] <= planContext['maxPets']
-    type: NUMERIC
   maxVisitsPerMonthAndPet:
-    defaultValue: 1
     description: maxVisitsPerMonthAndPet description
-    expression: ''
-    type: NUMERIC
+    valueType: NUMERIC
+    defaultValue: 1
+    type: DOMAIN
+    expression: ""
   supportPriority:
-    defaultValue: LOW
     description: supportPriority description
-    expression: ''
-    type: TEXT
+    valueType: TEXT
+    defaultValue: LOW
+    type: SUPPORT
+    expression: ""
   haveCalendar:
-    defaultValue: false
     description: haveCalendar description
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
     expression: planContext['haveCalendar']
-    type: CONDITION
   havePetsDashboard:
-    defaultValue: false
     description: havePetsDashboard description
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
     expression: planContext['havePetsDashboard']
-    type: CONDITION
   haveVetSelection:
-    defaultValue: false
     description: haveVetSelection description
-    expression: planContext['haveVetSelection']
-    type: CONDITION
-  haveOnlineConsultation:
+    valueType: BOOLEAN
     defaultValue: false
+    type: DOMAIN
+    expression: planContext['haveVetSelection']
+  haveOnlineConsultation:
     description: haveOnlineConsultation description
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
     expression: planContext['haveOnlineConsultation']
-    type: CONDITION
 plans:
   BASIC:
     currency: EUR

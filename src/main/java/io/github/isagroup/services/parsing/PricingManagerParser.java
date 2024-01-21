@@ -12,6 +12,9 @@ import io.github.isagroup.models.UsageLimit;
 
 public class PricingManagerParser {
 
+    private PricingManagerParser() {
+    }
+
     public static PricingManager parseMapToPricingManager(Map<String, Object> yamlConfigMap) {
 
         PricingManager pricingManager = new PricingManager();
