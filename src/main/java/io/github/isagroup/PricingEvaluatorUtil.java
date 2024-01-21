@@ -1,18 +1,17 @@
 package io.github.isagroup;
 
-import java.util.Map;
-import java.util.logging.Logger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.EvaluationContext;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.SimpleEvaluationContext;
 import org.springframework.stereotype.Component;
 
+import io.github.isagroup.exceptions.PricingPlanEvaluationException;
 import io.github.isagroup.models.Feature;
+import io.github.isagroup.models.FeatureStatus;
 import io.github.isagroup.models.PlanContextManager;
 import io.github.isagroup.services.jwt.JwtUtils;
 import io.jsonwebtoken.Jwts;
@@ -43,53 +42,17 @@ public class PricingEvaluatorUtil {
      */
     public String generateUserToken() {
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("authorities", pricingContext.getUserAuthorities());
-
         PlanContextManager planContextManager = new PlanContextManager();
         planContextManager.setUserContext(pricingContext.getUserContext());
         planContextManager.setPlanContext(pricingContext.getPlanContext());
 
-        Map<String, Feature> evaluationContext = pricingContext.getFeatures();
+        Map<String, Feature> features = pricingContext.getFeatures();
 
-        ExpressionParser parser = new SpelExpressionParser();
-        EvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
-        Map<String, Object> featureMap = new HashMap<>();
+        Map<String, FeatureStatus> featureStatuses = computeFeatureStatuses(planContextManager, features);
 
-        Map<String, Object> featureStatus;
-
-        for (String key : evaluationContext.keySet()) {
-
-            featureStatus = new HashMap<>();
-
-            String expression = evaluationContext.get(key).getExpression();
-
-            if (!expression.trim().equals("")) {
-                Boolean eval = parser.parseExpression(expression).getValue(context, planContextManager,
-                        Boolean.class);
-
-                featureStatus.put("eval", eval);
-
-            } else {
-                featureStatus.put("eval", false);
-            }
-
-            if (expression.contains("<") || expression.contains(">")) {
-
-                String userContextStatusKey = expression.split("\\[[\\\"|']")[1].split("[\\\"|']\\]")[0].trim();
-
-                featureStatus.put("used", planContextManager.getUserContext().get(userContextStatusKey));
-                featureStatus.put("limit", planContextManager.getPlanContext().get(key));
-
-            } else {
-                featureStatus.put("used", null);
-                featureStatus.put("limit", null);
-            }
-
-            featureMap.put(key, featureStatus);
-        }
-
-        claims.put("features", featureMap);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("authorities", pricingContext.getUserAuthorities());
+        claims.put("features", featureStatuses);
         claims.put("userContext", planContextManager.getUserContext());
         claims.put("planContext", planContextManager.getPlanContext());
 
@@ -108,6 +71,37 @@ public class PricingEvaluatorUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + pricingContext.getJwtExpiration()))
                 .signWith(SignatureAlgorithm.HS512, pricingContext.getJwtSecret())
                 .compact();
+    }
+
+    private Map<String, FeatureStatus> computeFeatureStatuses(PlanContextManager planContextManager,
+            Map<String, Feature> features) {
+
+        Map<String, FeatureStatus> featureStatuses = new HashMap<>();
+
+        for (String featureName : features.keySet()) {
+
+            FeatureStatus featureStatus = new FeatureStatus();
+
+            String expression = features.get(featureName).getExpression();
+            Boolean eval = FeatureStatus.computeFeatureEvaluation(expression, planContextManager)
+                    .orElseThrow(() -> new PricingPlanEvaluationException("Evaluation was null"));
+            featureStatus.setEval(eval);
+
+            Optional<String> userContextKey = FeatureStatus.computeUserContextVariable(expression);
+
+            if (!userContextKey.isPresent()) {
+                featureStatus.setUsed(null);
+                featureStatus.setLimit(null);
+            } else {
+                featureStatus.setUsed(planContextManager.getUserContext().get(userContextKey.get()));
+                featureStatus.setLimit(planContextManager.getPlanContext().get(featureName));
+
+            }
+
+            featureStatuses.put(featureName, featureStatus);
+        }
+        return featureStatuses;
+
     }
 
     /**

@@ -36,7 +36,7 @@ public class PricingEvaluatorUtilTests {
 
             @Override
             public String getConfigFilePath() {
-                return "pricing/models.yml";
+                return "yaml-testing/petclinic.yml";
             };
 
             @Override
