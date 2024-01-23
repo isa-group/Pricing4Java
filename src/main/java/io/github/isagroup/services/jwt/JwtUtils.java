@@ -27,6 +27,10 @@ public class JwtUtils {
 	@Autowired
 	private PricingContext pricingContext;
 
+	public JwtUtils(PricingContext pricingContext) {
+		this.pricingContext = pricingContext;
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
 	/**

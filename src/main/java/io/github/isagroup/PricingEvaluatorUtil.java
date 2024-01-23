@@ -30,6 +30,11 @@ public class PricingEvaluatorUtil {
     @Autowired
     private PricingContext pricingContext;
 
+    public PricingEvaluatorUtil(PricingContext pricingContext) {
+        this.pricingContext = pricingContext;
+        this.jwtUtils = new JwtUtils(pricingContext);
+    }
+
     Logger logger = Logger.getLogger(PricingEvaluatorUtil.class.getName());
 
     /**

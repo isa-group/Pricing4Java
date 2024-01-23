@@ -7,184 +7,132 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import io.github.isagroup.services.jwt.JwtUtils;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Import({ io.github.isagroup.PricingEvaluatorUtil.class, io.github.isagroup.services.jwt.JwtUtils.class })
 public class PricingEvaluatorUtilTests {
 
-    private static final String JWT_SECRET_TEST = "secret";
-    private static final Integer JWT_EXPIRATION_TEST = 86400;
-    private static final String JWT_SUBJECT_TEST = "admin1";
-    private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['maxPets']";
+        private static final String JWT_SECRET_TEST = "secret";
+        private static final Integer JWT_EXPIRATION_TEST = 86400;
+        private static final String JWT_SUBJECT_TEST = "admin1";
+        private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['maxPets']";
 
-    @Configuration
-    public static class TestConfiguration {
+        private static final String USER_PLAN = "ADVANCED";
+        private static final String YAML_CONFIG_PATH = "yaml-testing/petclinic.yml";
 
-        @Component
-        public class PricingContextImpl extends PricingContext {
+        private PricingContext pricingContext;
 
-            @Override
-            public String getConfigFilePath() {
-                return "yaml-testing/petclinic.yml";
-            };
+        private PricingEvaluatorUtil pricingEvaluatorUtil;
 
-            @Override
-            public String getJwtSecret() {
-                return JWT_SECRET_TEST;
-            };
+        private JwtUtils jwtUtils;
 
-            @Override
-            public int getJwtExpiration() {
-                return JWT_EXPIRATION_TEST;
-            };
+        @BeforeEach
+        public void setUp() {
 
-            @Override
-            public Map<String, Object> getUserContext() {
                 Map<String, Object> userContext = new HashMap<>();
-
                 userContext.put("username", JWT_SUBJECT_TEST);
                 userContext.put("pets", 2);
-                userContext.put("haveVetSelection", true);
-                userContext.put("haveCalendar", true);
-                userContext.put("havePetsDashboard", true);
-                userContext.put("haveOnlineConsultations", true);
 
-                return userContext;
-            }
-
-            @Override
-            public String getUserPlan() {
-                return "ADVANCED";
-            }
-
-            @Override
-            public Object getUserAuthorities() {
-                Map<String, String> userAuthorities = new HashMap<>();
+                Map<String, Object> userAuthorities = new HashMap<>();
                 userAuthorities.put("role", "admin");
                 userAuthorities.put("username", "admin1");
                 userAuthorities.put("password", "4dm1n");
 
-                return userAuthorities;
-            }
+                PricingContextTestImpl pricingContext = new PricingContextTestImpl();
+
+                pricingContext.setJwtExpiration(JWT_EXPIRATION_TEST);
+                pricingContext.setJwtSecret(JWT_SECRET_TEST);
+                pricingContext.setUserAuthorities(userAuthorities);
+                pricingContext.setUserContext(userContext);
+                pricingContext.setUserPlan(USER_PLAN);
+                pricingContext.setConfigFilePath(YAML_CONFIG_PATH);
+
+                this.pricingContext = pricingContext;
+                this.pricingEvaluatorUtil = new PricingEvaluatorUtil(pricingContext);
+                this.jwtUtils = new JwtUtils(pricingContext);
+        }
+
+        @Test
+        void simpleTokenGenerationTest() {
+
+                String token = pricingEvaluatorUtil.generateUserToken();
+
+                Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(token);
+
+                assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
+                assertTrue((Boolean) features.get("maxPets").get("eval"), "Features is not a string");
+                assertFalse((Boolean) features.get("maxVisitsPerMonthAndPet").get("eval"), "Features is not a string");
+                assertTrue((Boolean) features.get("haveCalendar").get("eval"),
+                                "haveCalendar evaluation should be true");
+                assertFalse((Boolean) features.get("haveOnlineConsultation").get("eval"),
+                                "haveVetSelection evaluation should be false");
 
         }
 
-    }
+        @Test
+        void checkTokenSubjectTest() {
 
-    @Autowired
-    private PricingContext pricingContext;
+                String token = pricingEvaluatorUtil.generateUserToken();
 
-    @Autowired
-    private PricingEvaluatorUtil pricingEvaluatorUtil;
+                String jwtSubject = jwtUtils.getSubjectFromJwtToken(token);
 
-    @Autowired
-    private JwtUtils jwtUtils;
+                assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
+                assertEquals(JWT_SUBJECT_TEST, jwtSubject, "The subject has not being correctly set");
 
-    @Test
-    void simpleTokenGenerationTest() {
+        }
 
-        String token = pricingEvaluatorUtil.generateUserToken();
+        @Test
+        void tokenExpressionsTest() {
 
-        Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(token);
+                String firstToken = pricingEvaluatorUtil.generateUserToken();
 
-        assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertTrue((Boolean) features.get("maxPets").get("eval"), "Features is not a string");
-        assertFalse((Boolean) features.get("maxVisitsPerMonthAndPet").get("eval"), "Features is not a string");
-        assertTrue((Boolean) features.get("haveCalendar").get("eval"), "haveCalendar evaluation should be true");
-        assertFalse((Boolean) features.get("haveOnlineConsultation").get("eval"),
-                "haveVetSelection evaluation should be false");
+                String newToken = pricingEvaluatorUtil.addExpressionToToken(firstToken, "maxVisitsPerMonthAndPet",
+                                JWT_EXPRESSION_TEST);
 
-    }
+                Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(newToken);
 
-    @Test
-    void checkTokenSubjectTest() {
+                assertTrue(jwtUtils.validateJwtToken(newToken), "Token is not valid");
+                assertEquals(JWT_EXPRESSION_TEST, (String) features.get("maxVisitsPerMonthAndPet").get("eval"),
+                                "The expression for the feature maxVisitsPerMonthAndPet has not being correctly set");
 
-        String token = pricingEvaluatorUtil.generateUserToken();
+        }
 
-        String jwtSubject = jwtUtils.getSubjectFromJwtToken(token);
+        @Test
+        void tokenPlanContextTest() {
 
-        assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertEquals(JWT_SUBJECT_TEST, jwtSubject, "The subject has not being correctly set");
+                String token = pricingEvaluatorUtil.generateUserToken();
 
-    }
+                Map<String, Object> tokenicedPlanContext = jwtUtils.getPlanContextFromJwtToken(token);
 
-    // @Test
-    // void checkTokenTimeoutTest() {
+                assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
+                assertEquals((Integer) pricingContext.getPlanContext().get("maxPets"),
+                                (Integer) tokenicedPlanContext.get("maxPets"),
+                                "PlanContext maxPets value is not the same after token codification");
+                assertEquals((Boolean) pricingContext.getPlanContext().get("havePetsDashboard"),
+                                (Boolean) tokenicedPlanContext.get("havePetsDashboard"),
+                                "PlanContext havePetsDashboard value is not the same after token codification");
+                assertEquals((String) pricingContext.getPlanContext().get("supportPriority"),
+                                (String) tokenicedPlanContext.get("supportPriority"),
+                                "PlanContext havePetsDashboard value is not the same after token codification");
 
-    // String token = pricingEvaluatorUtil.generateUserToken();
+        }
 
-    // assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
+        @Test
+        void tokenUserContextTest() {
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+                String token = pricingEvaluatorUtil.generateUserToken();
 
-    // assertFalse(jwtUtils.validateJwtToken(token), "Token is still being valid
-    // after timeout has passed");
+                Map<String, Object> tokenicedUserContext = jwtUtils.getUserContextFromJwtToken(token);
 
-    // }
+                assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
+                assertEquals((Integer) pricingContext.getUserContext().get("pets"),
+                                (Integer) tokenicedUserContext.get("pets"),
+                                "UserContext pets value is not the same after token codification");
+                assertEquals((Boolean) pricingContext.getUserContext().get("havePetsDashboard"),
+                                (Boolean) tokenicedUserContext.get("havePetsDashboard"),
+                                "UserContext havePetsDashboard value is not the same after token codification");
 
-    @Test
-    void tokenExpressionsTest() {
-
-        String firstToken = pricingEvaluatorUtil.generateUserToken();
-
-        String newToken = pricingEvaluatorUtil.addExpressionToToken(firstToken, "maxVisitsPerMonthAndPet",
-                JWT_EXPRESSION_TEST);
-
-        Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(newToken);
-
-        assertTrue(jwtUtils.validateJwtToken(newToken), "Token is not valid");
-        assertEquals(JWT_EXPRESSION_TEST, (String) features.get("maxVisitsPerMonthAndPet").get("eval"),
-                "The expression for the feature maxVisitsPerMonthAndPet has not being correctly set");
-
-    }
-
-    @Test
-    void tokenPlanContextTest() {
-
-        String token = pricingEvaluatorUtil.generateUserToken();
-
-        Map<String, Object> tokenicedPlanContext = jwtUtils.getPlanContextFromJwtToken(token);
-
-        assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertEquals((Integer) pricingContext.getPlanContext().get("maxPets"),
-                (Integer) tokenicedPlanContext.get("maxPets"),
-                "PlanContext maxPets value is not the same after token codification");
-        assertEquals((Boolean) pricingContext.getPlanContext().get("havePetsDashboard"),
-                (Boolean) tokenicedPlanContext.get("havePetsDashboard"),
-                "PlanContext havePetsDashboard value is not the same after token codification");
-        assertEquals((String) pricingContext.getPlanContext().get("supportPriority"),
-                (String) tokenicedPlanContext.get("supportPriority"),
-                "PlanContext havePetsDashboard value is not the same after token codification");
-
-    }
-
-    @Test
-    void tokenUserContextTest() {
-
-        String token = pricingEvaluatorUtil.generateUserToken();
-
-        Map<String, Object> tokenicedUserContext = jwtUtils.getUserContextFromJwtToken(token);
-
-        assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertEquals((Integer) pricingContext.getUserContext().get("pets"), (Integer) tokenicedUserContext.get("pets"),
-                "UserContext pets value is not the same after token codification");
-        assertEquals((Boolean) pricingContext.getUserContext().get("havePetsDashboard"),
-                (Boolean) tokenicedUserContext.get("havePetsDashboard"),
-                "UserContext havePetsDashboard value is not the same after token codification");
-
-    }
+        }
 }
