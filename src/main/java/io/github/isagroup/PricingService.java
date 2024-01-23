@@ -21,6 +21,10 @@ public class PricingService {
     @Autowired
     private PricingContext pricingContext;
 
+    public PricingService(PricingContext pricingContext) {
+        this.pricingContext = pricingContext;
+    }
+
     // ------------------------- PLAN MANAGEMENT ------------------------- //
 
     /**

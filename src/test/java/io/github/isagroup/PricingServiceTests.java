@@ -8,173 +8,133 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.assertj.core.api.PeriodAssert;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import io.github.isagroup.models.Feature;
-import io.github.isagroup.models.FeatureType;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
+import io.github.isagroup.models.ValueType;
+import io.github.isagroup.models.featuretypes.Domain;
 import io.github.isagroup.services.yaml.YamlUtils;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@Import({ io.github.isagroup.PricingService.class })
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PricingServiceTests {
 
-    // private static final String JWT_SECRET_TEST = "secret";
-    // private static final Integer JWT_EXPIRATION_TEST = 86400;
-    // private static final String JWT_SUBJECT_TEST = "admin1";
+    private static final String JWT_SECRET_TEST = "secret";
+    private static final Integer JWT_EXPIRATION_TEST = 86400;
+    private static final String JWT_SUBJECT_TEST = "admin1";
+    private static final String YAML_CONFIG_PATH = "yaml-testing/petclinic.yml";
 
-    // private static final String TEST_PLAN = "BASIC";
-    // private static final String TEST_NEW_PLAN = "NEW_PLAN";
-    // private static Plan newPlan = new Plan();
-    // private static Feature newFeature = new Feature();
-    // private static final String TEST_BOOLEAN_ATTRIBUTE = "haveCalendar";
-    // private static final String TEST_NUMERIC_ATTRIBUTE = "maxPets";
-    // private static final String TEST_TEXT_ATTRIBUTE = "supportPriority";
-    // private static final String NEW_FEATURE_TEST_NAME = "newFeature";
-    // private static final String NEW_FEATURE_TEST_VALUE = "testValue";
-    // private static final String NEW_FEATURE_TEST_EXPRESSION =
-    // "userContext['pets'] > 1";
-    // private static final PricingManager originalPricingManager =
-    // YamlUtils.retrieveManagerFromYaml("pricing/models.yml");
+    private static final String TEST_PLAN = "BASIC";
+    private static final String TEST_NEW_PLAN = "NEW_PLAN";
+    private static Plan newPlan = new Plan();
+    private static final String TEST_BOOLEAN_ATTRIBUTE = "haveCalendar";
+    private static final String TEST_NUMERIC_ATTRIBUTE = "maxPets";
+    private static final String TEST_TEXT_ATTRIBUTE = "supportPriority";
+    private static final String NEW_FEATURE_TEST_NAME = "newFeature";
+    private static final String NEW_FEATURE_TEST_VALUE = "testValue";
+    private static final String NEW_FEATURE_TEST_EXPRESSION = "userContext['pets'] > 1";
+    private static final PricingManager ORIGINAL_PRICING_MANAGER = YamlUtils
+            .retrieveManagerFromYaml(YAML_CONFIG_PATH);
 
-    // @Configuration
-    // public static class TestConfiguration {
+    private PricingService pricingService;
 
-    // @Component
-    // public class PricingContextImpl extends PricingContext {
+    private PricingContextTestImpl pricingContextTestImpl = new PricingContextTestImpl();
 
-    // @Override
-    // public String getConfigFilePath(){
-    // return "pricing/models.yml";
-    // };
+    @BeforeAll
+    static void setUp() {
 
-    // @Override
-    // public String getJwtSecret(){
-    // return JWT_SECRET_TEST;
-    // };
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(YAML_CONFIG_PATH);
 
-    // @Override
-    // public int getJwtExpiration(){
-    // return JWT_EXPIRATION_TEST;
-    // };
+        newPlan.setDescription("New plan description");
+        newPlan.setMonthlyPrice(2.0);
 
-    // @Override
-    // public Map<String, Object> getUserContext() {
-    // Map<String, Object> userContext = new HashMap<>();
+        Map<String, Feature> features = pricingManager.getPlans().get(TEST_PLAN).getFeatures();
 
-    // userContext.put("username", JWT_SUBJECT_TEST);
-    // userContext.put("pets", 2);
-    // userContext.put("haveVetSelection", true);
-    // userContext.put("haveCalendar", true);
-    // userContext.put("havePetsDashboard", true);
-    // userContext.put("haveOnlineConsultations", true);
+        Feature newBooleanFeature = features.get(TEST_BOOLEAN_ATTRIBUTE);
+        Feature newNumericFeature = features.get(TEST_NUMERIC_ATTRIBUTE);
+        Feature newTextFeature = features.get(TEST_TEXT_ATTRIBUTE);
 
-    // return userContext;
-    // }
+        newBooleanFeature.setValue(true);
+        newNumericFeature.setValue(6);
+        newTextFeature.setValue("HIGH");
 
-    // @Override
-    // public String getUserPlan() {
-    // return "ADVANCED";
-    // }
+        features.put(TEST_BOOLEAN_ATTRIBUTE, newBooleanFeature);
+        features.put(TEST_NUMERIC_ATTRIBUTE, newNumericFeature);
+        features.put(TEST_TEXT_ATTRIBUTE, newTextFeature);
 
-    // @Override
-    // public Object getUserAuthorities() {
-    // Map<String, String> userAuthorities = new HashMap<>();
-    // userAuthorities.put("role", "admin");
-    // userAuthorities.put("username", "admin1");
-    // userAuthorities.put("password", "4dm1n");
+        newPlan.setFeatures(features);
 
-    // return userAuthorities;
-    // }
+    }
 
-    // }
+    private static Feature initNewFeature() {
+        Domain feature = new Domain();
+        feature.setDescription("New feature description");
+        feature.setValueType(ValueType.TEXT);
+        feature.setDefaultValue(NEW_FEATURE_TEST_VALUE);
+        feature.setExpression(NEW_FEATURE_TEST_EXPRESSION);
+        return feature;
+    }
 
-    // }
+    @BeforeEach
+    public void init() {
 
-    // @Autowired
-    // private PricingService pricingService;
+        Map<String, Object> userContext = new HashMap<>();
+        userContext.put("username", JWT_SUBJECT_TEST);
+        userContext.put("pets", 2);
 
-    // @Autowired
-    // private PricingContext pricingContext;
+        Map<String, Object> userAuthorities = new HashMap<>();
+        userAuthorities.put("role", "admin");
+        userAuthorities.put("username", JWT_SUBJECT_TEST);
+        userAuthorities.put("password", "4dm1n");
 
-    // @BeforeAll
-    // static void setUp(){
+        pricingContextTestImpl.setConfigFilePath(YAML_CONFIG_PATH);
+        pricingContextTestImpl.setJwtExpiration(JWT_EXPIRATION_TEST);
+        pricingContextTestImpl.setJwtSecret(JWT_SECRET_TEST);
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml("pricing/models.yml");
+        pricingContextTestImpl.setUserPlan(TEST_PLAN);
+        pricingContextTestImpl.setUserAuthorities(userAuthorities);
+        pricingContextTestImpl.setUserContext(userContext);
 
-    // newPlan.setDescription("New plan description");
-    // newPlan.setCurrency("EUR");
-    // newPlan.setPrice(2.0);
+        this.pricingService = new PricingService(pricingContextTestImpl);
+    }
 
-    // Map<String, Feature> features =
-    // pricingManager.getPlans().get(TEST_PLAN).getFeatures();
+    // --------------------------- PLAN RETRIEVAL ---------------------------
 
-    // Feature newBooleanFeature = features.get(TEST_BOOLEAN_ATTRIBUTE);
-    // Feature newNumericFeature = features.get(TEST_NUMERIC_ATTRIBUTE);
-    // Feature newTextFeature = features.get(TEST_TEXT_ATTRIBUTE);
+    @Test
+    @Order(10)
+    void should_ReturnPlan_given_PlanName() {
 
-    // newBooleanFeature.setValue(true);
-    // newNumericFeature.setValue(6);
-    // newTextFeature.setValue("HIGH");
+        Plan plan = pricingService.getPlanFromName("BASIC");
 
-    // features.put(TEST_BOOLEAN_ATTRIBUTE, newBooleanFeature);
-    // features.put(TEST_NUMERIC_ATTRIBUTE, newNumericFeature);
-    // features.put(TEST_TEXT_ATTRIBUTE, newTextFeature);
+        assertInstanceOf(Plan.class, plan);
 
-    // newPlan.setFeatures(features);
+        assertEquals(0.0, plan.getAnnualPrice());
+        assertEquals(0.0, plan.getMonthlyPrice());
 
-    // newFeature.setDescription("newFeature description");
-    // newFeature.setType(FeatureType.TEXT);
-    // newFeature.setDefaultValue(NEW_FEATURE_TEST_VALUE);
-    // newFeature.setExpression(NEW_FEATURE_TEST_EXPRESSION);
+    }
 
-    // }
+    @Test
+    @Order(20)
+    void should_ThrowException_given_NonExistentPlan() {
 
-    // // --------------------------- PLAN RETRIEVAL ---------------------------
+        String nonExistentPlan = "nonExistentPlan";
 
-    // @Test
-    // @Order(10)
-    // void planRetrievalTest(){
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.getPlanFromName(nonExistentPlan);
+        });
 
-    // Plan plan = pricingService.getPlanFromName(TEST_PLAN);
+        assertEquals("The plan " + nonExistentPlan + " does not exist in the current pricing configuration",
+                exception.getMessage());
 
-    // assertInstanceOf(Plan.class, plan);
-
-    // assertEquals(0.0, plan.getPrice());
-
-    // }
-
-    // @Test
-    // @Order(20)
-    // void negativePlanRetrievalTest(){
-
-    // String nonExistentPlan = "nonExistentPlan";
-
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // Plan plan = pricingService.getPlanFromName(nonExistentPlan);
-    // });
-
-    // assertEquals("The plan " + nonExistentPlan + " does not exist in the current
-    // pricing configuration", exception.getMessage());
-
-    // }
+    }
 
     // // --------------------------- PLAN ADITION ---------------------------
 
