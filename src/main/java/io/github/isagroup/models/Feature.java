@@ -60,9 +60,7 @@ public abstract class Feature implements Serializable {
         return attributes;
     }
 
-    public Map<String, Object> serializeFeature() {
-        return featureAttributesMap();
-    };
+    public abstract Map<String, Object> serializeFeature();
 
     public static Feature cloneFeature(Feature original) throws CloneFeatureException {
         try {

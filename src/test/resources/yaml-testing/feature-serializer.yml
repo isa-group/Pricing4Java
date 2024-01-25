@@ -1,0 +1,20 @@
+automationFeature:
+  description: Foo
+  valueType: TEXT
+  defaultValue: Baz
+  expression: 1=1
+  serverExpression: 2!=1
+  type: AUTOMATION
+  automationType: TASK_AUTOMATION
+domainFeature:
+  description: Foo
+  valueType: NUMERIC
+  defaultValue: 0
+  expression: 1<2
+  type: DOMAIN
+guaranteeFeature:
+  description: Foo
+  valueType: BOOLEAN
+  defaultValue: false
+  expression: 3>2
+  type: GUARANTEE

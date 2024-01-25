@@ -20,9 +20,9 @@ public class PricingManager {
     private int year;
     private String currency;
     private Boolean hasAnnualPayment;
-    private Map<String, Plan> plans;
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
+    private Map<String, Plan> plans;
     private Map<String, AddOn> addOns;
 
     public Map<String, Object> getPlanUsageLimits(String planName) {
@@ -46,7 +46,23 @@ public class PricingManager {
         return usageLimitsContext;
     }
 
-    public Map<String, Object> serializeFeatures(Map<String, Feature> features) {
+    public static Map<String, Object> serializePricingMananger(PricingManager pricingManager) {
+
+        Map<String, Object> serializedPricingManager = new LinkedHashMap<>();
+        serializedPricingManager.put("saasName", pricingManager.getSaasName());
+        serializedPricingManager.put("day", pricingManager.getDay());
+        serializedPricingManager.put("month", pricingManager.getMonth());
+        serializedPricingManager.put("year", pricingManager.getYear());
+        serializedPricingManager.put("features", pricingManager.getCurrency());
+        serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
+        serializedPricingManager.put("features", serializeFeatures(pricingManager.getFeatures()));
+        serializedPricingManager.put("usageLimits", null);
+        serializedPricingManager.put("plans", null);
+        serializedPricingManager.put("addOns", null);
+        return serializedPricingManager;
+    }
+
+    public static Map<String, Object> serializeFeatures(Map<String, Feature> features) {
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Entry<String, Feature> entry : features.entrySet()) {
             serializedFeatures.put(entry.getKey(), entry.getValue().serializeFeature());

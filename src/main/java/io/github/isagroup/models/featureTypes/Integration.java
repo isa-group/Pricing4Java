@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.isagroup.models.Feature;
+import io.github.isagroup.models.FeatureType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,8 @@ public class Integration extends Feature {
     public Map<String, Object> serializeFeature() {
         Map<String, Object> attributes = featureAttributesMap();
 
+        attributes.put("type", FeatureType.INTEGRATION.toString());
+
         if (integrationType != null) {
             attributes.put("integrationType", integrationType.toString());
         }
@@ -27,6 +30,7 @@ public class Integration extends Feature {
         return attributes;
     }
 
+    @Override
     public String toString() {
         return "Integration[name: " + name + ", valueType: " + valueType + ", defaultValue: " + defaultValue
                 + ", value: " + value + ", integrationType: " + integrationType + ", pricingUrls: " + pricingUrls + "]";
