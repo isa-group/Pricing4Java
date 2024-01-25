@@ -1,6 +1,6 @@
 package io.github.isagroup.services.parsing;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import io.github.isagroup.exceptions.PricingParsingException;
@@ -63,7 +63,7 @@ public class PricingManagerParser {
     }
 
     private static void setFeatures(Map<String, Object> map, PricingManager pricingManager) {
-        Map<String, Feature> pricingFeatures = new HashMap<>();
+        Map<String, Feature> pricingFeatures = new LinkedHashMap<>();
         Map<String, Object> featuresMap = (Map<String, Object>) map.get("features");
 
         if (featuresMap == null) {
@@ -81,7 +81,7 @@ public class PricingManagerParser {
 
     private static void setUsageLimits(Map<String, Object> map, PricingManager pricingManager) {
         Map<String, Object> usageLimitsMap = (Map<String, Object>) map.get("usageLimits");
-        Map<String, UsageLimit> usageLimits = new HashMap<>();
+        Map<String, UsageLimit> usageLimits = new LinkedHashMap<>();
 
         if (usageLimitsMap == null) {
             return;
@@ -99,7 +99,7 @@ public class PricingManagerParser {
 
     private static void setPlans(Map<String, Object> map, PricingManager pricingManager) {
         Map<String, Object> plansMap = (Map<String, Object>) map.get("plans");
-        Map<String, Plan> plans = new HashMap<>();
+        Map<String, Plan> plans = new LinkedHashMap<>();
 
         if (plansMap == null) {
             return;
@@ -117,7 +117,7 @@ public class PricingManagerParser {
 
     private static void setAddOns(Map<String, Object> map, PricingManager pricingManager) {
         Map<String, Object> addOnsMap = (Map<String, Object>) map.get("addOns");
-        Map<String, AddOn> addOns = new HashMap<>();
+        Map<String, AddOn> addOns = new LinkedHashMap<>();
 
         if (addOnsMap == null) {
             return;

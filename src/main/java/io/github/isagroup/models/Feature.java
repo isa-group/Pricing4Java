@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import io.github.isagroup.exceptions.CloneFeatureException;
 import lombok.Getter;
@@ -32,6 +34,35 @@ public abstract class Feature implements Serializable {
         this.expression = null;
         this.serverExpression = null;
     }
+
+    public Map<String, Object> featureAttributesMap() {
+        Map<String, Object> attributes = new LinkedHashMap<>();
+
+        if (description != null) {
+            attributes.put("description", description);
+        }
+
+        if (valueType != null) {
+            attributes.put("valueType", valueType.toString());
+        }
+
+        if (defaultValue != null) {
+            attributes.put("defaultValue", defaultValue);
+        }
+
+        if (expression != null) {
+            attributes.put("expression", expression);
+        }
+
+        if (serverExpression != null) {
+            attributes.put("serverExpression", serverExpression);
+        }
+        return attributes;
+    }
+
+    public Map<String, Object> serializeFeature() {
+        return featureAttributesMap();
+    };
 
     public static Feature cloneFeature(Feature original) throws CloneFeatureException {
         try {

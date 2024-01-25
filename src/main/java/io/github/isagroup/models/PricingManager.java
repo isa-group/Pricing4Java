@@ -1,7 +1,9 @@
 package io.github.isagroup.models;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +44,15 @@ public class PricingManager {
         }
 
         return usageLimitsContext;
+    }
+
+    public Map<String, Object> serializeFeatures(Map<String, Feature> features) {
+        Map<String, Object> serializedFeatures = new LinkedHashMap<>();
+        for (Entry<String, Feature> entry : features.entrySet()) {
+            serializedFeatures.put(entry.getKey(), entry.getValue().serializeFeature());
+
+        }
+        return serializedFeatures;
     }
 
 }
