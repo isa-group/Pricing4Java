@@ -45,29 +45,4 @@ public class PricingManager {
         return usageLimitsContext;
     }
 
-    public static Map<String, Object> serializePricingMananger(PricingManager pricingManager) {
-
-        Map<String, Object> serializedPricingManager = new LinkedHashMap<>();
-        serializedPricingManager.put("saasName", pricingManager.getSaasName());
-        serializedPricingManager.put("day", pricingManager.getDay());
-        serializedPricingManager.put("month", pricingManager.getMonth());
-        serializedPricingManager.put("year", pricingManager.getYear());
-        serializedPricingManager.put("currency", pricingManager.getCurrency());
-        serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
-        serializedPricingManager.put("features", serializeFeatures(pricingManager.getFeatures()));
-        serializedPricingManager.put("usageLimits", UsageLimit.serializeUsageLimits(pricingManager.getUsageLimits()));
-        serializedPricingManager.put("plans", Plan.serializePlans(pricingManager.getPlans()));
-        serializedPricingManager.put("addOns", null);
-        return serializedPricingManager;
-    }
-
-    public static Map<String, Object> serializeFeatures(Map<String, Feature> features) {
-        Map<String, Object> serializedFeatures = new LinkedHashMap<>();
-        for (Entry<String, Feature> entry : features.entrySet()) {
-            serializedFeatures.put(entry.getKey(), entry.getValue().serializeFeature());
-
-        }
-        return serializedFeatures;
-    }
-
 }

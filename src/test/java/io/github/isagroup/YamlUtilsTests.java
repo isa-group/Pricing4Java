@@ -64,4 +64,18 @@ public class YamlUtilsTests {
 
     }
 
+    @Test
+    @Order(3)
+    void given_Postman_Should_MakePerfectCopy() {
+
+        String postmanOriginalPricing = "pricing/postman.yml";
+        String postmanTestPath = "yaml-testing/postman.yml";
+
+        PricingManager postman = YamlUtils.retrieveManagerFromYaml(postmanOriginalPricing);
+        YamlUtils.writeYaml(postman, postmanTestPath);
+        PricingManager postmanCopy = YamlUtils.retrieveManagerFromYaml(postmanTestPath);
+
+        assertEquals(postman, postmanCopy, "Postman pricing should be equals it is a copy");
+    }
+
 }

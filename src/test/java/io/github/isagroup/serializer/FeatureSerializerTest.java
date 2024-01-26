@@ -1,13 +1,7 @@
 package io.github.isagroup.serializer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
-import io.github.isagroup.models.Feature;
-import io.github.isagroup.models.PricingManager;
-import io.github.isagroup.models.ValueType;
 import io.github.isagroup.models.featuretypes.Automation;
 import io.github.isagroup.models.featuretypes.AutomationType;
 import io.github.isagroup.models.featuretypes.Domain;
@@ -239,61 +230,6 @@ public class FeatureSerializerTest {
 
         assertEquals(expected, output);
 
-    }
-
-    @Test
-    public void given_Features_should_SerializeAllFeatures() {
-        Map<String, Feature> features = new LinkedHashMap<>();
-
-        Automation automation = new Automation();
-        automation.setDescription("Foo");
-        automation.setValueType(ValueType.TEXT);
-        automation.setDefaultValue("Baz");
-        automation.setExpression("1=1");
-        automation.setServerExpression("2!=1");
-        automation.setAutomationType(AutomationType.TASK_AUTOMATION);
-
-        Domain domain = new Domain();
-        domain.setDescription("Foo");
-        domain.setValueType(ValueType.NUMERIC);
-        domain.setDefaultValue(0);
-        domain.setExpression("1<2");
-
-        Guarantee guarantee = new Guarantee();
-        guarantee.setDescription("Foo");
-        guarantee.setValueType(ValueType.BOOLEAN);
-        guarantee.setDefaultValue(false);
-        guarantee.setExpression("3>2");
-
-        features.put("automationFeature", automation);
-        features.put("domainFeature", domain);
-        features.put("guaranteeFeature", guarantee);
-
-        Map<String, Object> result = PricingManager.serializeFeatures(features);
-        String output = yaml.dump(result);
-
-        try {
-            InputStream input = FeatureSerializerTest.class.getClassLoader()
-                    .getResourceAsStream("yaml-testing/feature-serializer.yml");
-            String expected = readFromInputStream(input);
-            assertEquals(expected, output);
-        } catch (Exception e) {
-            fail("File was not found");
-            // TODO: handle exception
-        }
-
-    }
-
-    private String readFromInputStream(InputStream inputStream)
-            throws IOException {
-        StringBuilder resultStringBuilder = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                resultStringBuilder.append(line).append("\n");
-            }
-        }
-        return resultStringBuilder.toString();
     }
 
 }

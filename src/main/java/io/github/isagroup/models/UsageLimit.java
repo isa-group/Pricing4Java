@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import io.github.isagroup.exceptions.CloneUsageLimitException;
 
@@ -62,22 +61,6 @@ public abstract class UsageLimit implements Serializable {
     }
 
     public abstract Map<String, Object> serializeUsageLimit();
-
-    public static Map<String, Object> serializeUsageLimits(Map<String, UsageLimit> usageLimits) {
-        Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
-
-        if (usageLimits == null) {
-            return null;
-        }
-
-        for (Entry<String, UsageLimit> entry : usageLimits.entrySet()) {
-            serializedUsageLimits.put(entry.getKey(), entry.getValue().serializeUsageLimit());
-
-        }
-
-        return serializedUsageLimits;
-
-    }
 
     public static UsageLimit cloneUsageLimit(UsageLimit original) throws CloneUsageLimitException {
         try {

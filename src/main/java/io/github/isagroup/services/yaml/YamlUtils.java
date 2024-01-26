@@ -51,13 +51,16 @@ public class YamlUtils {
         Representer representer = new SkipNullRepresenter();
         representer.addClassTag(PricingManager.class, Tag.MAP);
 
+        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
         try {
-            Map<String, Object> serializedPricingManager = PricingManager.serializePricingMananger(pricingManager);
+            Map<String, Object> serializedPricingManager = pricingManagerSerializer.serialize();
             Yaml yaml = new Yaml(representer, dump);
             FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + yamlPath);
             yaml.dump(serializedPricingManager, writer);
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

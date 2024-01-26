@@ -21,6 +21,7 @@ public class AddOnParser {
     public static AddOn parseMapToAddOn(String addOnName, Map<String, Object> addOnMap, PricingManager pricingManager) {
         AddOn addOn = new AddOn();
 
+        addOn.setName(addOnName);
         setAvailableFor(addOnMap, pricingManager, addOn);
         if (addOnMap.containsKey("price")) {
             try {

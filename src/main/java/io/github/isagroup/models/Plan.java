@@ -48,29 +48,31 @@ public class Plan {
 
     public static Map<String, Object> serializeUsageLimits(Map<String, UsageLimit> usageLimits) {
         Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
+
+        if (usageLimits == null) {
+            return null;
+        }
         for (UsageLimit usageLimit : usageLimits.values()) {
             serializedUsageLimits.put(usageLimit.getName(), serializeUsageLimit(usageLimit));
         }
         return serializedUsageLimits;
     }
 
-    public static Map<String, Object> serializePlan(Plan plan) {
+    public Map<String, Object> serializePlan() {
         Map<String, Object> attributes = new LinkedHashMap<>();
-        attributes.put("description", plan.getDescription());
-        attributes.put("monthlyPrice", plan.getMonthlyPrice());
-        attributes.put("annualPrice", plan.getAnnualPrice());
-        attributes.put("unit", plan.getUnit());
-        attributes.put("features", serializeFeatures(plan.getFeatures()));
-        attributes.put("usageLimits", serializeUsageLimits(plan.getUsageLimits()));
-        return attributes;
-    }
+        attributes.put("description", description);
+        attributes.put("monthlyPrice", monthlyPrice);
+        attributes.put("annualPrice", monthlyPrice);
+        attributes.put("unit", unit);
 
-    public static Map<String, Object> serializePlans(Map<String, Plan> plans) {
-        Map<String, Object> serializedPlans = new LinkedHashMap<>();
-        for (Plan plan : plans.values()) {
-            serializedPlans.put(plan.getName(), serializePlan(plan));
+        if (features != null) {
+            attributes.put("features", serializeFeatures(features));
         }
-        return serializedPlans;
+
+        if (usageLimits != null) {
+            attributes.put("usageLimits", serializeUsageLimits(usageLimits));
+        }
+        return attributes;
     }
 
     @Override
