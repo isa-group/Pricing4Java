@@ -9,8 +9,6 @@ import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
-import io.github.isagroup.models.Feature;
-import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.parsing.PricingManagerParser;
 
@@ -53,28 +51,11 @@ public class YamlUtils {
         Representer representer = new SkipNullRepresenter();
         representer.addClassTag(PricingManager.class, Tag.MAP);
 
-        Map<String, Plan> plans = pricingManager.getPlans();
-
-        for (String planName : plans.keySet()) {
-            Plan plan = plans.get(planName);
-
-            Map<String, Feature> planFeatures = plan.getFeatures();
-
-            for (String featureName : planFeatures.keySet()) {
-                Feature planFeature = planFeatures.get(featureName);
-                planFeature.prepareToPlanWriting();
-
-                planFeatures.put(featureName, planFeature);
-            }
-
-            plan.setFeatures(planFeatures);
-            plans.put(planName, plan);
-        }
-
         try {
+            Map<String, Object> serializedPricingManager = PricingManager.serializePricingMananger(pricingManager);
             Yaml yaml = new Yaml(representer, dump);
             FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + yamlPath);
-            yaml.dump(pricingManager, writer);
+            yaml.dump(serializedPricingManager, writer);
 
         } catch (IOException e) {
             e.printStackTrace();

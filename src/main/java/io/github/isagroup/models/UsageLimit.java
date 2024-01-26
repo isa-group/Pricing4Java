@@ -8,7 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import io.github.isagroup.exceptions.CloneUsageLimitException;
 
@@ -24,6 +27,57 @@ public abstract class UsageLimit implements Serializable {
     private List<String> linkedFeatures;
     private String expression;
     private String serverExpression;
+
+    public Map<String, Object> usageLimitAttributes() {
+        Map<String, Object> attributes = new LinkedHashMap<>();
+        if (description != null) {
+            attributes.put("description", description);
+        }
+
+        if (valueType != null) {
+            attributes.put("valueType", valueType.toString());
+        }
+
+        if (defaultValue != null) {
+            attributes.put("defaultValue", defaultValue);
+        }
+
+        if (unit != null) {
+            attributes.put("unit", unit);
+        }
+
+        if (linkedFeatures != null && !linkedFeatures.isEmpty()) {
+            attributes.put("linkedFeatures", linkedFeatures);
+        }
+
+        if (expression != null) {
+            attributes.put("expression", expression);
+        }
+
+        if (serverExpression != null) {
+            attributes.put("serverExpression", serverExpression);
+        }
+
+        return attributes;
+    }
+
+    public abstract Map<String, Object> serializeUsageLimit();
+
+    public static Map<String, Object> serializeUsageLimits(Map<String, UsageLimit> usageLimits) {
+        Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
+
+        if (usageLimits == null) {
+            return null;
+        }
+
+        for (Entry<String, UsageLimit> entry : usageLimits.entrySet()) {
+            serializedUsageLimits.put(entry.getKey(), entry.getValue().serializeUsageLimit());
+
+        }
+
+        return serializedUsageLimits;
+
+    }
 
     public static UsageLimit cloneUsageLimit(UsageLimit original) throws CloneUsageLimitException {
         try {

@@ -48,27 +48,23 @@ features:
     defaultValue: false
     type: DOMAIN
     expression: planContext['haveOnlineConsultation']
+usageLimits:
+  maxPets:
+    description: ""
+    valueType: NUMERIC
+    defaultValue: 10
+    unit: pet
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - maxPets
 plans:
   BASIC:
     description: Basic plan
     monthlyPrice: 0.0
     annualPrice: 0.0
     unit: user/month
-    features:
-      maxPets:
-        value: 2
-      maxVisitsPerMonthAndPet:
-        value: 1
-      supportPriority:
-        value: LOW
-      haveCalendar:
-        value: false
-      havePetsDashboard:
-        value: false
-      haveVetSelection:
-        value: false
-      haveOnlineConsultation:
-        value: false
+    features: null
+    usageLimits: null
   ADVANCED:
     description: Advanced plan
     monthlyPrice: 5

@@ -1,6 +1,5 @@
 package io.github.isagroup.models;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -26,7 +25,7 @@ public class PricingManager {
     private Map<String, AddOn> addOns;
 
     public Map<String, Object> getPlanUsageLimits(String planName) {
-        Map<String, Object> usageLimitsContext = new HashMap<>();
+        Map<String, Object> usageLimitsContext = new LinkedHashMap<>();
         Map<String, UsageLimit> planUsageLimits = this.plans.get(planName).getUsageLimits();
 
         Map<String, UsageLimit> defaultUsageLimits = this.usageLimits;
@@ -53,11 +52,11 @@ public class PricingManager {
         serializedPricingManager.put("day", pricingManager.getDay());
         serializedPricingManager.put("month", pricingManager.getMonth());
         serializedPricingManager.put("year", pricingManager.getYear());
-        serializedPricingManager.put("features", pricingManager.getCurrency());
+        serializedPricingManager.put("currency", pricingManager.getCurrency());
         serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
         serializedPricingManager.put("features", serializeFeatures(pricingManager.getFeatures()));
-        serializedPricingManager.put("usageLimits", null);
-        serializedPricingManager.put("plans", null);
+        serializedPricingManager.put("usageLimits", UsageLimit.serializeUsageLimits(pricingManager.getUsageLimits()));
+        serializedPricingManager.put("plans", Plan.serializePlans(pricingManager.getPlans()));
         serializedPricingManager.put("addOns", null);
         return serializedPricingManager;
     }
