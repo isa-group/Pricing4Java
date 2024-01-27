@@ -1,4 +1,4 @@
-package io.github.isagroup.services.yaml;
+package io.github.isagroup.services.serializer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -25,47 +25,49 @@ import io.github.isagroup.models.featuretypes.Support;
 
 public class FeatureParser {
 
-    private FeatureParser(){}
+    private FeatureParser() {
+    }
 
-    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap){
+    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap) {
 
-        try{
+        try {
 
-            switch (FeatureType.valueOf((String)featureMap.get("type"))) {
-                
+            switch (FeatureType.valueOf((String) featureMap.get("type"))) {
+
                 case INFORMATION:
                     return parseMapToInformation(featureName, featureMap);
-                    
+
                 case INTEGRATION:
                     return parseMapToIntegration(featureName, featureMap);
-    
+
                 case DOMAIN:
-                    return parseMapToDomain(featureName, featureMap); 
-    
+                    return parseMapToDomain(featureName, featureMap);
+
                 case AUTOMATION:
                     return parseMapToAutomation(featureName, featureMap);
-    
+
                 case MANAGEMENT:
                     return parseMapToManagement(featureName, featureMap);
-    
+
                 case GUARANTEE:
                     return parseMapToGuarantee(featureName, featureMap);
-    
+
                 case SUPPORT:
                     return parseMapToSupport(featureName, featureMap);
-    
+
                 case PAYMENT:
                     return parseMapToPayment(featureName, featureMap);
-            
+
                 default:
                     return null;
             }
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException("The feature " + featureName + " does not have a supported feature type. Current value: " + (String)featureMap.get("type"));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The feature " + featureName
+                    + " does not have a supported feature type. Current value: " + (String) featureMap.get("type"));
         }
     }
 
-    private static Information parseMapToInformation(String featureName, Map<String, Object> map){
+    private static Information parseMapToInformation(String featureName, Map<String, Object> map) {
         Information information = new Information();
 
         loadBasicAttributes(information, featureName, map);
@@ -73,25 +75,27 @@ public class FeatureParser {
         return information;
     }
 
-    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map){
+    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map) {
         Integration integration = new Integration();
 
         loadBasicAttributes(integration, featureName, map);
 
-        try{
+        try {
             integration.setIntegrationType(IntegrationType.valueOf((String) map.get("integrationType")));
-        }catch (NullPointerException | IllegalArgumentException e){
-            throw new InvalidIntegrationTypeException("The feature " + featureName + " does not have a supported integrationType. Current value: " + (String) map.get("integrationType"));
+        } catch (NullPointerException | IllegalArgumentException e) {
+            throw new InvalidIntegrationTypeException(
+                    "The feature " + featureName + " does not have a supported integrationType. Current value: "
+                            + (String) map.get("integrationType"));
         }
 
-        if (integration.getIntegrationType().equals(IntegrationType.WEB_SAAS)){
+        if (integration.getIntegrationType().equals(IntegrationType.WEB_SAAS)) {
             integration.setPricingUrls((List<String>) map.get("pricingUrls"));
         }
 
         return integration;
     }
 
-    private static Domain parseMapToDomain(String featureName, Map<String, Object> map){
+    private static Domain parseMapToDomain(String featureName, Map<String, Object> map) {
         Domain domain = new Domain();
 
         loadBasicAttributes(domain, featureName, map);
@@ -99,21 +103,23 @@ public class FeatureParser {
         return domain;
     }
 
-    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map){
+    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map) {
         Automation automation = new Automation();
 
         loadBasicAttributes(automation, featureName, map);
 
-        try{
+        try {
             automation.setAutomationType(AutomationType.valueOf((String) map.get("automationType")));
-        }catch (IllegalArgumentException e){
-            throw new InvalidAutomationTypeException("The feature " + featureName + " does not have a supported automationType. Current value: " + (String) map.get("automationType"));
-        }            
+        } catch (IllegalArgumentException e) {
+            throw new InvalidAutomationTypeException(
+                    "The feature " + featureName + " does not have a supported automationType. Current value: "
+                            + (String) map.get("automationType"));
+        }
 
         return automation;
     }
 
-    private static Management parseMapToManagement(String featureName, Map<String, Object> map){
+    private static Management parseMapToManagement(String featureName, Map<String, Object> map) {
         Management management = new Management();
 
         loadBasicAttributes(management, featureName, map);
@@ -121,7 +127,7 @@ public class FeatureParser {
         return management;
     }
 
-    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map){
+    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map) {
         Guarantee guarantee = new Guarantee();
 
         loadBasicAttributes(guarantee, featureName, map);
@@ -131,7 +137,7 @@ public class FeatureParser {
         return guarantee;
     }
 
-    private static Support parseMapToSupport(String featureName, Map<String, Object> map){
+    private static Support parseMapToSupport(String featureName, Map<String, Object> map) {
         Support support = new Support();
 
         loadBasicAttributes(support, featureName, map);
@@ -139,7 +145,7 @@ public class FeatureParser {
         return support;
     }
 
-    private static Payment parseMapToPayment(String featureName, Map<String, Object> map){
+    private static Payment parseMapToPayment(String featureName, Map<String, Object> map) {
         Payment payment = new Payment();
 
         loadBasicAttributes(payment, featureName, map);
@@ -147,57 +153,66 @@ public class FeatureParser {
         return payment;
     }
 
-    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map){
+    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map) {
         feature.setName(featureName);
         feature.setDescription((String) map.get("description"));
-        try{
+        try {
             feature.setValueType(ValueType.valueOf((String) map.get("valueType")));
-        }catch(IllegalArgumentException e){
-            throw new IllegalArgumentException("The feature " + featureName + "does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("The feature " + featureName
+                    + "does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
         }
-        try{
+        try {
             switch (feature.getValueType()) {
                 case NUMERIC:
                     feature.setDefaultValue(map.get("defaultValue"));
-                    if (!(feature.getDefaultValue() instanceof Integer || feature.getDefaultValue() instanceof Double || feature.getDefaultValue() instanceof Long)){
-                        throw new InvalidDefaultValueException("The feature " + featureName + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString() + "; Current defaultValue: " + map.get("defaultValue").toString());
+                    if (!(feature.getDefaultValue() instanceof Integer || feature.getDefaultValue() instanceof Double
+                            || feature.getDefaultValue() instanceof Long)) {
+                        throw new InvalidDefaultValueException(
+                                "The feature " + featureName + " does not have a valid defaultValue. Current valueType:"
+                                        + feature.getValueType().toString() + "; Current defaultValue: "
+                                        + map.get("defaultValue").toString());
                     }
                     break;
                 case BOOLEAN:
                     feature.setDefaultValue((boolean) map.get("defaultValue"));
                     break;
                 case TEXT:
-                    if (feature instanceof Payment){
+                    if (feature instanceof Payment) {
                         parsePaymentValue(feature, featureName, map);
-                    }else{
+                    } else {
                         feature.setDefaultValue((String) map.get("defaultValue"));
                     }
                     break;
             }
-        }catch(ClassCastException e){
-            throw new ClassCastException("The feature " + featureName + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString() + "; Current defaultValue: " + (String) map.get("defaultValue"));
+        } catch (ClassCastException e) {
+            throw new ClassCastException("The feature " + featureName
+                    + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString()
+                    + "; Current defaultValue: " + (String) map.get("defaultValue"));
         }
 
-        try{
+        try {
             feature.setExpression((String) map.get("expression"));
             feature.setServerExpression((String) map.get("serverExpression"));
-        }catch(NoSuchElementException e){
-            throw new PricingParsingException("The feature " + featureName + " does not have either an evaluation expression or serverExpression.");
+        } catch (NoSuchElementException e) {
+            throw new PricingParsingException("The feature " + featureName
+                    + " does not have either an evaluation expression or serverExpression.");
         }
     }
 
-    private static void parsePaymentValue(Feature feature, String featureName, Map<String, Object> map){
-        
+    private static void parsePaymentValue(Feature feature, String featureName, Map<String, Object> map) {
+
         List<String> allowedPaymentTypes = (List<String>) map.get("defaultValue");
-        for (String type : allowedPaymentTypes){
-            try{
+        for (String type : allowedPaymentTypes) {
+            try {
                 PaymentType.valueOf(type);
-            }catch(IllegalArgumentException e){
-                throw new InvalidDefaultValueException("The feature " + featureName + " does not have a supported paymentType. PaymentType that generates the issue: " + type);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidDefaultValueException("The feature " + featureName
+                        + " does not have a supported paymentType. PaymentType that generates the issue: " + type);
             }
         }
-        
-        feature.setDefaultValue(allowedPaymentTypes.toString().replace("[", "").replace("]", ""));
-        
+
+        feature.setDefaultValue(allowedPaymentTypes);
+
     }
 }

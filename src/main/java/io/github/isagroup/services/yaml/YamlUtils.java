@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.parsing.PricingManagerParser;
+import io.github.isagroup.services.serializer.PricingManagerSerializer;
 
 /**
  * Utility class to handle YAML files

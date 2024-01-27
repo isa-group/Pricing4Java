@@ -45,15 +45,15 @@ public class AddOn {
         }
 
         if (features != null) {
-            serializedAddOn.put("features", Plan.serializeFeatures(features));
+            serializedAddOn.put("features", null);
         }
 
         if (usageLimits != null) {
-            serializedAddOn.put("usageLimits", Plan.serializeUsageLimits(usageLimits));
+            serializedAddOn.put("usageLimits", null);
         }
 
         if (usageLimitsExtensions != null) {
-            serializedAddOn.put("usageLimitExtensions", Plan.serializeUsageLimits(usageLimitsExtensions));
+            serializedAddOn.put("usageLimitExtensions", null);
         }
 
         return serializedAddOn;

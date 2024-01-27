@@ -3,6 +3,9 @@ package io.github.isagroup;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -29,6 +32,57 @@ public class YamlUtilsTests {
                 "The deafult value of the haveCalendar feature should be false");
         assertEquals(2, pricingManager.getPlans().get("BASIC").getFeatures().get("maxPets").getValue(),
                 "The value of the maxPets feature should be 2, as it must be copied from the defaultValue");
+    }
+
+    @Test
+    void given_payment_feature_defaultValue_should_be_list_of_payment_method() {
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("parsing/payment-feature.yml");
+
+        List<String> expectedPaymentMethods = new ArrayList<>();
+        expectedPaymentMethods.add("CARD");
+        List<String> actualPaymentMethods = (List<String>) pricingManager.getFeatures().get("payment")
+                .getDefaultValue();
+
+        assertEquals(expectedPaymentMethods, actualPaymentMethods,
+                "Payment methods should be a list of payment methods");
+
+    }
+
+    @Test
+    void given_payment_feature_basic_plan_value_should_a_list() {
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("parsing/payment-feature.yml");
+
+        ;
+
+        assertEquals(List.class.getName(), pricingManager.getPlans().get("BASIC").getFeatures()
+                .get("payment")
+                .getValue().getClass().getName(),
+                "Payment methods should be a list of payment methods");
+
+    }
+
+    @Test
+    void given_non_null_features_in_basic_plan_should_have_default_values() {
+
+        // This is the current behaviour of the parser. You have to explicitly write
+        // values for BASIC plan
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("parsing/non-null-features-basic.yml");
+
+        Boolean value = (Boolean) pricingManager.getPlans().get("BASIC").getFeatures().get("featureA")
+                .getValue();
+
+        assertEquals(false, value);
+    }
+
+    @Test
+    void given_null_features_in_basic_plan_should_have_default_values() {
+
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("parsing/null-features-basic.yml");
+
+        Boolean value = (Boolean) pricingManager.getPlans().get("BASIC").getFeatures().get("featureA")
+                .getValue();
+
+        assertEquals(false, value, "BASIC plan does not inherit featureA defaultValue when features is null");
     }
 
     @Test
@@ -66,13 +120,16 @@ public class YamlUtilsTests {
 
     @Test
     @Order(3)
-    void given_Postman_Should_MakePerfectCopy() {
+    void given_pricing_should_dump_a_copy() {
 
         String postmanOriginalPricing = "pricing/postman.yml";
         String postmanTestPath = "yaml-testing/postman.yml";
 
         PricingManager postman = YamlUtils.retrieveManagerFromYaml(postmanOriginalPricing);
         YamlUtils.writeYaml(postman, postmanTestPath);
+        PricingManager postmanCopy = YamlUtils.retrieveManagerFromYaml(postmanTestPath);
+
+        assertEquals(postman, postmanCopy, "Pricings are diferent");
 
     }
 

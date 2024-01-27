@@ -20,16 +20,18 @@ public class Plan {
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
 
-    public static Map<String, Object> serializeFeature(Feature feature) {
+    public Map<String, Object> serializeFeature(Feature feature) {
         Map<String, Object> attributes = new LinkedHashMap<>();
 
-        if (feature.getValue() != null) {
+        if (feature.getValue() == null) {
+            attributes.put("value", feature.getDefaultValue());
+        } else {
             attributes.put("value", feature.getValue());
         }
         return attributes;
     }
 
-    public static Map<String, Object> serializeFeatures(Map<String, Feature> features) {
+    public Map<String, Object> serializeFeatures() {
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Feature feature : features.values()) {
             serializedFeatures.put(feature.getName(), serializeFeature(feature));
@@ -37,21 +39,20 @@ public class Plan {
         return serializedFeatures;
     }
 
-    public static Map<String, Object> serializeUsageLimit(UsageLimit usageLimit) {
+    public Map<String, Object> serializeUsageLimit(UsageLimit usageLimit) {
         Map<String, Object> attributes = new LinkedHashMap<>();
 
-        if (usageLimit.getValue() != null) {
+        if (usageLimit.getValue() == null) {
+            attributes.put("value", usageLimit.getDefaultValue());
+        } else {
             attributes.put("value", usageLimit.getValue());
         }
         return attributes;
     }
 
-    public static Map<String, Object> serializeUsageLimits(Map<String, UsageLimit> usageLimits) {
+    public Map<String, Object> serializeUsageLimits() {
         Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
 
-        if (usageLimits == null) {
-            return null;
-        }
         for (UsageLimit usageLimit : usageLimits.values()) {
             serializedUsageLimits.put(usageLimit.getName(), serializeUsageLimit(usageLimit));
         }
@@ -65,12 +66,16 @@ public class Plan {
         attributes.put("annualPrice", monthlyPrice);
         attributes.put("unit", unit);
 
-        if (features != null) {
-            attributes.put("features", serializeFeatures(features));
+        if (features == null) {
+            attributes.put("features", null);
+        } else {
+            attributes.put("features", serializeFeatures());
         }
 
-        if (usageLimits != null) {
-            attributes.put("usageLimits", serializeUsageLimits(usageLimits));
+        if (usageLimits == null) {
+            attributes.put("usageLimits", null);
+        } else {
+            attributes.put("usageLimits", serializeUsageLimits());
         }
         return attributes;
     }

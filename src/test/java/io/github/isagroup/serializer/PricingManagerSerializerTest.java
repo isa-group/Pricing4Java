@@ -18,7 +18,7 @@ import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.featuretypes.Domain;
 import io.github.isagroup.models.usagelimittypes.Renewable;
-import io.github.isagroup.services.yaml.PricingManagerSerializer;
+import io.github.isagroup.services.serializer.PricingManagerSerializer;
 
 public class PricingManagerSerializerTest {
 
