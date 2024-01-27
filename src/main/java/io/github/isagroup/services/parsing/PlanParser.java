@@ -122,10 +122,6 @@ public class PlanParser {
                         break;
                 }
 
-                if (feature.getValue() == null) {
-                    throw new InvalidDefaultValueException("The feature " + feature.getName()
-                            + " does not have a valid value. The actual value is null");
-                }
                 plan.getFeatures().put(planFeatureName, feature);
             }
         }
@@ -183,6 +179,11 @@ public class PlanParser {
                     case TEXT:
                         usageLimit.setValue((String) planUsageLimitMap.get("value"));
                         break;
+                }
+
+                if (usageLimit.getValue() == null) {
+                    throw new InvalidDefaultValueException(
+                                    "The usageLimit " + usageLimit + " does not have a valid value. The actual value is null");
                 }
 
                 plan.getUsageLimits().put(planUsageLimitName, usageLimit);

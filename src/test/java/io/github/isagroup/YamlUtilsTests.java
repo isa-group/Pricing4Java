@@ -69,10 +69,10 @@ public class YamlUtilsTests {
     void given_Postman_Should_MakePerfectCopy() {
 
         String postmanOriginalPricing = "pricing/postman.yml";
-        String postmanTestPath = "yaml-testing/postman.yml";
+        //String postmanTestPath = "yaml-testing/postman.yml";
 
         PricingManager postman = YamlUtils.retrieveManagerFromYaml(postmanOriginalPricing);
-        YamlUtils.writeYaml(postman, postmanTestPath);
+        //YamlUtils.writeYaml(postman, postmanTestPath);
 
     }
 
