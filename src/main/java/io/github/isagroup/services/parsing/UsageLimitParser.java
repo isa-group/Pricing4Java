@@ -103,6 +103,9 @@ public class UsageLimitParser {
                     limit.setDefaultValue((String) map.get("defaultValue"));
                     break;
             }
+            if (limit.getDefaultValue() == null) {
+                throw new InvalidDefaultValueException("The usageLimit " + limitName + " does not have a valid defaultValue. The actual value is null");
+            }
         }catch(ClassCastException e){
             throw new InvalidDefaultValueException("The feature " + limitName + " does not have a valid defaultValue. Current valueType:" + limit.getValueType().toString() + "; Current defaultValue: " + map.get("defaultValue").toString());
         }

@@ -2,7 +2,6 @@ package io.github.isagroup.services.yaml;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import io.github.isagroup.models.AddOn;
 import io.github.isagroup.models.Feature;
@@ -35,12 +34,17 @@ public class PricingManagerSerializer {
 
         if (pricingManager.getFeatures() == null) {
             throw new Exception(
-                    "Currently you have not defined any features. You may dump a config until you define them");
+                    "Currently you have not defined any features. You may not dump config until you define them");
         }
 
         if (pricingManager.getUsageLimits() == null) {
             throw new Exception(
-                    "Currently you have not defined any usage limits. You may dump a config until you define them");
+                    "Currently you have not defined any usage limits. You may not dump a config until you define them");
+        }
+
+        if (pricingManager.getPlans() == null) {
+            throw new Exception(
+                    "Currently you have not defined any plans. You may not dump a config until you define them");
         }
 
         serializedPricingManager.put("features", serializeFeatures());
@@ -48,15 +52,18 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("plans", serializePlans());
 
         if (pricingManager.getAddOns() != null) {
+            serializedPricingManager.put("addOns", null);
+        } else {
             serializedPricingManager.put("addOns", AddOn.serializeAddOns(pricingManager.getAddOns()));
+
         }
         return serializedPricingManager;
     }
 
     private Map<String, Object> serializeFeatures() {
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
-        for (Entry<String, Feature> entry : pricingManager.getFeatures().entrySet()) {
-            serializedFeatures.put(entry.getKey(), entry.getValue().serializeFeature());
+        for (Feature feature : pricingManager.getFeatures().values()) {
+            serializedFeatures.put(feature.getName(), feature.serializeFeature());
 
         }
         return serializedFeatures;
@@ -69,8 +76,8 @@ public class PricingManagerSerializer {
             return null;
         }
 
-        for (Entry<String, UsageLimit> entry : pricingManager.getUsageLimits().entrySet()) {
-            serializedUsageLimits.put(entry.getKey(), entry.getValue().serializeUsageLimit());
+        for (UsageLimit usageLimit : pricingManager.getUsageLimits().values()) {
+            serializedUsageLimits.put(usageLimit.getName(), usageLimit);
 
         }
 

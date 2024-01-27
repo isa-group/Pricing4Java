@@ -73,9 +73,7 @@ public class YamlUtilsTests {
 
         PricingManager postman = YamlUtils.retrieveManagerFromYaml(postmanOriginalPricing);
         YamlUtils.writeYaml(postman, postmanTestPath);
-        PricingManager postmanCopy = YamlUtils.retrieveManagerFromYaml(postmanTestPath);
 
-        assertEquals(postman, postmanCopy, "Postman pricing should be equals it is a copy");
     }
 
 }

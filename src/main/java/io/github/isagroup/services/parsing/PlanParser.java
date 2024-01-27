@@ -122,6 +122,10 @@ public class PlanParser {
                         break;
                 }
 
+                if (feature.getValue() == null) {
+                    throw new InvalidDefaultValueException("The feature " + feature.getName()
+                            + " does not have a valid value. The actual value is null");
+                }
                 plan.getFeatures().put(planFeatureName, feature);
             }
         }
