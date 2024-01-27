@@ -28,6 +28,7 @@ public class UsageLimitSerializerTest {
     public void given_Renewable_return_Map() {
 
         Renewable renewable = new Renewable();
+        renewable.setName("Name");
         renewable.setDescription("Foo");
         renewable.setValueType(ValueType.TEXT);
         renewable.setDefaultValue("Bar");

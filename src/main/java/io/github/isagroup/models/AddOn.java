@@ -21,53 +21,42 @@ public class AddOn {
     private Map<String, UsageLimit> usageLimits;
     private Map<String, UsageLimit> usageLimitsExtensions;
 
-    public static Map<String, Object> serializeAddOn(AddOn addOn) {
+    public Map<String, Object> serializeAddOn() {
         Map<String, Object> serializedAddOn = new LinkedHashMap<>();
-        if (addOn.getAvailableFor() != null && !addOn.getAvailableFor().isEmpty()) {
-            serializedAddOn.put("availableFor", addOn.getAvailableFor());
+
+        if (availableFor != null && !availableFor.isEmpty()) {
+            serializedAddOn.put("availableFor", availableFor);
         }
 
-        if (addOn.getPrice() != null) {
-            serializedAddOn.put("price", addOn.getPrice());
+        if (price != null) {
+            serializedAddOn.put("price", price);
         }
 
-        if (addOn.getMonthlyPrice() != null) {
-            serializedAddOn.put("monthlyPrice", addOn.getMonthlyPrice());
+        if (monthlyPrice != null) {
+            serializedAddOn.put("monthlyPrice", monthlyPrice);
         }
 
-        if (addOn.getAnnualPrice() != null) {
-            serializedAddOn.put("annualPrice", addOn.getAnnualPrice());
+        if (annualPrice != null) {
+            serializedAddOn.put("annualPrice", annualPrice);
         }
 
-        if (addOn.getUnit() != null) {
-            serializedAddOn.put("unit", addOn.getUnit());
+        if (unit != null) {
+            serializedAddOn.put("unit", unit);
         }
 
-        if (addOn.getFeatures() != null) {
-            serializedAddOn.put("features", Plan.serializeFeatures(addOn.getFeatures()));
+        if (features != null) {
+            serializedAddOn.put("features", Plan.serializeFeatures(features));
         }
 
-        if (addOn.getUsageLimits() != null) {
-            serializedAddOn.put("usageLimits", Plan.serializeUsageLimits(addOn.getUsageLimits()));
+        if (usageLimits != null) {
+            serializedAddOn.put("usageLimits", Plan.serializeUsageLimits(usageLimits));
         }
 
-        if (addOn.getUsageLimitsExtensions() != null) {
-            serializedAddOn.put("usageLimitExtensions", Plan.serializeUsageLimits(addOn.getUsageLimits()));
+        if (usageLimitsExtensions != null) {
+            serializedAddOn.put("usageLimitExtensions", Plan.serializeUsageLimits(usageLimitsExtensions));
         }
 
         return serializedAddOn;
     }
 
-    public static Map<String, Object> serializeAddOns(Map<String, AddOn> addOns) {
-        Map<String, Object> serializedAddOns = new LinkedHashMap<>();
-
-        if (addOns == null) {
-            return null;
-        }
-
-        for (AddOn addOn : addOns.values()) {
-            serializedAddOns.put(addOn.getName(), serializeAddOn(addOn));
-        }
-        return serializedAddOns;
-    }
 }

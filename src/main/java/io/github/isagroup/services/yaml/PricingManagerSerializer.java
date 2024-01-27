@@ -26,6 +26,7 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("year", pricingManager.getYear());
         serializedPricingManager.put("currency", pricingManager.getCurrency());
         serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
+
     }
 
     public Map<String, Object> serialize() throws Exception {
@@ -54,7 +55,7 @@ public class PricingManagerSerializer {
         if (pricingManager.getAddOns() != null) {
             serializedPricingManager.put("addOns", null);
         } else {
-            serializedPricingManager.put("addOns", AddOn.serializeAddOns(pricingManager.getAddOns()));
+            serializedPricingManager.put("addOns", serializeAddOns());
 
         }
         return serializedPricingManager;
@@ -77,7 +78,7 @@ public class PricingManagerSerializer {
         }
 
         for (UsageLimit usageLimit : pricingManager.getUsageLimits().values()) {
-            serializedUsageLimits.put(usageLimit.getName(), usageLimit);
+            serializedUsageLimits.put(usageLimit.getName(), usageLimit.serializeUsageLimit());
 
         }
 
@@ -91,5 +92,18 @@ public class PricingManagerSerializer {
             serializedPlans.put(plan.getName(), plan.serializePlan());
         }
         return serializedPlans;
+    }
+
+    public Map<String, Object> serializeAddOns() {
+        Map<String, Object> serializedAddOns = new LinkedHashMap<>();
+
+        if (pricingManager.getAddOns() == null) {
+            return null;
+        }
+
+        for (AddOn addOn : pricingManager.getAddOns().values()) {
+            serializedAddOns.put(addOn.getName(), addOn.serializeAddOn());
+        }
+        return serializedAddOns;
     }
 }

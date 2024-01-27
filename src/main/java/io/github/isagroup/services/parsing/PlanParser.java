@@ -168,7 +168,8 @@ public class PlanParser {
                         if (!(usageLimit.getValue() instanceof Integer || usageLimit.getValue() instanceof Double
                                 || usageLimit.getValue() instanceof Long || usageLimit.getValue() == null)) {
                             throw new InvalidDefaultValueException(
-                                    "The usageLimit " + usageLimit + " does not have a valid value. Current valueType:"
+                                    "The usageLimit " + planUsageLimitName
+                                            + " does not have a valid value. Current valueType:"
                                             + usageLimit.getValueType().toString() + "; Current defaultValue: "
                                             + planUsageLimitMap.get("value").toString());
                         }
@@ -183,7 +184,8 @@ public class PlanParser {
 
                 if (usageLimit.getValue() == null) {
                     throw new InvalidDefaultValueException(
-                                    "The usageLimit " + usageLimit + " does not have a valid value. The actual value is null");
+                            "The usageLimit " + planUsageLimitName + " does not have a valid value in the plan "
+                                    + planName + ". The actual value is null");
                 }
 
                 plan.getUsageLimits().put(planUsageLimitName, usageLimit);

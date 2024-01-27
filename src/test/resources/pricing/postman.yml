@@ -1,4 +1,4 @@
-saasName: Postman 
+saasName: Postman
 day: 5
 month: 11
 year: 2023
@@ -187,7 +187,7 @@ features:
   paymentOptions:
     description: "https://learning.postman.com/docs/billing/billing/"
     valueType: TEXT
-    defaultValue: 
+    defaultValue:
       - CARD
     type: PAYMENT
   integrationWithCiCdTools:
@@ -218,7 +218,7 @@ usageLimits:
     defaultValue: 10000
     unit: calls/month
     type: RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - postmanApi
   numberOfIntegrations:
     description: "https://learning.postman.com/docs/integrations/intro-integrations/"
@@ -226,7 +226,7 @@ usageLimits:
     defaultValue: 10
     unit: integration
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - thirdPartyIntegrations
   collectionViewers:
     description: "https://learning.postman.com/docs/collaborating-in-postman/sharing/#allowing-external-users-to-view-collections"
@@ -234,7 +234,7 @@ usageLimits:
     defaultValue: 10
     unit: viewer/team
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - collections
   customDomainsLimit:
     description: ""
@@ -242,7 +242,7 @@ usageLimits:
     defaultValue: 1
     unit: domain
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - customDomains
   localCollectionRunnerLimit:
     description: ""
@@ -250,7 +250,7 @@ usageLimits:
     defaultValue: 25
     unit: runs/month
     type: RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - collectionRunner
   localPerformanceTestingUserLimit:
     description: ""
@@ -258,7 +258,7 @@ usageLimits:
     defaultValue: 100
     unit: virtual user
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - localPerformanceTesting
   localPerformanceTestingRunsLimit:
     description: ""
@@ -266,7 +266,7 @@ usageLimits:
     defaultValue: 25
     unit: run
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - localPerformanceTesting
   monitoringCallsLimit:
     description: ""
@@ -274,7 +274,7 @@ usageLimits:
     defaultValue: 1000
     unit: call/month
     type: RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - monitoringCalls
   mockServersCallsLimit:
     description: ""
@@ -282,7 +282,7 @@ usageLimits:
     defaultValue: 1000
     unit: call/month
     type: RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - mockServersCalls
   collectionRecoveryLimit:
     description: ""
@@ -290,7 +290,7 @@ usageLimits:
     defaultValue: 30
     unit: day
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - collectionRecovery
   historyDepth:
     description: ""
@@ -298,7 +298,7 @@ usageLimits:
     defaultValue: 1
     unit: day
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - history
   flowSteps:
     description: "Number of flows executions steps included per month"
@@ -306,7 +306,7 @@ usageLimits:
     defaultValue: 0
     unit: step/month
     type: RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - postmanFlows
   flowsPayloadSize:
     description: "Number of flows payload size included per month"
@@ -314,7 +314,7 @@ usageLimits:
     defaultValue: 0
     unit: MB/call
     type: NON_RENEWABLE
-    linkedFeatures: 
+    linkedFeatures:
       - postmanFlows
 plans:
   BASIC:
@@ -390,7 +390,7 @@ plans:
       support:
         value: "Priority Email (SLA: 1 business day)"
       paymentOptions:
-        value: 
+        value:
           - CARD
           - ACH
           - WIRE_TRANSFER
@@ -401,15 +401,15 @@ plans:
       numberOfIntegrations:
         value: 50
       collectionViewers:
-        value: null
+        value: 0
       customDomainsLimit:
         value: 25
       localCollectionRunnerLimit:
         value: 250
       localPerformanceTestingUserLimit:
-        value: null
+        value: 0
       localPerformanceTestingRunsLimit:
-        value: null
+        value: 0
       monitoringCallsLimit:
         value: 10000
       mockServersCallsLimit:
@@ -472,15 +472,15 @@ plans:
       numberOfIntegrations:
         value: 100
       collectionViewers:
-        value: null
+        value: 0
       customDomainsLimit:
         value: 25
       localCollectionRunnerLimit:
         value: .inf
       localPerformanceTestingUserLimit:
-        value: null
+        value: 0
       localPerformanceTestingRunsLimit:
-        value: null
+        value: 0
       monitoringCallsLimit:
         value: 100000
       mockServersCallsLimit:
@@ -489,7 +489,7 @@ plans:
         value: 90
       historyDepth:
         value: 14
-addOns: 
+addOns:
   postmanForInternalApiManagement:
     availableFor:
       - ENTERPRISE_ESSENTIALS
@@ -505,7 +505,7 @@ addOns:
     usageLimits: null
     usageLimitsExtensions: null
   postmanForApiTestAutomation:
-    availableFor: 
+    availableFor:
       - ENTERPRISE_ESSENTIALS
     price: 49.00
     unit: user/month
@@ -517,7 +517,7 @@ addOns:
         value: .inf
     usageLimitsExtensions: null
   monitoringPayAsYouGo:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -529,7 +529,7 @@ addOns:
       monitoringCallsLimit:
         value: 1000
   monitoringMonthly:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -542,7 +542,7 @@ addOns:
       monitoringCallsLimit:
         value: 50000
   mockServersPayAsYouGo:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -554,7 +554,7 @@ addOns:
       mockServersCallsLimit:
         value: 1000
   mockServersMonthly:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -567,7 +567,7 @@ addOns:
       mockServersCallsLimit:
         value: 50000
   customDomains:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -580,7 +580,7 @@ addOns:
       customDomainsLimit:
         value: 1
   postmanFlowsBasic:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -588,19 +588,19 @@ addOns:
     monthlyPrice: 15.00
     annualPrice: 12.00
     unit: user/month
-    features: 
+    features:
       postmanFlows:
         value: true
       flowsRoleManagement:
         value: true
-    usageLimits: 
+    usageLimits:
       flowSteps:
         value: 25000
       flowsPayloadSize:
         value: 1
     usageLimitsExtensions: null
   postmanFlowsProfessional:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
@@ -608,26 +608,26 @@ addOns:
     monthlyPrice: 25.00
     annualPrice: 20.00
     unit: user/month
-    features: 
+    features:
       postmanFlows:
         value: true
       flowsRoleManagement:
         value: true
-    usageLimits: 
+    usageLimits:
       flowSteps:
         value: 100000
       flowsPayloadSize:
         value: 5
     usageLimitsExtensions: null
   postbot:
-    availableFor: 
+    availableFor:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE_ESSENTIALS
       - ENTERPRISE_ULTIMATE
     price: 9.00
     unit: user/month
-    features: 
+    features:
       postbot:
         value: true
     usageLimits: null

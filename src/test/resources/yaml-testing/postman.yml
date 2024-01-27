@@ -1,0 +1,763 @@
+saasName: Postman
+day: 5
+month: 11
+year: 2023
+currency: USD
+hasAnnualPayment: true
+features:
+  apiClient:
+    description: https://www.postman.com/api-platform/api-client/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  collections:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  publicApiDocumentation:
+    description: https://learning.postman.com/docs/publishing-your-api/publishing-your-docs/#making-your-documentation-public
+    valueType: BOOLEAN
+    defaultValue: true
+    type: INFORMATION
+  privateApiDocumentation:
+    description: https://learning.postman.com/docs/publishing-your-api/publishing-your-docs/#changing-publication-settings
+    valueType: BOOLEAN
+    defaultValue: true
+    type: INFORMATION
+  personalWorkspaces:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  teamWorkspaces:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  publicWorkspaces:
+    description: https://learning.postman.com/docs/collaborating-in-postman/using-workspaces/creating-workspaces/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  privateWorkspaces:
+    description: https://learning.postman.com/docs/collaborating-in-postman/using-workspaces/creating-workspaces/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+  partnerWorkspaces:
+    description: https://learning.postman.com/docs/collaborating-in-postman/using-workspaces/partner-workspaces/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+  postmanApi:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: INTEGRATION
+    integrationType: API
+  thirdPartyIntegrations:
+    description: https://learning.postman.com/docs/integrations/intro-integrations/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: INTEGRATION
+    integrationType: MARKETPLACE
+  customDomains:
+    description: https://learning.postman.com/docs/publishing-your-api/custom-doc-domains/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: MANAGEMENT
+  collectionRunner:
+    description: https://learning.postman.com/docs/collections/running-collections/intro-to-collection-runs/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  localPerformanceTesting:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  monitoringCalls:
+    description: https://learning.postman.com/docs/monitoring-your-api/intro-monitors/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: INFORMATION
+  mockServersCalls:
+    description: https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/setting-up-mock/
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  apiGovernance:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  privateApiNetwork:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+  apiBuilder:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+  nativeGitSupport:
+    description: ''
+    valueType: TEXT
+    defaultValue: ''
+    type: INTEGRATION
+    integrationType: WEB_SAAS
+    pricingUrls:
+    - https://github.com/pricing
+    - https://about.gitlab.com/pricing/
+  rolesAndPermissions:
+    description: https://learning.postman.com/docs/collaborating-in-postman/roles-and-permissions/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  singleSignOn:
+    description: https://learning.postman.com/docs/administration/sso/intro-sso/
+    valueType: TEXT
+    defaultValue: ''
+    type: INTEGRATION
+    integrationType: IDENTITY_PROVIDER
+  userProvisioning:
+    description: https://learning.postman.com/docs/administration/scim-provisioning/scim-provisioning-overview/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: INTEGRATION
+    integrationType: IDENTITY_PROVIDER
+  userGroups:
+    description: https://learning.postman.com/docs/collaborating-in-postman/user-groups/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  domainCapture:
+    description: https://learning.postman.com/docs/administration/domain-verification-and-capture/domain-capture-overview/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  collectionRecovery:
+    description: https://learning.postman.com/docs/collections/using-collections/#recovering-a-deleted-collection
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  history:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  auditLogs:
+    description: https://learning.postman.com/docs/administration/managing-your-team/audit-logs/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: INFORMATION
+  secretScanner:
+    description: https://learning.postman.com/docs/administration/managing-your-team/secret-scanner/
+    valueType: TEXT
+    defaultValue: Public Workspaces and Public Documentation
+    type: AUTOMATION
+    automationType: TRACKING
+  superAdminRole:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  deploymentControl:
+    description: https://learning.postman.com/docs/administration/enterprise/managing-enterprise-deployment/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  reportingAndAnalytics:
+    description: https://learning.postman.com/docs/reports/reports-overview/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: INFORMATION
+  support:
+    description: https://learning.postman.com/docs/introduction/troubleshooting-inapp/
+    valueType: TEXT
+    defaultValue: Email
+    type: SUPPORT
+  customerSuccess:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: SUPPORT
+  paymentOptions:
+    description: https://learning.postman.com/docs/billing/billing/
+    valueType: TEXT
+    defaultValue: CARD
+    type: PAYMENT
+  integrationWithCiCdTools:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: INTEGRATION
+    integrationType: MARKETPLACE
+  postmanFlows:
+    description: https://learning.postman.com/docs/postman-flows/gs/flows-overview/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+  flowsRoleManagement:
+    description: ''
+    valueType: BOOLEAN
+    defaultValue: false
+    type: MANAGEMENT
+  postbot:
+    description: https://learning.postman.com/docs/getting-started/basics/about-postbot/
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+usageLimits:
+  callsToPostmanApi:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 10000
+    unit: calls/month
+    linkedFeatures:
+    - postmanApi
+    type: RENEWABLE
+  numberOfIntegrations:
+    description: https://learning.postman.com/docs/integrations/intro-integrations/
+    valueType: NUMERIC
+    defaultValue: 10
+    unit: integration
+    linkedFeatures:
+    - thirdPartyIntegrations
+    type: NON_RENEWABLE
+  collectionViewers:
+    description: https://learning.postman.com/docs/collaborating-in-postman/sharing/#allowing-external-users-to-view-collections
+    valueType: NUMERIC
+    defaultValue: 10
+    unit: viewer/team
+    linkedFeatures:
+    - collections
+    type: NON_RENEWABLE
+  customDomainsLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 1
+    unit: domain
+    linkedFeatures:
+    - customDomains
+    type: NON_RENEWABLE
+  localCollectionRunnerLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 25
+    unit: runs/month
+    linkedFeatures:
+    - collectionRunner
+    type: RENEWABLE
+  localPerformanceTestingUserLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 100
+    unit: virtual user
+    linkedFeatures:
+    - localPerformanceTesting
+    type: NON_RENEWABLE
+  localPerformanceTestingRunsLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 25
+    unit: run
+    linkedFeatures:
+    - localPerformanceTesting
+    type: NON_RENEWABLE
+  monitoringCallsLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 1000
+    unit: call/month
+    linkedFeatures:
+    - monitoringCalls
+    type: RENEWABLE
+  mockServersCallsLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 1000
+    unit: call/month
+    linkedFeatures:
+    - mockServersCalls
+    type: RENEWABLE
+  collectionRecoveryLimit:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 30
+    unit: day
+    linkedFeatures:
+    - collectionRecovery
+    type: NON_RENEWABLE
+  historyDepth:
+    description: ''
+    valueType: NUMERIC
+    defaultValue: 1
+    unit: day
+    linkedFeatures:
+    - history
+    type: NON_RENEWABLE
+  flowSteps:
+    description: Number of flows executions steps included per month
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: step/month
+    linkedFeatures:
+    - postmanFlows
+    type: RENEWABLE
+  flowsPayloadSize:
+    description: Number of flows payload size included per month
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: MB/call
+    linkedFeatures:
+    - postmanFlows
+    type: NON_RENEWABLE
+plans:
+  BASIC:
+    description: ''
+    monthlyPrice: 19.0
+    annualPrice: 19.0
+    unit: user/month
+    features:
+      apiClient: {
+        }
+      collections: {
+        }
+      publicApiDocumentation: {
+        }
+      privateApiDocumentation: {
+        }
+      personalWorkspaces: {
+        }
+      teamWorkspaces: {
+        }
+      publicWorkspaces: {
+        }
+      privateWorkspaces: {
+        }
+      partnerWorkspaces: {
+        }
+      postmanApi: {
+        }
+      thirdPartyIntegrations: {
+        }
+      customDomains: {
+        }
+      collectionRunner: {
+        }
+      localPerformanceTesting: {
+        }
+      monitoringCalls: {
+        }
+      mockServersCalls: {
+        }
+      apiGovernance: {
+        }
+      privateApiNetwork: {
+        }
+      apiBuilder: {
+        }
+      nativeGitSupport: {
+        }
+      rolesAndPermissions: {
+        }
+      singleSignOn: {
+        }
+      userProvisioning: {
+        }
+      userGroups: {
+        }
+      domainCapture: {
+        }
+      collectionRecovery: {
+        }
+      history: {
+        }
+      auditLogs: {
+        }
+      secretScanner: {
+        }
+      superAdminRole: {
+        }
+      deploymentControl: {
+        }
+      reportingAndAnalytics: {
+        }
+      support: {
+        }
+      customerSuccess: {
+        }
+      paymentOptions: {
+        }
+      integrationWithCiCdTools: {
+        }
+      postmanFlows: {
+        }
+      flowsRoleManagement: {
+        }
+      postbot: {
+        }
+    usageLimits:
+      callsToPostmanApi: {
+        }
+      numberOfIntegrations: {
+        }
+      collectionViewers: {
+        }
+      customDomainsLimit: {
+        }
+      localCollectionRunnerLimit: {
+        }
+      localPerformanceTestingUserLimit: {
+        }
+      localPerformanceTestingRunsLimit: {
+        }
+      monitoringCallsLimit: {
+        }
+      mockServersCallsLimit: {
+        }
+      collectionRecoveryLimit: {
+        }
+      historyDepth: {
+        }
+      flowSteps: {
+        }
+      flowsPayloadSize: {
+        }
+  PROFESSIONAL:
+    description: ''
+    monthlyPrice: 39.0
+    annualPrice: 39.0
+    unit: user/month
+    features:
+      apiClient: {
+        }
+      collections: {
+        }
+      publicApiDocumentation: {
+        }
+      privateApiDocumentation: {
+        }
+      personalWorkspaces: {
+        }
+      teamWorkspaces: {
+        }
+      publicWorkspaces: {
+        }
+      privateWorkspaces:
+        value: true
+      partnerWorkspaces: {
+        }
+      postmanApi: {
+        }
+      thirdPartyIntegrations: {
+        }
+      customDomains: {
+        }
+      collectionRunner: {
+        }
+      localPerformanceTesting: {
+        }
+      monitoringCalls: {
+        }
+      mockServersCalls: {
+        }
+      apiGovernance: {
+        }
+      privateApiNetwork: {
+        }
+      apiBuilder: {
+        }
+      nativeGitSupport: {
+        }
+      rolesAndPermissions:
+        value: true
+      singleSignOn:
+        value: Google Workspaces
+      userProvisioning: {
+        }
+      userGroups: {
+        }
+      domainCapture: {
+        }
+      collectionRecovery: {
+        }
+      history: {
+        }
+      auditLogs:
+        value: true
+      secretScanner: {
+        }
+      superAdminRole: {
+        }
+      deploymentControl: {
+        }
+      reportingAndAnalytics: {
+        }
+      support: {
+        }
+      customerSuccess: {
+        }
+      paymentOptions: {
+        }
+      integrationWithCiCdTools: {
+        }
+      postmanFlows: {
+        }
+      flowsRoleManagement: {
+        }
+      postbot: {
+        }
+    usageLimits:
+      callsToPostmanApi:
+        value: 100000
+      numberOfIntegrations:
+        value: 50
+      collectionViewers:
+        value: 25
+      customDomainsLimit:
+        value: 5
+      localCollectionRunnerLimit:
+        value: 250
+      localPerformanceTestingUserLimit:
+        value: 500
+      localPerformanceTestingRunsLimit:
+        value: 250
+      monitoringCallsLimit:
+        value: 10000
+      mockServersCallsLimit:
+        value: 10000
+      collectionRecoveryLimit:
+        value: 90
+      historyDepth: {
+        }
+      flowSteps: {
+        }
+      flowsPayloadSize: {
+        }
+  ENTERPRISE_ESSENTIALS:
+    description: ''
+    monthlyPrice: 49.0
+    annualPrice: 49.0
+    unit: user/month
+    features:
+      apiClient: {
+        }
+      collections: {
+        }
+      publicApiDocumentation: {
+        }
+      privateApiDocumentation: {
+        }
+      personalWorkspaces: {
+        }
+      teamWorkspaces: {
+        }
+      publicWorkspaces: {
+        }
+      privateWorkspaces:
+        value: true
+      partnerWorkspaces: {
+        }
+      postmanApi: {
+        }
+      thirdPartyIntegrations: {
+        }
+      customDomains: {
+        }
+      collectionRunner: {
+        }
+      localPerformanceTesting:
+        value: false
+      monitoringCalls: {
+        }
+      mockServersCalls: {
+        }
+      apiGovernance: {
+        }
+      privateApiNetwork: {
+        }
+      apiBuilder: {
+        }
+      nativeGitSupport:
+        value: Cloud only
+      rolesAndPermissions:
+        value: true
+      singleSignOn:
+        value: SAML, SSO Providers (Okta, OneLogin, AD FS, Azure AD)
+      userProvisioning:
+        value: true
+      userGroups:
+        value: true
+      domainCapture: {
+        }
+      collectionRecovery: {
+        }
+      history: {
+        }
+      auditLogs:
+        value: true
+      secretScanner: {
+        }
+      superAdminRole:
+        value: true
+      deploymentControl:
+        value: true
+      reportingAndAnalytics:
+        value: true
+      support:
+        value: 'Priority Email (SLA: 1 business day)'
+      customerSuccess: {
+        }
+      paymentOptions:
+        value: CARD, ACH, WIRE_TRANSFER, INVOICE
+      integrationWithCiCdTools: {
+        }
+      postmanFlows: {
+        }
+      flowsRoleManagement: {
+        }
+      postbot: {
+        }
+    usageLimits:
+      callsToPostmanApi:
+        value: 1000000
+      numberOfIntegrations:
+        value: 50
+      collectionViewers:
+        value: 0
+      customDomainsLimit:
+        value: 25
+      localCollectionRunnerLimit:
+        value: 250
+      localPerformanceTestingUserLimit:
+        value: 0
+      localPerformanceTestingRunsLimit:
+        value: 0
+      monitoringCallsLimit:
+        value: 10000
+      mockServersCallsLimit:
+        value: 10000
+      collectionRecoveryLimit:
+        value: 90
+      historyDepth:
+        value: 14
+      flowSteps: {
+        }
+      flowsPayloadSize: {
+        }
+  ENTERPRISE_ULTIMATE:
+    description: ''
+    monthlyPrice: null
+    annualPrice: null
+    unit: null
+    features:
+      apiClient: {
+        }
+      collections: {
+        }
+      publicApiDocumentation: {
+        }
+      privateApiDocumentation: {
+        }
+      personalWorkspaces: {
+        }
+      teamWorkspaces: {
+        }
+      publicWorkspaces: {
+        }
+      privateWorkspaces:
+        value: true
+      partnerWorkspaces:
+        value: true
+      postmanApi: {
+        }
+      thirdPartyIntegrations: {
+        }
+      customDomains: {
+        }
+      collectionRunner: {
+        }
+      localPerformanceTesting:
+        value: false
+      monitoringCalls: {
+        }
+      mockServersCalls: {
+        }
+      apiGovernance:
+        value: true
+      privateApiNetwork:
+        value: true
+      apiBuilder:
+        value: true
+      nativeGitSupport:
+        value: Cloud + On-prem
+      rolesAndPermissions:
+        value: true
+      singleSignOn:
+        value: SAML, SSO Providers (Okta, OneLogin, AD FS, Azure AD)
+      userProvisioning:
+        value: true
+      userGroups:
+        value: true
+      domainCapture:
+        value: true
+      collectionRecovery: {
+        }
+      history: {
+        }
+      auditLogs:
+        value: true
+      secretScanner: {
+        }
+      superAdminRole:
+        value: true
+      deploymentControl:
+        value: true
+      reportingAndAnalytics:
+        value: true
+      support:
+        value: 'Priority Email (SLA: 1 business day)'
+      customerSuccess:
+        value: true
+      paymentOptions:
+        value: CARD, ACH, WIRE_TRANSFER, INVOICE
+      integrationWithCiCdTools: {
+        }
+      postmanFlows: {
+        }
+      flowsRoleManagement: {
+        }
+      postbot: {
+        }
+    usageLimits:
+      callsToPostmanApi:
+        value: 1000000
+      numberOfIntegrations:
+        value: 100
+      collectionViewers:
+        value: 0
+      customDomainsLimit:
+        value: 25
+      localCollectionRunnerLimit:
+        value: .inf
+      localPerformanceTestingUserLimit:
+        value: 0
+      localPerformanceTestingRunsLimit:
+        value: 0
+      monitoringCallsLimit:
+        value: 100000
+      mockServersCallsLimit:
+        value: 100000
+      collectionRecoveryLimit:
+        value: 90
+      historyDepth:
+        value: 14
+      flowSteps: {
+        }
+      flowsPayloadSize: {
+        }
+addOns: null

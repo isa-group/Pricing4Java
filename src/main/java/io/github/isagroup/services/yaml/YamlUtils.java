@@ -49,7 +49,6 @@ public class YamlUtils {
         dump.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
         Representer representer = new SkipNullRepresenter();
-        representer.addClassTag(PricingManager.class, Tag.MAP);
 
         PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
         try {
