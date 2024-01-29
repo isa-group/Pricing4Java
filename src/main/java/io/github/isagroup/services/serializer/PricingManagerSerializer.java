@@ -62,6 +62,7 @@ public class PricingManagerSerializer {
     }
 
     private Map<String, Object> serializeFeatures() {
+
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Feature feature : pricingManager.getFeatures().values()) {
             serializedFeatures.put(feature.getName(), feature.serializeFeature());

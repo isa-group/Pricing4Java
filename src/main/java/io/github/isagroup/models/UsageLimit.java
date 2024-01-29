@@ -1,5 +1,6 @@
 package io.github.isagroup.models;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,7 @@ import io.github.isagroup.exceptions.CloneUsageLimitException;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public abstract class UsageLimit implements Serializable {
     private String name;
     private String description;

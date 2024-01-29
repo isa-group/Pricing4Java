@@ -86,6 +86,16 @@ public class YamlUtilsTests {
     }
 
     @Test
+    void given_null_features_should_parsed_a_list_of_default_features() {
+
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("parsing/null-features-basic.yml");
+
+        boolean value = pricingManager.getPlans().get("BASIC").getFeatures().isEmpty();
+
+        assertEquals(false, value, "Basic plan does not have a list of features");
+    }
+
+    @Test
     @Order(2)
     void changeYamlTest() {
 
@@ -127,6 +137,11 @@ public class YamlUtilsTests {
 
         PricingManager postman = YamlUtils.retrieveManagerFromYaml(postmanOriginalPricing);
         YamlUtils.writeYaml(postman, postmanTestPath);
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+        }
         PricingManager postmanCopy = YamlUtils.retrieveManagerFromYaml(postmanTestPath);
 
         assertEquals(postman, postmanCopy, "Pricings are diferent");

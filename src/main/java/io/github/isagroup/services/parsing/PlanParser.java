@@ -8,6 +8,7 @@ import io.github.isagroup.exceptions.CloneFeatureException;
 import io.github.isagroup.exceptions.CloneUsageLimitException;
 import io.github.isagroup.exceptions.FeatureNotFoundException;
 import io.github.isagroup.exceptions.InvalidDefaultValueException;
+import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
@@ -195,7 +196,13 @@ public class PlanParser {
 
     public static void parsePaymentValue(Feature feature, String featureName, Map<String, Object> map) {
 
-        List<String> allowedPaymentTypes = (List<String>) map.get("value");
+        Object paymentValue = map.get("value");
+        if (paymentValue instanceof String) {
+            throw new PricingParsingException(
+                    "\"" + featureName + "\"" + "should be a list of supported payment types");
+        }
+
+        List<String> allowedPaymentTypes = (List<String>) paymentValue;
         for (String type : allowedPaymentTypes) {
             try {
                 PaymentType.valueOf(type);
@@ -205,7 +212,7 @@ public class PlanParser {
             }
         }
 
-        feature.setValue(allowedPaymentTypes.toString().replace("[", "").replace("]", ""));
+        feature.setValue(allowedPaymentTypes);
 
     }
 

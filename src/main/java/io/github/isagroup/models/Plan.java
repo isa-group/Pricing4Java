@@ -2,7 +2,9 @@ package io.github.isagroup.models;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Plan {
     private String name;
     private String description;
@@ -20,43 +23,66 @@ public class Plan {
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
 
-    public Map<String, Object> serializeFeature(Feature feature) {
-        Map<String, Object> attributes = new LinkedHashMap<>();
+    private Optional<Map<String, Object>> serializeFeature(Feature feature) {
 
         if (feature.getValue() == null) {
-            attributes.put("value", feature.getDefaultValue());
-        } else {
-            attributes.put("value", feature.getValue());
+            return Optional.empty();
         }
-        return attributes;
+
+        Map<String, Object> attributes = new LinkedHashMap<>();
+        attributes.put("value", feature.getValue());
+        return Optional.of(attributes);
     }
 
-    public Map<String, Object> serializeFeatures() {
+    private Optional<Map<String, Object>> serializeFeatures() {
+
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Feature feature : features.values()) {
-            serializedFeatures.put(feature.getName(), serializeFeature(feature));
+            Optional<Map<String, Object>> serializedFeature = serializeFeature(feature);
+            if (serializedFeature.isPresent()) {
+                serializedFeatures.put(feature.getName(), serializedFeature.get());
+            }
         }
-        return serializedFeatures;
+
+        boolean featureMapIsEmpty = serializedFeatures.size() == 0;
+
+        if (featureMapIsEmpty) {
+            return Optional.empty();
+        }
+
+        return Optional.of(serializedFeatures);
     }
 
-    public Map<String, Object> serializeUsageLimit(UsageLimit usageLimit) {
-        Map<String, Object> attributes = new LinkedHashMap<>();
+    private Optional<Map<String, Object>> serializeUsageLimit(UsageLimit usageLimit) {
 
         if (usageLimit.getValue() == null) {
-            attributes.put("value", usageLimit.getDefaultValue());
-        } else {
-            attributes.put("value", usageLimit.getValue());
+            return Optional.empty();
         }
-        return attributes;
+
+        Map<String, Object> attributes = new LinkedHashMap<>();
+        attributes.put("value", usageLimit.getValue());
+        return Optional.of(attributes);
     }
 
-    public Map<String, Object> serializeUsageLimits() {
+    private Optional<Map<String, Object>> serializeUsageLimits() {
+
         Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
 
         for (UsageLimit usageLimit : usageLimits.values()) {
-            serializedUsageLimits.put(usageLimit.getName(), serializeUsageLimit(usageLimit));
+            Optional<Map<String, Object>> serializedUsageLimit = serializeUsageLimit(usageLimit);
+            if (serializedUsageLimit.isPresent()) {
+
+                serializedUsageLimits.put(usageLimit.getName(), serializedUsageLimit.get());
+            }
         }
-        return serializedUsageLimits;
+
+        boolean usageLimitMapIsEmpty = serializedUsageLimits.size() == 0;
+
+        if (usageLimitMapIsEmpty) {
+            return Optional.empty();
+        }
+
+        return Optional.of(serializedUsageLimits);
     }
 
     public Map<String, Object> serializePlan() {
@@ -66,17 +92,12 @@ public class Plan {
         attributes.put("annualPrice", monthlyPrice);
         attributes.put("unit", unit);
 
-        if (features == null) {
-            attributes.put("features", null);
-        } else {
-            attributes.put("features", serializeFeatures());
-        }
+        Map<String, Object> features = serializeFeatures().orElse(null);
+        Map<String, Object> usageLimits = serializeUsageLimits().orElse(null);
 
-        if (usageLimits == null) {
-            attributes.put("usageLimits", null);
-        } else {
-            attributes.put("usageLimits", serializeUsageLimits());
-        }
+        attributes.put("features", features);
+        attributes.put("usageLimits", usageLimits);
+
         return attributes;
     }
 

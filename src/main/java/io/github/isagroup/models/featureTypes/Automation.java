@@ -4,11 +4,13 @@ import java.util.Map;
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.FeatureType;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class Automation extends Feature {
 
     private AutomationType automationType;

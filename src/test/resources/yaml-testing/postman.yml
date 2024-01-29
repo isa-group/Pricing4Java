@@ -322,198 +322,22 @@ plans:
     monthlyPrice: 19.0
     annualPrice: 19.0
     unit: user/month
-    features:
-      apiClient:
-        value: true
-      collections:
-        value: true
-      publicApiDocumentation:
-        value: true
-      privateApiDocumentation:
-        value: true
-      personalWorkspaces:
-        value: true
-      teamWorkspaces:
-        value: true
-      publicWorkspaces:
-        value: true
-      privateWorkspaces:
-        value: false
-      partnerWorkspaces:
-        value: false
-      postmanApi:
-        value: true
-      thirdPartyIntegrations:
-        value: true
-      customDomains:
-        value: true
-      collectionRunner:
-        value: true
-      localPerformanceTesting:
-        value: true
-      monitoringCalls:
-        value: true
-      mockServersCalls:
-        value: true
-      apiGovernance:
-        value: false
-      privateApiNetwork:
-        value: false
-      apiBuilder:
-        value: false
-      nativeGitSupport:
-        value: ''
-      rolesAndPermissions:
-        value: false
-      singleSignOn:
-        value: ''
-      userProvisioning:
-        value: false
-      userGroups:
-        value: false
-      domainCapture:
-        value: false
-      collectionRecovery:
-        value: true
-      history:
-        value: true
-      auditLogs:
-        value: false
-      secretScanner:
-        value: Public Workspaces and Public Documentation
-      superAdminRole:
-        value: false
-      deploymentControl:
-        value: false
-      reportingAndAnalytics:
-        value: false
-      support:
-        value: Email
-      customerSuccess:
-        value: false
-      paymentOptions:
-        value:
-        - CARD
-      integrationWithCiCdTools:
-        value: false
-      postmanFlows:
-        value: false
-      flowsRoleManagement:
-        value: false
-      postbot:
-        value: false
-    usageLimits:
-      callsToPostmanApi:
-        value: 10000
-      numberOfIntegrations:
-        value: 10
-      collectionViewers:
-        value: 10
-      customDomainsLimit:
-        value: 1
-      localCollectionRunnerLimit:
-        value: 25
-      localPerformanceTestingUserLimit:
-        value: 100
-      localPerformanceTestingRunsLimit:
-        value: 25
-      monitoringCallsLimit:
-        value: 1000
-      mockServersCallsLimit:
-        value: 1000
-      collectionRecoveryLimit:
-        value: 30
-      historyDepth:
-        value: 1
-      flowSteps:
-        value: 0
-      flowsPayloadSize:
-        value: 0
+    features: null
+    usageLimits: null
   PROFESSIONAL:
     description: ''
     monthlyPrice: 39.0
     annualPrice: 39.0
     unit: user/month
     features:
-      apiClient:
-        value: true
-      collections:
-        value: true
-      publicApiDocumentation:
-        value: true
-      privateApiDocumentation:
-        value: true
-      personalWorkspaces:
-        value: true
-      teamWorkspaces:
-        value: true
-      publicWorkspaces:
-        value: true
       privateWorkspaces:
         value: true
-      partnerWorkspaces:
-        value: false
-      postmanApi:
-        value: true
-      thirdPartyIntegrations:
-        value: true
-      customDomains:
-        value: true
-      collectionRunner:
-        value: true
-      localPerformanceTesting:
-        value: true
-      monitoringCalls:
-        value: true
-      mockServersCalls:
-        value: true
-      apiGovernance:
-        value: false
-      privateApiNetwork:
-        value: false
-      apiBuilder:
-        value: false
-      nativeGitSupport:
-        value: ''
       rolesAndPermissions:
         value: true
       singleSignOn:
         value: Google Workspaces
-      userProvisioning:
-        value: false
-      userGroups:
-        value: false
-      domainCapture:
-        value: false
-      collectionRecovery:
-        value: true
-      history:
-        value: true
       auditLogs:
         value: true
-      secretScanner:
-        value: Public Workspaces and Public Documentation
-      superAdminRole:
-        value: false
-      deploymentControl:
-        value: false
-      reportingAndAnalytics:
-        value: false
-      support:
-        value: Email
-      customerSuccess:
-        value: false
-      paymentOptions:
-        value:
-        - CARD
-      integrationWithCiCdTools:
-        value: false
-      postmanFlows:
-        value: false
-      flowsRoleManagement:
-        value: false
-      postbot:
-        value: false
     usageLimits:
       callsToPostmanApi:
         value: 100000
@@ -535,55 +359,15 @@ plans:
         value: 10000
       collectionRecoveryLimit:
         value: 90
-      historyDepth:
-        value: 1
-      flowSteps:
-        value: 0
-      flowsPayloadSize:
-        value: 0
   ENTERPRISE_ESSENTIALS:
     description: ''
     monthlyPrice: 49.0
     annualPrice: 49.0
     unit: user/month
     features:
-      apiClient:
-        value: true
-      collections:
-        value: true
-      publicApiDocumentation:
-        value: true
-      privateApiDocumentation:
-        value: true
-      personalWorkspaces:
-        value: true
-      teamWorkspaces:
-        value: true
-      publicWorkspaces:
-        value: true
       privateWorkspaces:
         value: true
-      partnerWorkspaces:
-        value: false
-      postmanApi:
-        value: true
-      thirdPartyIntegrations:
-        value: true
-      customDomains:
-        value: true
-      collectionRunner:
-        value: true
       localPerformanceTesting:
-        value: false
-      monitoringCalls:
-        value: true
-      mockServersCalls:
-        value: true
-      apiGovernance:
-        value: false
-      privateApiNetwork:
-        value: false
-      apiBuilder:
         value: false
       nativeGitSupport:
         value: Cloud only
@@ -595,16 +379,8 @@ plans:
         value: true
       userGroups:
         value: true
-      domainCapture:
-        value: false
-      collectionRecovery:
-        value: true
-      history:
-        value: true
       auditLogs:
         value: true
-      secretScanner:
-        value: Public Workspaces and Public Documentation
       superAdminRole:
         value: true
       deploymentControl:
@@ -613,18 +389,12 @@ plans:
         value: true
       support:
         value: 'Priority Email (SLA: 1 business day)'
-      customerSuccess:
-        value: false
       paymentOptions:
-        value: CARD, ACH, WIRE_TRANSFER, INVOICE
-      integrationWithCiCdTools:
-        value: false
-      postmanFlows:
-        value: false
-      flowsRoleManagement:
-        value: false
-      postbot:
-        value: false
+        value:
+        - CARD
+        - ACH
+        - WIRE_TRANSFER
+        - INVOICE
     usageLimits:
       callsToPostmanApi:
         value: 1000000
@@ -648,48 +418,18 @@ plans:
         value: 90
       historyDepth:
         value: 14
-      flowSteps:
-        value: 0
-      flowsPayloadSize:
-        value: 0
   ENTERPRISE_ULTIMATE:
     description: ''
     monthlyPrice: null
     annualPrice: null
     unit: null
     features:
-      apiClient:
-        value: true
-      collections:
-        value: true
-      publicApiDocumentation:
-        value: true
-      privateApiDocumentation:
-        value: true
-      personalWorkspaces:
-        value: true
-      teamWorkspaces:
-        value: true
-      publicWorkspaces:
-        value: true
       privateWorkspaces:
         value: true
       partnerWorkspaces:
         value: true
-      postmanApi:
-        value: true
-      thirdPartyIntegrations:
-        value: true
-      customDomains:
-        value: true
-      collectionRunner:
-        value: true
       localPerformanceTesting:
         value: false
-      monitoringCalls:
-        value: true
-      mockServersCalls:
-        value: true
       apiGovernance:
         value: true
       privateApiNetwork:
@@ -708,14 +448,8 @@ plans:
         value: true
       domainCapture:
         value: true
-      collectionRecovery:
-        value: true
-      history:
-        value: true
       auditLogs:
         value: true
-      secretScanner:
-        value: Public Workspaces and Public Documentation
       superAdminRole:
         value: true
       deploymentControl:
@@ -727,15 +461,11 @@ plans:
       customerSuccess:
         value: true
       paymentOptions:
-        value: CARD, ACH, WIRE_TRANSFER, INVOICE
-      integrationWithCiCdTools:
-        value: false
-      postmanFlows:
-        value: false
-      flowsRoleManagement:
-        value: false
-      postbot:
-        value: false
+        value:
+        - CARD
+        - ACH
+        - WIRE_TRANSFER
+        - INVOICE
     usageLimits:
       callsToPostmanApi:
         value: 1000000
@@ -759,8 +489,4 @@ plans:
         value: 90
       historyDepth:
         value: 14
-      flowSteps:
-        value: 0
-      flowsPayloadSize:
-        value: 0
 addOns: null
