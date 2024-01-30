@@ -16,13 +16,13 @@ features:
     description: maxVisitsPerMonthAndPet description
     valueType: NUMERIC
     defaultValue: 1
-    expression: ''
+    expression: ""
     type: DOMAIN
   supportPriority:
     description: supportPriority description
     valueType: TEXT
     defaultValue: LOW
-    expression: ''
+    expression: ""
     type: SUPPORT
   haveCalendar:
     description: haveCalendar description
@@ -50,13 +50,13 @@ features:
     type: DOMAIN
 usageLimits:
   maxPets:
-    description: ''
+    description: ""
     valueType: NUMERIC
     defaultValue: 10
     unit: pet
     type: NON_RENEWABLE
     linkedFeatures:
-    - maxPets
+      - maxPets
 plans:
   BASIC:
     description: Basic plan
@@ -105,19 +105,6 @@ plans:
       haveVetSelection:
         value: true
       haveOnlineConsultation:
-        value: true
-    usageLimits: null
-  NEW_PLAN:
-    description: New plan description
-    monthlyPrice: 2.0
-    annualPrice: 2.0
-    unit: null
-    features:
-      maxPets:
-        value: 6
-      supportPriority:
-        value: HIGH
-      haveCalendar:
         value: true
     usageLimits: null
 addOns: null

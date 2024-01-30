@@ -51,6 +51,10 @@ public class Plan {
 
     private Optional<Map<String, Object>> serializeFeatures() {
 
+        if (features == null) {
+            return Optional.empty();
+        }
+
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Feature feature : features.values()) {
             Optional<Map<String, Object>> serializedFeature = serializeValue(feature.getValue());
@@ -69,6 +73,10 @@ public class Plan {
     }
 
     private Optional<Map<String, Object>> serializeUsageLimits() {
+
+        if (usageLimits == null) {
+            return Optional.empty();
+        }
 
         Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
 

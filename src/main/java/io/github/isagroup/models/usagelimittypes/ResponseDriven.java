@@ -1,7 +1,5 @@
 package io.github.isagroup.models.usagelimittypes;
 
-import java.util.Map;
-
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.UsageLimitType;
 import lombok.EqualsAndHashCode;

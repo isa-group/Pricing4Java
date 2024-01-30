@@ -489,4 +489,146 @@ plans:
         value: 90
       historyDepth:
         value: 14
-addOns: null
+addOns:
+  postmanForInternalApiManagement:
+    availableFor:
+    - ENTERPRISE_ESSENTIALS
+    price: 49.0
+    unit: user/month
+    features:
+      apiGovernance:
+        value: true
+      privateApiNetwork:
+        value: true
+      apiBuilder:
+        value: true
+    usageLimits: null
+    usageLimitExtensions: null
+  postmanForApiTestAutomation:
+    availableFor:
+    - ENTERPRISE_ESSENTIALS
+    price: 49.0
+    unit: user/month
+    features:
+      integrationWithCiCdTools:
+        value: true
+    usageLimits:
+      localCollectionRunnerLimit:
+        value: .inf
+    usageLimitExtensions:
+      localCollectionRunnerLimit:
+        value: .inf
+  monitoringPayAsYouGo:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 0.75
+    features: null
+    usageLimits: null
+    usageLimitExtensions: null
+  monitoringMonthly:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 20.0
+    unit: block/month
+    features: null
+    usageLimits: null
+    usageLimitExtensions: null
+  mockServersPayAsYouGo:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 0.75
+    features: null
+    usageLimits: null
+    usageLimitExtensions: null
+  mockServersMonthly:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 20.0
+    unit: block/month
+    features: null
+    usageLimits: null
+    usageLimitExtensions: null
+  customDomains:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 10.0
+    unit: domain/month
+    features: null
+    usageLimits: null
+    usageLimitExtensions: null
+  postmanFlowsBasic:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    monthlyPrice: 15.0
+    annualPrice: 12.0
+    unit: user/month
+    features:
+      postmanFlows:
+        value: true
+      flowsRoleManagement:
+        value: true
+    usageLimits:
+      flowSteps:
+        value: 25000
+      flowsPayloadSize:
+        value: 1
+    usageLimitExtensions:
+      flowSteps:
+        value: 25000
+      flowsPayloadSize:
+        value: 1
+  postmanFlowsProfessional:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    monthlyPrice: 25.0
+    annualPrice: 20.0
+    unit: user/month
+    features:
+      postmanFlows:
+        value: true
+      flowsRoleManagement:
+        value: true
+    usageLimits:
+      flowSteps:
+        value: 100000
+      flowsPayloadSize:
+        value: 5
+    usageLimitExtensions:
+      flowSteps:
+        value: 100000
+      flowsPayloadSize:
+        value: 5
+  postbot:
+    availableFor:
+    - BASIC
+    - PROFESSIONAL
+    - ENTERPRISE_ESSENTIALS
+    - ENTERPRISE_ULTIMATE
+    price: 9.0
+    unit: user/month
+    features:
+      postbot:
+        value: true
+    usageLimits: null
+    usageLimitExtensions: null

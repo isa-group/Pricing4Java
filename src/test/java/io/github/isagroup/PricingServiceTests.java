@@ -138,37 +138,38 @@ public class PricingServiceTests {
 
     // // --------------------------- PLAN ADITION ---------------------------
 
-    // @Test
-    // @Order(30)
-    // void addPlanToConfigurationTest(){
+    @Test
+    @Order(30)
+    void addPlanToConfigurationTest() {
 
-    // pricingService.addPlanToConfiguration(TEST_NEW_PLAN, newPlan);
+        pricingService.addPlanToConfiguration(TEST_NEW_PLAN, newPlan);
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+        }
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        // FIXME
+        // READS OLD VALUE
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // assert(pricingManager.getPlans().containsKey(TEST_NEW_PLAN));
+        assertEquals(true, pricingManager.getPlans().containsKey(TEST_NEW_PLAN),
+                "Pricing config does not have NEW_PLAN");
 
-    // }
+    }
 
-    // @Test
-    // @Order(40)
-    // void negativeAddPlanToConfigurationTest(){
+    @Test
+    @Order(40)
+    void negativeAddPlanToConfigurationTest() {
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.addPlanToConfiguration(TEST_PLAN, newPlan);
-    // });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.addPlanToConfiguration(TEST_PLAN, newPlan);
+        });
 
-    // assertEquals("The plan " + TEST_PLAN + " already exists in the current
-    // pricing configuration", exception.getMessage());
+        assertEquals("The plan " + TEST_PLAN + " already exists in the current pricing configuration",
+                exception.getMessage());
 
-    // }
+    }
 
     // // --------------------------- PLAN REMOVAL ---------------------------
 

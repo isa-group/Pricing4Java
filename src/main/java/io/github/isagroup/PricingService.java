@@ -67,6 +67,15 @@ public class PricingService {
 
         Map<String, Plan> plans = pricingManager.getPlans();
 
+        if (name == null) {
+            throw new IllegalArgumentException("You have not specified a name for the plan");
+        }
+
+        // FIXME
+        // Serialization depends on the plan name, if plan.name is null serialization
+        // will fail
+        plan.setName(name);
+
         if (plans.containsKey(name)) {
             throw new IllegalArgumentException(
                     "The plan " + name + " already exists in the current pricing configuration");
