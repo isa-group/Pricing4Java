@@ -2,6 +2,7 @@ package io.github.isagroup.services.serializer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import io.github.isagroup.models.AddOn;
 import io.github.isagroup.models.Feature;
@@ -51,13 +52,8 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("features", serializeFeatures());
         serializedPricingManager.put("usageLimits", serializeUsageLimits());
         serializedPricingManager.put("plans", serializePlans());
+        serializedPricingManager.put("addOns", serializeAddOns().orElse(null));
 
-        if (pricingManager.getAddOns() != null) {
-            serializedPricingManager.put("addOns", null);
-        } else {
-            serializedPricingManager.put("addOns", serializeAddOns());
-
-        }
         return serializedPricingManager;
     }
 
@@ -79,7 +75,7 @@ public class PricingManagerSerializer {
         }
 
         for (UsageLimit usageLimit : pricingManager.getUsageLimits().values()) {
-            serializedUsageLimits.put(usageLimit.getName(), usageLimit.serializeUsageLimit());
+            serializedUsageLimits.put(usageLimit.getName(), usageLimit.serialize());
 
         }
 
@@ -95,16 +91,16 @@ public class PricingManagerSerializer {
         return serializedPlans;
     }
 
-    public Map<String, Object> serializeAddOns() {
-        Map<String, Object> serializedAddOns = new LinkedHashMap<>();
+    public Optional<Map<String, Object>> serializeAddOns() {
 
         if (pricingManager.getAddOns() == null) {
-            return null;
+            return Optional.empty();
         }
 
+        Map<String, Object> serializedAddOns = new LinkedHashMap<>();
         for (AddOn addOn : pricingManager.getAddOns().values()) {
             serializedAddOns.put(addOn.getName(), addOn.serializeAddOn());
         }
-        return serializedAddOns;
+        return Optional.of(serializedAddOns);
     }
 }

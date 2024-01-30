@@ -13,12 +13,8 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 public class Renewable extends UsageLimit {
 
-    @Override
-    public Map<String, Object> serializeUsageLimit() {
-
-        Map<String, Object> attributes = usageLimitAttributes();
-        attributes.put("type", UsageLimitType.RENEWABLE.toString());
-        return attributes;
+    public Renewable() {
+        this.type = UsageLimitType.RENEWABLE;
     }
 
     @Override

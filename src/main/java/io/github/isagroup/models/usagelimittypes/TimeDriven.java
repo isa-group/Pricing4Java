@@ -1,7 +1,5 @@
 package io.github.isagroup.models.usagelimittypes;
 
-import java.util.Map;
-
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.UsageLimitType;
 import lombok.EqualsAndHashCode;
@@ -13,12 +11,8 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 public class TimeDriven extends UsageLimit {
 
-    @Override
-    public Map<String, Object> serializeUsageLimit() {
-
-        Map<String, Object> attributes = usageLimitAttributes();
-        attributes.put("type", UsageLimitType.TIME_DRIVEN.toString());
-        return attributes;
+    public TimeDriven() {
+        this.type = UsageLimitType.TIME_DRIVEN;
     }
 
     @Override

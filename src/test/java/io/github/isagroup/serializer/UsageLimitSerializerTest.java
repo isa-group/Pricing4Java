@@ -45,14 +45,14 @@ public class UsageLimitSerializerTest {
                 + "valueType: TEXT\n"
                 + "defaultValue: Bar\n"
                 + "unit: Baz\n"
+                + "type: RENEWABLE\n"
                 + "linkedFeatures:\n"
                 + "- foo\n"
                 + "- bar\n"
                 + "- baz\n"
-                + "expression: 1=1\n"
-                + "type: RENEWABLE\n";
+                + "expression: 1=1\n";
 
-        String output = yaml.dump(renewable.serializeUsageLimit());
+        String output = yaml.dump(renewable.serialize());
 
         assertEquals(expected, output);
     }

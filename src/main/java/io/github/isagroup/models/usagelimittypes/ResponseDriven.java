@@ -13,12 +13,8 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 public class ResponseDriven extends UsageLimit {
 
-    @Override
-    public Map<String, Object> serializeUsageLimit() {
-
-        Map<String, Object> attributes = usageLimitAttributes();
-        attributes.put("type", UsageLimitType.RESPONSE_DRIVEN.toString());
-        return attributes;
+    public ResponseDriven() {
+        this.type = UsageLimitType.RESPONSE_DRIVEN;
     }
 
     @Override

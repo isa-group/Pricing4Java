@@ -23,68 +23,6 @@ public class Plan {
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
 
-    private Optional<Map<String, Object>> serializeFeature(Feature feature) {
-
-        if (feature.getValue() == null) {
-            return Optional.empty();
-        }
-
-        Map<String, Object> attributes = new LinkedHashMap<>();
-        attributes.put("value", feature.getValue());
-        return Optional.of(attributes);
-    }
-
-    private Optional<Map<String, Object>> serializeFeatures() {
-
-        Map<String, Object> serializedFeatures = new LinkedHashMap<>();
-        for (Feature feature : features.values()) {
-            Optional<Map<String, Object>> serializedFeature = serializeFeature(feature);
-            if (serializedFeature.isPresent()) {
-                serializedFeatures.put(feature.getName(), serializedFeature.get());
-            }
-        }
-
-        boolean featureMapIsEmpty = serializedFeatures.size() == 0;
-
-        if (featureMapIsEmpty) {
-            return Optional.empty();
-        }
-
-        return Optional.of(serializedFeatures);
-    }
-
-    private Optional<Map<String, Object>> serializeUsageLimit(UsageLimit usageLimit) {
-
-        if (usageLimit.getValue() == null) {
-            return Optional.empty();
-        }
-
-        Map<String, Object> attributes = new LinkedHashMap<>();
-        attributes.put("value", usageLimit.getValue());
-        return Optional.of(attributes);
-    }
-
-    private Optional<Map<String, Object>> serializeUsageLimits() {
-
-        Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
-
-        for (UsageLimit usageLimit : usageLimits.values()) {
-            Optional<Map<String, Object>> serializedUsageLimit = serializeUsageLimit(usageLimit);
-            if (serializedUsageLimit.isPresent()) {
-
-                serializedUsageLimits.put(usageLimit.getName(), serializedUsageLimit.get());
-            }
-        }
-
-        boolean usageLimitMapIsEmpty = serializedUsageLimits.size() == 0;
-
-        if (usageLimitMapIsEmpty) {
-            return Optional.empty();
-        }
-
-        return Optional.of(serializedUsageLimits);
-    }
-
     public Map<String, Object> serializePlan() {
         Map<String, Object> attributes = new LinkedHashMap<>();
         attributes.put("description", description);
@@ -99,6 +37,56 @@ public class Plan {
         attributes.put("usageLimits", usageLimits);
 
         return attributes;
+    }
+
+    private <V> Optional<Map<String, V>> serializeValue(V value) {
+        if (value == null) {
+            return Optional.empty();
+        }
+
+        Map<String, V> attributes = new LinkedHashMap<>();
+        attributes.put("value", value);
+        return Optional.of(attributes);
+    }
+
+    private Optional<Map<String, Object>> serializeFeatures() {
+
+        Map<String, Object> serializedFeatures = new LinkedHashMap<>();
+        for (Feature feature : features.values()) {
+            Optional<Map<String, Object>> serializedFeature = serializeValue(feature.getValue());
+            if (serializedFeature.isPresent()) {
+                serializedFeatures.put(feature.getName(), serializedFeature.get());
+            }
+        }
+
+        boolean featureMapIsEmpty = serializedFeatures.size() == 0;
+
+        if (featureMapIsEmpty) {
+            return Optional.empty();
+        }
+
+        return Optional.of(serializedFeatures);
+    }
+
+    private Optional<Map<String, Object>> serializeUsageLimits() {
+
+        Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
+
+        for (UsageLimit usageLimit : usageLimits.values()) {
+            Optional<Map<String, Object>> serializedUsageLimit = serializeValue(usageLimit.getValue());
+            if (serializedUsageLimit.isPresent()) {
+
+                serializedUsageLimits.put(usageLimit.getName(), serializedUsageLimit.get());
+            }
+        }
+
+        boolean usageLimitMapIsEmpty = serializedUsageLimits.size() == 0;
+
+        if (usageLimitMapIsEmpty) {
+            return Optional.empty();
+        }
+
+        return Optional.of(serializedUsageLimits);
     }
 
     @Override

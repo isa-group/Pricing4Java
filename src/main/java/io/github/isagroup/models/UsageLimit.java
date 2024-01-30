@@ -23,13 +23,14 @@ public abstract class UsageLimit implements Serializable {
     private String description;
     private ValueType valueType;
     private Object defaultValue;
+    protected UsageLimitType type;
     private String unit;
     private transient Object value;
     private List<String> linkedFeatures;
     private String expression;
     private String serverExpression;
 
-    public Map<String, Object> usageLimitAttributes() {
+    public Map<String, Object> serialize() {
         Map<String, Object> attributes = new LinkedHashMap<>();
         if (description != null) {
             attributes.put("description", description);
@@ -47,6 +48,8 @@ public abstract class UsageLimit implements Serializable {
             attributes.put("unit", unit);
         }
 
+        attributes.put("type", type.toString());
+
         if (linkedFeatures != null && !linkedFeatures.isEmpty()) {
             attributes.put("linkedFeatures", linkedFeatures);
         }
@@ -61,8 +64,6 @@ public abstract class UsageLimit implements Serializable {
 
         return attributes;
     }
-
-    public abstract Map<String, Object> serializeUsageLimit();
 
     public static UsageLimit cloneUsageLimit(UsageLimit original) throws CloneUsageLimitException {
         try {
