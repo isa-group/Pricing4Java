@@ -5,17 +5,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.assertj.core.api.PeriodAssert;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.io.TempDir;
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
@@ -30,7 +37,9 @@ public class PricingServiceTests {
     private static final String JWT_SECRET_TEST = "secret";
     private static final Integer JWT_EXPIRATION_TEST = 86400;
     private static final String JWT_SUBJECT_TEST = "admin1";
-    private static final String YAML_CONFIG_PATH = "yaml-testing/petclinic.yml";
+    private static final String PETCLINIC_CONFIG_PATH = "pricing/petclinic.yml";
+
+    private static final String TEMPORAL_CONFIG_PATH = "yaml-testing/temp.yml";
 
     private static final String TEST_PLAN = "BASIC";
     private static final String TEST_NEW_PLAN = "NEW_PLAN";
@@ -42,16 +51,19 @@ public class PricingServiceTests {
     private static final String NEW_FEATURE_TEST_VALUE = "testValue";
     private static final String NEW_FEATURE_TEST_EXPRESSION = "userContext['pets'] > 1";
     private static final PricingManager ORIGINAL_PRICING_MANAGER = YamlUtils
-            .retrieveManagerFromYaml(YAML_CONFIG_PATH);
+            .retrieveManagerFromYaml(PETCLINIC_CONFIG_PATH);
 
     private PricingService pricingService;
 
-    private PricingContextTestImpl pricingContextTestImpl = new PricingContextTestImpl();
+    private PricingContextTestImpl pricingContextTestImpl;
+
+    @TempDir
+    private Path directory;
 
     @BeforeAll
     static void setUp() {
 
-        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(YAML_CONFIG_PATH);
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(PETCLINIC_CONFIG_PATH);
 
         newPlan.setDescription("New plan description");
         newPlan.setMonthlyPrice(2.0);
@@ -86,6 +98,11 @@ public class PricingServiceTests {
     @BeforeEach
     public void init() {
 
+        // Read petclinic
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(PETCLINIC_CONFIG_PATH);
+        // Write temporal petclinic config file
+        YamlUtils.writeYaml(pricingManager, TEMPORAL_CONFIG_PATH);
+
         Map<String, Object> userContext = new HashMap<>();
         userContext.put("username", JWT_SUBJECT_TEST);
         userContext.put("pets", 2);
@@ -95,15 +112,27 @@ public class PricingServiceTests {
         userAuthorities.put("username", JWT_SUBJECT_TEST);
         userAuthorities.put("password", "4dm1n");
 
-        pricingContextTestImpl.setConfigFilePath(YAML_CONFIG_PATH);
+        PricingContextTestImpl pricingContextTestImpl = new PricingContextTestImpl();
+        pricingContextTestImpl.setConfigFilePath(TEMPORAL_CONFIG_PATH);
         pricingContextTestImpl.setJwtExpiration(JWT_EXPIRATION_TEST);
         pricingContextTestImpl.setJwtSecret(JWT_SECRET_TEST);
-
         pricingContextTestImpl.setUserPlan(TEST_PLAN);
         pricingContextTestImpl.setUserAuthorities(userAuthorities);
         pricingContextTestImpl.setUserContext(userContext);
 
+        this.pricingContextTestImpl = pricingContextTestImpl;
         this.pricingService = new PricingService(pricingContextTestImpl);
+    }
+
+    @AfterEach
+    void after() {
+        try {
+            File file = new File("src/test/resources/yaml-testing/temp.yml");
+            file.delete();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // --------------------------- PLAN RETRIEVAL ---------------------------
@@ -144,14 +173,10 @@ public class PricingServiceTests {
 
         pricingService.addPlanToConfiguration(TEST_NEW_PLAN, newPlan);
 
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-        }
-
         // FIXME
         // READS OLD VALUE
-        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
+        String path = pricingContextTestImpl.getConfigFilePath();
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
 
         assertEquals(true, pricingManager.getPlans().containsKey(TEST_NEW_PLAN),
                 "Pricing config does not have NEW_PLAN");

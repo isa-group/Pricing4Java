@@ -2,6 +2,7 @@ package io.github.isagroup.services.yaml;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -29,10 +30,21 @@ public class YamlUtils {
     public static PricingManager retrieveManagerFromYaml(String yamlPath) {
         Yaml yaml = new Yaml();
 
-        Map<String, Object> test = yaml.load(YamlUtils.class.getClassLoader().getResourceAsStream(yamlPath));
-        System.out.println(test);
+        try (InputStream inputStream = YamlUtils.class.getClassLoader().getResourceAsStream(yamlPath)) {
+            Map<String, Object> test = yaml.load(inputStream);
 
-        return PricingManagerParser.parseMapToPricingManager(test);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+
+            return PricingManagerParser.parseMapToPricingManager(test);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     /**
@@ -51,11 +63,15 @@ public class YamlUtils {
         Representer representer = new SkipNullRepresenter();
 
         PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
-        try {
+        try (FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + yamlPath);) {
             Map<String, Object> serializedPricingManager = pricingManagerSerializer.serialize();
             Yaml yaml = new Yaml(representer, dump);
-            FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + yamlPath);
             yaml.dump(serializedPricingManager, writer);
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
