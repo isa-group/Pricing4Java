@@ -169,14 +169,13 @@ public class PricingServiceTests {
 
     @Test
     @Order(30)
-    void addPlanToConfigurationTest() {
+    void given_plan_should_add_plan_to_config_file() {
 
         pricingService.addPlanToConfiguration(TEST_NEW_PLAN, newPlan);
 
         // FIXME
         // READS OLD VALUE
-        String path = pricingContextTestImpl.getConfigFilePath();
-        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEMPORAL_CONFIG_PATH);
 
         assertEquals(true, pricingManager.getPlans().containsKey(TEST_NEW_PLAN),
                 "Pricing config does not have NEW_PLAN");
@@ -185,7 +184,7 @@ public class PricingServiceTests {
 
     @Test
     @Order(40)
-    void negativeAddPlanToConfigurationTest() {
+    void given_duplicate_plan_name_should_throw_exception_when_adding_plan() {
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             pricingService.addPlanToConfiguration(TEST_PLAN, newPlan);
@@ -198,37 +197,32 @@ public class PricingServiceTests {
 
     // // --------------------------- PLAN REMOVAL ---------------------------
 
-    // @Test
-    // @Order(50)
-    // void removePlanFromConfigurationTest(){
+    @Test
+    @Order(50)
+    void given_existing_plan_name_should_delete_plan_from_config() {
 
-    // pricingService.removePlanFromConfiguration(TEST_NEW_PLAN);
+        String plan = "BASIC";
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        pricingService.removePlanFromConfiguration(plan);
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEMPORAL_CONFIG_PATH);
 
-    // assert(!pricingManager.getPlans().containsKey(TEST_NEW_PLAN));
+        assertEquals(false, pricingManager.getPlans().containsKey(plan), "Basic plan was not removed");
 
-    // }
+    }
 
-    // @Test
-    // @Order(60)
-    // void negativeRemovePlanFromConfigurationTest(){
+    @Test
+    @Order(60)
+    void given_non_existing_plan_name_should_throw_when_deleting() {
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.removePlanFromConfiguration(TEST_NEW_PLAN);
-    // });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.removePlanFromConfiguration(TEST_NEW_PLAN);
+        });
 
-    // assertEquals("There is no plan with the name " + TEST_NEW_PLAN + " in the
-    // current pricing configuration", exception.getMessage());
+        assertEquals("There is no plan with the name " + TEST_NEW_PLAN + " in the current pricing configuration",
+                exception.getMessage());
 
-    // }
+    }
 
     // // --------------------------- BOOLEAN EDITIONS ---------------------------
 

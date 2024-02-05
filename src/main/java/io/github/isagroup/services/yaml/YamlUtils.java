@@ -1,8 +1,11 @@
 package io.github.isagroup.services.yaml;
 
+import java.io.BufferedInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import org.yaml.snakeyaml.DumperOptions;
@@ -27,16 +30,13 @@ public class YamlUtils {
      * @param yamlPath Path of the YAML file, relative to the resources folder
      * @return PricingManager object that represents the content of the YAML file
      */
+
     public static PricingManager retrieveManagerFromYaml(String yamlPath) {
         Yaml yaml = new Yaml();
 
-        try (InputStream inputStream = YamlUtils.class.getClassLoader().getResourceAsStream(yamlPath)) {
-            Map<String, Object> test = yaml.load(inputStream);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
+        try {
+            String result = new String(Files.readAllBytes(Paths.get(DEFAULT_YAML_WRITE_PATH + yamlPath)));
+            Map<String, Object> test = yaml.load(result);
 
             return PricingManagerParser.parseMapToPricingManager(test);
 
@@ -67,11 +67,6 @@ public class YamlUtils {
             Map<String, Object> serializedPricingManager = pricingManagerSerializer.serialize();
             Yaml yaml = new Yaml(representer, dump);
             yaml.dump(serializedPricingManager, writer);
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
 
         } catch (IOException e) {
             e.printStackTrace();
