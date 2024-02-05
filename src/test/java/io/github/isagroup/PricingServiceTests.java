@@ -22,7 +22,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.io.TempDir;
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
@@ -47,7 +46,7 @@ public class PricingServiceTests {
     private static final String TEST_BOOLEAN_ATTRIBUTE = "haveCalendar";
     private static final String TEST_NUMERIC_ATTRIBUTE = "maxPets";
     private static final String TEST_TEXT_ATTRIBUTE = "supportPriority";
-    private static final String NEW_FEATURE_TEST_NAME = "newFeature";
+    private static final String featureName = "newFeature";
     private static final String NEW_FEATURE_TEST_VALUE = "testValue";
     private static final String NEW_FEATURE_TEST_EXPRESSION = "userContext['pets'] > 1";
     private static final PricingManager ORIGINAL_PRICING_MANAGER = YamlUtils
@@ -56,9 +55,6 @@ public class PricingServiceTests {
     private PricingService pricingService;
 
     private PricingContextTestImpl pricingContextTestImpl;
-
-    @TempDir
-    private Path directory;
 
     @BeforeAll
     static void setUp() {
@@ -124,7 +120,7 @@ public class PricingServiceTests {
         this.pricingService = new PricingService(pricingContextTestImpl);
     }
 
-    @AfterEach
+    // @AfterEach
     void after() {
         try {
             File file = new File("src/test/resources/yaml-testing/temp.yml");
@@ -226,241 +222,211 @@ public class PricingServiceTests {
 
     // // --------------------------- BOOLEAN EDITIONS ---------------------------
 
-    // @Test
-    // @Order(70)
-    // void planBooleanAttributeEditionTest(){
+    @Test
+    @Order(70)
+    void given__existing_plan_name_and_feature_should_update_boolean_feature() {
 
-    // Boolean oldValue = false;
-    // Boolean newValue = true;
+        pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
+                true);
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
-    // newValue);
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        assertEquals(true,
+                pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_BOOLEAN_ATTRIBUTE).getValue(),
+                "haveCalendar from plan BASIC should be true");
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+    }
 
-    // assert(pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_BOOLEAN_ATTRIBUTE).getValue().equals(newValue));
+    @Test
+    @Order(80)
+    void given_existing_plan_and_boolean_feature_should_throw_assigning_numeric() {
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
-    // oldValue);
-    // }
+        Integer newValue = 3;
 
-    // @Test
-    // @Order(80)
-    // void negativePlanBooleanAttributeEditionTest(){
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
+                    newValue);
+        });
 
-    // Integer newValue = 3;
+        assertEquals("The value " + newValue + " is not of the type BOOLEAN", exception.getMessage());
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
-    // newValue);
-    // });
+    }
 
-    // assertEquals("The value " + newValue.toString() + " is not of the type
-    // CONDITION", exception.getMessage());
+    @Test
+    @Order(90)
+    void given_existing_plan_and_boolean_feature_should_throw_assigning_null() {
 
-    // }
+        Boolean newValue = null;
 
-    // @Test
-    // @Order(90)
-    // void negativePlanBooleanAttributeEditionTest2(){
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
+                    newValue);
+        });
 
-    // Boolean newValue = null;
+        assertEquals("The value " + newValue + " is not of the type BOOLEAN",
+                exception.getMessage());
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_BOOLEAN_ATTRIBUTE,
-    // newValue);
-    // });
-
-    // assertEquals("The value " + newValue + " is not of the type CONDITION",
-    // exception.getMessage());
-
-    // }
+    }
 
     // // --------------------------- NUMERIC EDITIONS ---------------------------
 
-    // @Test
-    // @Order(100)
-    // void planNumericAttributeEditionTest(){
+    @Test
+    @Order(100)
+    void given_existing_plan_and_numeric_feature_should_update() {
 
-    // Integer oldValue = 2;
-    // Integer newValue = 6;
+        Integer newValue = 6;
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
-    // newValue);
+        pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
+                newValue);
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        assertEquals(newValue,
+                pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_NUMERIC_ATTRIBUTE).getValue());
 
-    // assert(pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_NUMERIC_ATTRIBUTE).getValue().equals(newValue));
+    }
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
-    // oldValue);
-    // }
+    @Test
+    @Order(110)
+    void given_string_should_throw_when_updating_numeric_feature() {
 
-    // @Test
-    // @Order(110)
-    // void negativePlanNumericAttributeEditionTest(){
+        String newValue = "invalidValue";
 
-    // String newValue = "invalidValue";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
+                    newValue);
+        });
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
-    // newValue);
-    // });
+        assertEquals("The value " + newValue + " is not of the type NUMERIC", exception.getMessage());
 
-    // assertEquals("The value " + newValue.toString() + " is not of the type
-    // NUMERIC", exception.getMessage());
+    }
 
-    // }
+    @Test
+    @Order(120)
+    void given_null_should_throw_when_updating_numeric_feature() {
 
-    // @Test
-    // @Order(120)
-    // void negativePlanNumericAttributeEditionTest2(){
+        Integer newValue = null;
 
-    // Integer newValue = null;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
+                    newValue);
+        });
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_NUMERIC_ATTRIBUTE,
-    // newValue);
-    // });
+        assertEquals("The value " + newValue + " is not of the type NUMERIC",
+                exception.getMessage());
 
-    // assertEquals("The value " + newValue + " is not of the type NUMERIC",
-    // exception.getMessage());
-
-    // }
+    }
 
     // // --------------------------- TEXT EDITIONS ---------------------------
 
-    // @Test
-    // @Order(130)
-    // void planTextAttributeEditionTest(){
+    @Test
+    @Order(130)
+    void given_string_should_update_text_feature() {
 
-    // String oldValue = "LOW";
-    // String newValue = "HIGH";
+        String newValue = "HIGH";
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
+        pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        assertEquals(newValue,
+                pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_TEXT_ATTRIBUTE).getValue());
 
-    // assert(pricingManager.getPlans().get(TEST_PLAN).getFeatures().get(TEST_TEXT_ATTRIBUTE).getValue().equals(newValue));
+    }
 
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, oldValue);
-    // }
+    @Test
+    @Order(140)
+    void given_number_should_throw_when_updating_text_feature() {
 
-    // @Test
-    // @Order(140)
-    // void negativePlanTextAttributeEditionTest(){
+        Integer newValue = 2;
 
-    // Integer newValue = 2;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
+        });
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
-    // });
+        assertEquals("The value " + newValue + " is not of the type TEXT",
+                exception.getMessage());
 
-    // assertEquals("The value " + newValue.toString() + " is not of the type TEXT",
-    // exception.getMessage());
+    }
 
-    // }
+    @Test
+    @Order(150)
+    void given_null_should_throw_when_updating_text_feature() {
 
-    // @Test
-    // @Order(150)
-    // void negativePlanTextAttributeEditionTest2(){
+        String newValue = null;
 
-    // String newValue = null;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
+        });
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, TEST_TEXT_ATTRIBUTE, newValue);
-    // });
+        assertEquals("The value " + newValue + " is not of the type TEXT",
+                exception.getMessage());
 
-    // assertEquals("The value " + newValue + " is not of the type TEXT",
-    // exception.getMessage());
+    }
 
-    // }
+    // ---------------EDITIONS OF NONEXISTENT ATTRIBUTES ------------
 
-    // // --------------------------- EDITIONS OF NONEXISTENT ATTRIBUTES
-    // ---------------------------
+    @Test
+    @Order(160)
+    void given_non_existent_feature_should_throw_IllegalArgumentException() {
 
-    // @Test
-    // @Order(160)
-    // void nonexistentAttributeTest(){
+        String unexistentAttribute = "unexistentAttribute";
+        Integer newValue = 3;
 
-    // String unexistentAttribute = "unexistentAttribute";
-    // Integer newValue = 3;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.setPlanFeatureValue(TEST_PLAN, unexistentAttribute, newValue);
+        });
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.setPlanFeatureValue(TEST_PLAN, unexistentAttribute, newValue);
-    // });
+        assertEquals("The plan " + TEST_PLAN + " does not have the feature " +
+                unexistentAttribute, exception.getMessage());
 
-    // assertEquals("The plan " + TEST_PLAN + " does not have the feature " +
-    // unexistentAttribute, exception.getMessage());
-
-    // }
+    }
 
     // // --------------------------- FEATURES ADITION ---------------------------
 
-    // @Test
-    // @Order(170)
-    // void addNewFeatureTest(){
-    // pricingService.addFeatureToConfiguration(NEW_FEATURE_TEST_NAME, newFeature);
+    @Test
+    @Order(170)
+    void addNewFeatureTest() {
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        String featureName = "newFeature";
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        Domain newFeature = new Domain();
+        newFeature.setName(featureName);
+        newFeature.setDefaultValue("bar");
+        newFeature.setValueType(ValueType.TEXT);
 
-    // assert(pricingManager.getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(pricingManager.getPlans().get("BASIC").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(pricingManager.getPlans().get("PRO").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assertEquals(NEW_FEATURE_TEST_EXPRESSION,
-    // pricingManager.getFeatures().get(NEW_FEATURE_TEST_NAME).getExpression());
-    // assertEquals(NEW_FEATURE_TEST_VALUE,
-    // pricingManager.getPlans().get("BASIC").getFeatures().get(NEW_FEATURE_TEST_NAME).getValue());
-    // assertEquals(NEW_FEATURE_TEST_VALUE,
-    // pricingManager.getPlans().get("ADVANCED").getFeatures().get(NEW_FEATURE_TEST_NAME).getValue());
-    // assertEquals(NEW_FEATURE_TEST_VALUE,
-    // pricingManager.getPlans().get("PRO").getFeatures().get(NEW_FEATURE_TEST_NAME).getValue());
-    // }
+        pricingService.addFeatureToConfiguration(featureName, newFeature);
 
-    // @Test
-    // @Order(180)
-    // void negativeAddNewFeatureTest(){
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.addFeatureToConfiguration("haveCalendar", newFeature);
-    // });
+        assert (pricingManager.getFeatures().containsKey(featureName));
+        assert (pricingManager.getPlans().get("BASIC").getFeatures().containsKey(featureName));
+        assert (pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(featureName));
+        assert (pricingManager.getPlans().get("PRO").getFeatures().containsKey(featureName));
+        assertEquals(NEW_FEATURE_TEST_EXPRESSION,
+                pricingManager.getFeatures().get(featureName).getExpression());
+        assertEquals(NEW_FEATURE_TEST_VALUE,
+                pricingManager.getPlans().get("BASIC").getFeatures().get(featureName).getValue());
+        assertEquals(NEW_FEATURE_TEST_VALUE,
+                pricingManager.getPlans().get("ADVANCED").getFeatures().get(featureName).getValue());
+        assertEquals(NEW_FEATURE_TEST_VALUE,
+                pricingManager.getPlans().get("PRO").getFeatures().get(featureName).getValue());
+    }
 
-    // assertEquals("The feature haveCalendar does already exist in the current
-    // pricing configuration. Check the features", exception.getMessage());
-    // }
+    @Test
+    @Order(180)
+    void negativeAddNewFeatureTest() {
+
+        Domain newFeature = new Domain();
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.addFeatureToConfiguration("haveCalendar", newFeature);
+        });
+
+        assertEquals(
+                "The feature haveCalendar does already exist in the current pricing configuration. Check the features",
+                exception.getMessage());
+    }
 
     // // --------------------------- FEATURES REMOVAL ---------------------------
 

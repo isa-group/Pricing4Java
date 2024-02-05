@@ -156,6 +156,11 @@ public class FeatureParser {
     private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map) {
         feature.setName(featureName);
         feature.setDescription((String) map.get("description"));
+
+        if (map.get("valueType") == null) {
+            throw new NullPointerException("Feature value type is null");
+        }
+
         try {
             feature.setValueType(ValueType.valueOf((String) map.get("valueType")));
         } catch (IllegalArgumentException e) {
