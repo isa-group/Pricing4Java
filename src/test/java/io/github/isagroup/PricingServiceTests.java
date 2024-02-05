@@ -1,9 +1,12 @@
 package io.github.isagroup;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.net.URL;
@@ -120,7 +123,7 @@ public class PricingServiceTests {
         this.pricingService = new PricingService(pricingContextTestImpl);
     }
 
-    // @AfterEach
+    @AfterEach
     void after() {
         try {
             File file = new File("src/test/resources/yaml-testing/temp.yml");
@@ -386,23 +389,24 @@ public class PricingServiceTests {
 
     @Test
     @Order(170)
-    void addNewFeatureTest() {
+    void given_new_feature_should_update_all_plan_values() {
 
         String featureName = "newFeature";
 
         Domain newFeature = new Domain();
         newFeature.setName(featureName);
-        newFeature.setDefaultValue("bar");
+        newFeature.setDefaultValue(NEW_FEATURE_TEST_VALUE);
         newFeature.setValueType(ValueType.TEXT);
+        newFeature.setExpression(NEW_FEATURE_TEST_EXPRESSION);
 
         pricingService.addFeatureToConfiguration(featureName, newFeature);
 
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-        assert (pricingManager.getFeatures().containsKey(featureName));
-        assert (pricingManager.getPlans().get("BASIC").getFeatures().containsKey(featureName));
-        assert (pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(featureName));
-        assert (pricingManager.getPlans().get("PRO").getFeatures().containsKey(featureName));
+        assertTrue(pricingManager.getFeatures().containsKey(featureName));
+        assertTrue(pricingManager.getPlans().get("BASIC").getFeatures().containsKey(featureName));
+        assertTrue(pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(featureName));
+        assertTrue(pricingManager.getPlans().get("PRO").getFeatures().containsKey(featureName));
         assertEquals(NEW_FEATURE_TEST_EXPRESSION,
                 pricingManager.getFeatures().get(featureName).getExpression());
         assertEquals(NEW_FEATURE_TEST_VALUE,
@@ -415,7 +419,7 @@ public class PricingServiceTests {
 
     @Test
     @Order(180)
-    void negativeAddNewFeatureTest() {
+    void given_non_existent_feature_should_throw_when_adding_feature() {
 
         Domain newFeature = new Domain();
 
@@ -430,37 +434,36 @@ public class PricingServiceTests {
 
     // // --------------------------- FEATURES REMOVAL ---------------------------
 
-    // @Test
-    // @Order(190)
-    // void removeFeatureTest(){
-    // pricingService.removeFeatureFromConfiguration(NEW_FEATURE_TEST_NAME);
+    @Test
+    @Order(190)
+    void given_existent_feature_should_remove_feature() {
 
-    // try{
-    // Thread.sleep(1500);
-    // }catch(InterruptedException e){
-    // }
+        String featureName = "maxPets";
 
-    // PricingManager pricingManager =
-    // YamlUtils.retrieveManagerFromYaml(pricingContext.getConfigFilePath());
+        pricingService.removeFeatureFromConfiguration("maxPets");
 
-    // assert(!pricingManager.getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(!pricingManager.getPlans().get("BASIC").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(!pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // assert(!pricingManager.getPlans().get("PRO").getFeatures().containsKey(NEW_FEATURE_TEST_NAME));
-    // }
+        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(pricingContextTestImpl.getConfigFilePath());
 
-    // @Test
-    // @Order(200)
-    // void negativeRemoveNewFeatureTest(){
+        assertFalse(pricingManager.getFeatures().containsKey(featureName));
+        assertFalse(pricingManager.getPlans().get("BASIC").getFeatures().containsKey(featureName));
+        assertFalse(pricingManager.getPlans().get("ADVANCED").getFeatures().containsKey(featureName));
+        assertFalse(pricingManager.getPlans().get("PRO").getFeatures().containsKey(featureName));
+    }
 
-    // IllegalArgumentException exception =
-    // assertThrows(IllegalArgumentException.class, () -> {
-    // pricingService.removeFeatureFromConfiguration(NEW_FEATURE_TEST_NAME);
-    // });
+    @Test
+    @Order(200)
+    void given_non_existent_feature_should_throw_when_deleting() {
 
-    // assertEquals("There is no feature with the name " + NEW_FEATURE_TEST_NAME + "
-    // in the current pricing configuration", exception.getMessage());
-    // }
+        String nonExistentFeatureName = "foo";
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            pricingService.removeFeatureFromConfiguration(nonExistentFeatureName);
+        });
+
+        assertEquals(
+                "There is no feature with the name " + nonExistentFeatureName + " in the current pricing configuration",
+                exception.getMessage());
+    }
 
     // // --------------------------- FEATURES' EXPRESSIONS MANAGEMENT
     // ---------------------------

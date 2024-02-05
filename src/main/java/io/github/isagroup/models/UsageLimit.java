@@ -30,6 +30,10 @@ public abstract class UsageLimit implements Serializable {
     private String expression;
     private String serverExpression;
 
+    public boolean isLinkedToFeature(String featureName) {
+        return linkedFeatures.contains(featureName);
+    }
+
     public Map<String, Object> serialize() {
         Map<String, Object> attributes = new LinkedHashMap<>();
         if (description != null) {

@@ -1,6 +1,8 @@
 package io.github.isagroup;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.ValueType;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
+import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.services.yaml.YamlUtils;
 
 /**
@@ -126,6 +129,7 @@ public class PricingService {
                 try {
                     newFeature = feature.getClass().newInstance();
                     newFeature.setValue(features.get(name).getDefaultValue());
+                    newFeature.setName(name);
 
                     planFeatures.put(name, newFeature);
                     plan.setFeatures(planFeatures);
@@ -335,10 +339,10 @@ public class PricingService {
         if (!features.containsKey(name)) {
             throw new IllegalArgumentException(
                     "There is no feature with the name " + name + " in the current pricing configuration");
-        } else {
-            features.remove(name);
-            pricingManager.setFeatures(features);
         }
+
+        features.remove(name);
+        pricingManager.setFeatures(features);
 
         Map<String, Plan> plans = pricingManager.getPlans();
 
@@ -355,7 +359,19 @@ public class PricingService {
 
         }
 
+        Map<String, UsageLimit> usageLimits = pricingManager.getUsageLimits();
+
+        for (UsageLimit usageLimit : usageLimits.values()) {
+            if (usageLimit.isLinkedToFeature(name)) {
+                List<String> newLinkedFeatures = usageLimit.getLinkedFeatures().stream()
+                        .filter(featureName -> !featureName.equals(name)).collect(Collectors.toList());
+                usageLimit.setLinkedFeatures(newLinkedFeatures.size() == 0 ? null : newLinkedFeatures);
+                usageLimits.put(usageLimit.getName(), usageLimit);
+            }
+        }
+
         pricingManager.setPlans(plans);
+        pricingManager.setUsageLimits(usageLimits);
 
         YamlUtils.writeYaml(pricingManager, pricingContext.getConfigFilePath());
     }

@@ -37,6 +37,10 @@ public abstract class Feature implements Serializable {
         this.serverExpression = null;
     }
 
+    public boolean hasOverwrittenDefaultValue() {
+        return !defaultValue.equals(value);
+    }
+
     public Map<String, Object> featureAttributesMap() {
         Map<String, Object> attributes = new LinkedHashMap<>();
 
