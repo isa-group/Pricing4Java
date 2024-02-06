@@ -29,6 +29,6 @@ plans:
     unit: user/month
     features:
       featureA:
-        value: false
+        value: true
     usageLimits: null
 addOns: null

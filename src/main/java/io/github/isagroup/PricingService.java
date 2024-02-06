@@ -1,7 +1,9 @@
 package io.github.isagroup;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -274,14 +276,31 @@ public class PricingService {
         if (!features.containsKey(featureName)) {
             throw new IllegalArgumentException(
                     "There is no feature with the name " + featureName + " in the current pricing configuration");
-        } else {
-            Feature feature = features.get(featureName);
-            feature.setValueType(newType);
-            features.put(featureName, feature);
-            pricingManager.setFeatures(features);
-            YamlUtils.writeYaml(pricingManager, pricingContext.getConfigFilePath());
         }
 
+        Map<ValueType, Object> defaultValues = new HashMap<>();
+        defaultValues.put(ValueType.BOOLEAN, false);
+        defaultValues.put(ValueType.NUMERIC, 0);
+        defaultValues.put(ValueType.TEXT, "");
+
+        Feature feature = features.get(featureName);
+        feature.setValueType(newType);
+        feature.setDefaultValue(defaultValues.get(newType));
+        feature.setExpression("");
+        feature.setServerExpression("");
+        features.put(featureName, feature);
+
+        Map<String, Plan> plans = pricingManager.getPlans();
+
+        for (Entry<String, Plan> planEntry : plans.entrySet()) {
+            planEntry.getValue().setFeatures(features);
+
+        }
+
+        pricingManager.setFeatures(features);
+        pricingManager.setPlans(plans);
+
+        YamlUtils.writeYaml(pricingManager, pricingContext.getConfigFilePath());
     }
 
     /**

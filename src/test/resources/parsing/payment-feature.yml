@@ -32,5 +32,6 @@ plans:
       payment:
         value:
           - CARD
+          - GATEWAY
     usageLimits: null
 addOns: null
