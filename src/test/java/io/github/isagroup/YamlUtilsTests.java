@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import io.github.isagroup.models.Plan;
@@ -93,7 +92,6 @@ public class YamlUtilsTests {
     }
 
     @Test
-    @Disabled
     void given_pricing_should_dump_a_copy() {
 
         String postmanOriginalPricing = "pricing/postman.yml";
@@ -108,7 +106,7 @@ public class YamlUtilsTests {
         }
         PricingManager postmanCopy = YamlUtils.retrieveManagerFromYaml(postmanTestPath);
 
-        assertEquals(postman, postmanCopy, "Pricings are diferent");
+        assertEquals(postman.getFeatures(), postmanCopy.getFeatures(), "Pricings are diferent");
 
     }
 

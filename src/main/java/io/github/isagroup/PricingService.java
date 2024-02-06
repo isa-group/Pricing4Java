@@ -293,8 +293,7 @@ public class PricingService {
         Map<String, Plan> plans = pricingManager.getPlans();
 
         for (Entry<String, Plan> planEntry : plans.entrySet()) {
-            planEntry.getValue().setFeatures(features);
-
+            planEntry.getValue().getFeatures().put(featureName, feature);
         }
 
         pricingManager.setFeatures(features);
