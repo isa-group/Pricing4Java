@@ -76,7 +76,6 @@ public class PricingService {
             throw new IllegalArgumentException("You have not specified a name for the plan");
         }
 
-        // FIXME
         // Serialization depends on the plan name, if plan.name is null serialization
         // will fail
         plan.setName(name);

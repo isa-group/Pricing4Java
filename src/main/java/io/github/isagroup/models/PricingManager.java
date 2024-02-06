@@ -6,7 +6,6 @@ import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.EqualsAndHashCode.Exclude;
 
 /**
  * Object to model pricing configuration
