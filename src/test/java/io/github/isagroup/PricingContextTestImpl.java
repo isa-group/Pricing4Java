@@ -14,8 +14,6 @@ public class PricingContextTestImpl extends PricingContext {
 
     private Map<String, Object> userContext;
 
-    private Map<String, Object> userAuthorities;
-
     @Override
     public String getConfigFilePath() {
         return path;
@@ -59,10 +57,6 @@ public class PricingContextTestImpl extends PricingContext {
 
     public void setUserPlan(String userPlan) {
         this.userPlan = userPlan;
-    }
-
-    public void setUserAuthorities(Map<String, Object> userAuthorities) {
-        this.userAuthorities = userAuthorities;
     }
 
 }

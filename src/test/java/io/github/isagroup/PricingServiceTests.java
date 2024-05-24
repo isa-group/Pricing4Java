@@ -164,17 +164,11 @@ class PricingServiceTests {
         userContext.put("username", JWT_SUBJECT_TEST);
         userContext.put("pets", 2);
 
-        Map<String, Object> userAuthorities = new HashMap<>();
-        userAuthorities.put("role", "admin");
-        userAuthorities.put("username", JWT_SUBJECT_TEST);
-        userAuthorities.put("password", "4dm1n");
-
         PricingContextTestImpl pricingContextTest = new PricingContextTestImpl();
         pricingContextTest.setConfigFilePath(TEMPORAL_CONFIG_PATH);
         pricingContextTest.setJwtExpiration(JWT_EXPIRATION_TEST);
         pricingContextTest.setJwtSecret(JWT_SECRET_TEST);
         pricingContextTest.setUserPlan(TEST_PLAN);
-        pricingContextTest.setUserAuthorities(userAuthorities);
         pricingContextTest.setUserContext(userContext);
 
         // Reset of new usage limit
@@ -360,9 +354,9 @@ class PricingServiceTests {
         assertNull(addOns); // Los addOns quedan vacíos tras la eliminación
 
         // for (AddOn addOn : addOns.values()) {
-        //     assertFalse(addOn.getFeatures().containsKey(skynet));
-        //     assertFalse(addOn.getUsageLimits().containsKey(machines));
-        //     assertFalse(addOn.getUsageLimitsExtensions().containsKey(machines));
+        // assertFalse(addOn.getFeatures().containsKey(skynet));
+        // assertFalse(addOn.getUsageLimits().containsKey(machines));
+        // assertFalse(addOn.getUsageLimitsExtensions().containsKey(machines));
         // }
 
     }
@@ -736,14 +730,14 @@ class PricingServiceTests {
     // @Test
     // void givenNullFeatureAsKeyShouldDelete() {
 
-    //     String path = "parsing/features/negative/feature-null-as-key.yml";
-    //     pricingContextTestImpl.setConfigFilePath(path);
+    // String path = "parsing/features/negative/feature-null-as-key.yml";
+    // pricingContextTestImpl.setConfigFilePath(path);
 
-    //     String featureName = null;
-    //     pricingService.removeFeatureFromConfiguration(featureName);
+    // String featureName = null;
+    // pricingService.removeFeatureFromConfiguration(featureName);
 
-    //     PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
-    //     assertFalse(pricingManager.getFeatures().containsKey(featureName));
+    // PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
+    // assertFalse(pricingManager.getFeatures().containsKey(featureName));
     // }
 
     @Test
@@ -869,21 +863,21 @@ class PricingServiceTests {
     // @Order(250)
     // void givenFeatureWithIncorrectExpressionShouldNotUpdateValueTypeToBoolean() {
 
-    //     ValueType newValueType = ValueType.BOOLEAN;
-    //     Boolean newDefaultValue = false;
+    // ValueType newValueType = ValueType.BOOLEAN;
+    // Boolean newDefaultValue = false;
 
-    //     PricingManager pricingManager = pricingContextTestImpl.getPricingManager();
+    // PricingManager pricingManager = pricingContextTestImpl.getPricingManager();
 
-    //     Feature feature = pricingManager.getFeatures().get(TEST_NUMERIC_FEATURE);
+    // Feature feature = pricingManager.getFeatures().get(TEST_NUMERIC_FEATURE);
 
-    //     feature.setValueType(newValueType);
-    //     feature.setDefaultValue(newDefaultValue);
+    // feature.setValueType(newValueType);
+    // feature.setDefaultValue(newDefaultValue);
 
-    //     String featureName = feature.getName();
+    // String featureName = feature.getName();
 
-    //     assertThrows(IllegalArgumentException.class, () -> {
-    //         pricingService.updateFeatureFromConfiguration(featureName, feature);
-    //     });
+    // assertThrows(IllegalArgumentException.class, () -> {
+    // pricingService.updateFeatureFromConfiguration(featureName, feature);
+    // });
     // }
 
     @Test

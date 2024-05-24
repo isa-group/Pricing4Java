@@ -35,16 +35,10 @@ public class PricingEvaluatorUtilTests {
                 userContext.put("username", JWT_SUBJECT_TEST);
                 userContext.put("pets", 2);
 
-                Map<String, Object> userAuthorities = new HashMap<>();
-                userAuthorities.put("role", "admin");
-                userAuthorities.put("username", "admin1");
-                userAuthorities.put("password", "4dm1n");
-
                 PricingContextTestImpl pricingContext = new PricingContextTestImpl();
 
                 pricingContext.setJwtExpiration(JWT_EXPIRATION_TEST);
                 pricingContext.setJwtSecret(JWT_SECRET_TEST);
-                pricingContext.setUserAuthorities(userAuthorities);
                 pricingContext.setUserContext(userContext);
                 pricingContext.setUserPlan(USER_PLAN);
                 pricingContext.setConfigFilePath(YAML_CONFIG_PATH);
