@@ -199,6 +199,7 @@ public class FeatureParser {
                     }
                     break;
             }
+            
         } catch (ClassCastException e) {
             throw new ClassCastException("The feature " + featureName
                     + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString()
@@ -211,6 +212,12 @@ public class FeatureParser {
         } catch (NoSuchElementException e) {
             throw new PricingParsingException("The feature " + featureName
                     + " does not have either an evaluation expression or serverExpression.");
+        }
+
+        try {
+            feature.setTag((String) map.get("tag"));
+        } catch (NoSuchElementException e) {
+            feature.setTag(null);
         }
     }
 

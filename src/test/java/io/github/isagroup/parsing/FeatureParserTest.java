@@ -8,14 +8,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.isagroup.exceptions.FilepathException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
+import io.github.isagroup.exceptions.FilepathException;
 import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.yaml.YamlUtils;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 
 public class FeatureParserTest {
 
@@ -94,11 +94,12 @@ public class FeatureParserTest {
         try {
             YamlUtils.retrieveManagerFromYaml(path);
             fail();
-        } catch (FilepathException e ) {
+        } catch (FilepathException e) {
             System.out.println(path);
             fail(e.getMessage());
-        }  catch (PricingParsingException e) {
+        } catch (PricingParsingException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
         }
     }
+
 }

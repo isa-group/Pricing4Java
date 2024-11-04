@@ -25,6 +25,7 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("version", Version.LATEST.toString());
         serializedPricingManager.put("saasName", pricingManager.getSaasName());
         serializedPricingManager.put("createdAt", pricingManager.getCreatedAt().toString());
+        serializedPricingManager.put("tags", pricingManager.getTags());
 
         if (pricingManager.getStarts() != null) {
             serializedPricingManager.put("starts", pricingManager.getStarts());

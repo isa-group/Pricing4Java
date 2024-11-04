@@ -1,37 +1,28 @@
 package io.github.isagroup.parsing;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Date;
 
-import io.github.isagroup.PricingEvaluatorUtil;
-import io.github.isagroup.PricingEvaluatorUtilTests;
-import io.github.isagroup.exceptions.FilepathException;
-import io.github.isagroup.exceptions.InvalidPlanException;
-import io.github.isagroup.exceptions.VersionException;
-import io.github.isagroup.models.PlanContextManager;
-import io.github.isagroup.services.updaters.YamlUpdater;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.expression.EvaluationException;
 import org.yaml.snakeyaml.Yaml;
 
+import io.github.isagroup.exceptions.FilepathException;
+import io.github.isagroup.exceptions.InvalidPlanException;
 import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
-import io.github.isagroup.services.parsing.PricingManagerParser;
 import io.github.isagroup.services.updaters.Version;
 import io.github.isagroup.services.yaml.YamlUtils;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class PricingManagerParserTest {
 
@@ -214,6 +205,31 @@ public class PricingManagerParserTest {
         } catch (InvalidPlanException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
 
+        }
+    }
+
+    @Test
+    void givenInvalidTagsShouldThrow() {
+
+        String path = "parsing/pricing-manager/negative/invalid-tags.yml";
+
+        try {
+            YamlUtils.retrieveManagerFromYaml(path);
+            fail();
+        } catch (PricingParsingException e) {
+            assertEquals("\"tags\" type is String and must be a List", e.getMessage());
+        }
+    }
+
+    @Test
+    void givenFeatureWithTagShouldParse() {
+
+        String path = "parsing/pricing-manager/positive/feature-tag.yml";
+        try {
+            PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
+            assertEquals(2, pricingManager.getFeatures().size());
+        } catch (PricingParsingException e) {
+            fail(e.getMessage());
         }
     }
 

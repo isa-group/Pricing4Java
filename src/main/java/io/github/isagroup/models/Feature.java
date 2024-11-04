@@ -27,6 +27,7 @@ public abstract class Feature implements Serializable {
     protected transient Object value;
     protected String expression;
     protected String serverExpression;
+    protected String tag;
 
     public void prepareToPlanWriting() {
         this.name = null;
@@ -35,6 +36,7 @@ public abstract class Feature implements Serializable {
         this.defaultValue = null;
         this.expression = null;
         this.serverExpression = null;
+        this.tag = null;
     }
 
     public boolean hasOverwrittenDefaultValue() {
@@ -63,6 +65,11 @@ public abstract class Feature implements Serializable {
         if (serverExpression != null) {
             attributes.put("serverExpression", serverExpression);
         }
+
+        if (tag != null) {
+            attributes.put("tag", tag);
+        }
+
         return attributes;
     }
 
