@@ -8,8 +8,10 @@
 
 ### :white_check_mark: New
 
+- new field `starts` to indicate the beginning of operation of the pricing
+- new field `ends` to indicate the ending of operation of the pricing
 - new field `createdAt` to replace `day` `month` and `year`, see this [section](#deleted)
-- now addOns can depend on addOns putting the name of the addOn in the `avaliableFor` field
+- now addOns can depend on addOns putting the name of the addOn in the `dependsOn` field
 
 ### :x: Deleted
 
