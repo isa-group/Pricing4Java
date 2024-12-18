@@ -19,6 +19,7 @@ public class Plan {
     private String description;
     private Object price;
     private String unit;
+    private Boolean isPrivate;
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
 
@@ -28,6 +29,7 @@ public class Plan {
         planMap.put("description", description);
         planMap.put("price", price);
         planMap.put("unit", unit);
+        planMap.put("isPrivate", isPrivate);
         planMap.put("features", features);
         planMap.put("usageLimits", usageLimits);
         return planMap;
@@ -38,6 +40,7 @@ public class Plan {
         attributes.put("description", description);
         attributes.put("price", price);
         attributes.put("unit", unit);
+        attributes.put("private", isPrivate);
 
         Map<String, Object> features = serializeFeatures().orElse(null);
         Map<String, Object> usageLimits = serializeUsageLimits().orElse(null);

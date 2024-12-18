@@ -75,8 +75,6 @@ public class PricingManagerParserTest {
             PricingManager pm = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(Version.V2_0, pm.getVersion());
             assertEquals(LocalDate.of(2024, 8, 31), pm.getCreatedAt());
-            assertNull(pm.getStarts());
-            assertNull(pm.getEnds());
 
         } catch (PricingParsingException e) {
             fail(e.getMessage());
@@ -135,10 +133,6 @@ public class PricingManagerParserTest {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(Version.V2_0, pricingManager.getVersion());
             assertEquals(LocalDate.of(2024, 8, 30), pricingManager.getCreatedAt());
-            // 1704110400000 milliseconds => 2024-01-01 12:00:00
-            assertEquals(new Date(1704110400000L), pricingManager.getStarts());
-            // 1735732800000 milliseconds => 2025-01-01 12:00:00
-            assertEquals(new Date(1735732800000L), pricingManager.getEnds());
         } catch (PricingParsingException e) {
             fail(e.getMessage());
         }

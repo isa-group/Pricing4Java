@@ -25,18 +25,11 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("version", Version.LATEST.toString());
         serializedPricingManager.put("saasName", pricingManager.getSaasName());
         serializedPricingManager.put("createdAt", pricingManager.getCreatedAt().toString());
+        serializedPricingManager.put("url", pricingManager.getUrl());
         serializedPricingManager.put("tags", pricingManager.getTags());
-
-        if (pricingManager.getStarts() != null) {
-            serializedPricingManager.put("starts", pricingManager.getStarts());
-        }
-
-        if (pricingManager.getEnds() != null) {
-            serializedPricingManager.put("ends", pricingManager.getEnds());
-        }
-
+        serializedPricingManager.put("billing", pricingManager.getBilling());
+        serializedPricingManager.put("variables", pricingManager.getVariables());
         serializedPricingManager.put("currency", pricingManager.getCurrency());
-        serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
 
         if (pricingManager.getFeatures() == null) {
             throw new SerializerException("Features are null. Filling the pricing with features is mandatory.");
