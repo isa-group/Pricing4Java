@@ -28,12 +28,31 @@ public class PlanParser {
 
         Plan plan = new Plan();
 
+        // ---------- name ----------
+        
         if (planName == null) {
             throw new PricingParsingException("A plan name cannot be null");
         }
 
         plan.setName(planName);
+
+        // ---------- description ----------
+        
         plan.setDescription((String) map.get("description"));
+        
+        // ---------- private ----------
+
+        if (map.get("private") != null) {
+            if (!(map.get("private") instanceof Boolean)) {
+                throw new PricingParsingException("The field \"private\" should be a boolean");
+            }
+            
+            plan.setIsPrivate((Boolean) map.get("private"));
+        }else{
+            plan.setIsPrivate(false);
+        }
+
+        // ---------- price ----------
 
         checkPriceType(map.get("price"), planName);
 
@@ -47,7 +66,12 @@ public class PlanParser {
 
         plan.setUnit((String) map.get("unit"));
 
+        // ---------- features ----------
+
         setFeaturesToPlan(planName, map, pricingManager, plan);
+        
+        // ---------- usageLimits ----------
+
         setUsageLimitsToPlan(planName, map, pricingManager, plan);
 
 

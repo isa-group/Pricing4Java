@@ -28,7 +28,7 @@ import io.github.isagroup.models.featuretypes.Management;
 import io.github.isagroup.models.featuretypes.Payment;
 import io.github.isagroup.models.featuretypes.Support;
 
-public class FeatureSerializerTest {
+class FeatureSerializerTest {
 
     private Yaml yaml;
 
@@ -71,7 +71,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_DomainFeature_should_SerializeToMap() {
+    void given_DomainFeature_should_SerializeToMap() {
 
         Domain domain = new Domain();
         domain.setDescription("Foo");
@@ -81,11 +81,13 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = domain.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: DOMAIN\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: DOMAIN
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -93,7 +95,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void givenExpressionAndServerExpressionEqualShouldNotSerialize() {
+    void givenExpressionAndServerExpressionEqualShouldNotSerialize() {
 
         Domain domain = new Domain();
         domain.setDescription("Foo");
@@ -118,7 +120,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_GuaranteeFeature_should_SerializeToMap() {
+    void given_GuaranteeFeature_should_SerializeToMap() {
 
         Guarantee guarantee = new Guarantee();
         guarantee.setDescription("Foo");
@@ -129,12 +131,14 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = guarantee.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: GUARANTEE\n"
-                + "docUrl: https://foobar.com\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: GUARANTEE
+                docUrl: https://foobar.com
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -142,7 +146,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_InformationFeature_should_SerializeToMap() {
+    void given_InformationFeature_should_SerializeToMap() {
 
         Information information = new Information();
         information.setDescription("Foo");
@@ -152,11 +156,13 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = information.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: INFORMATION\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: INFORMATION
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -164,7 +170,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_IntegrationFeature_should_SerializeToMap() {
+    void given_IntegrationFeature_should_SerializeToMap() {
 
         Integration integration = new Integration();
         integration.setDescription("Foo");
@@ -180,16 +186,18 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = integration.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: INTEGRATION\n"
-                + "integrationType: API\n"
-                + "pricingUrls:\n"
-                + "- https://foo.com\n"
-                + "- https://bar.com\n"
-                + "- https://baz.com\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: INTEGRATION
+                integrationType: API
+                pricingUrls:
+                - https://foo.com
+                - https://bar.com
+                - https://baz.com
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -197,7 +205,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_ManagementFeature_should_SerializeToMap() {
+    void given_ManagementFeature_should_SerializeToMap() {
 
         Management management = new Management();
         management.setDescription("Foo");
@@ -207,11 +215,13 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = management.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: MANAGEMENT\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: MANAGEMENT
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -219,7 +229,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_PaymentFeature_should_SerializeToMap() {
+    void given_PaymentFeature_should_SerializeToMap() {
 
         Payment payment = new Payment();
         payment.setDescription("Foo");
@@ -233,13 +243,15 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = payment.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue:\n"
-                + "- CARD\n"
-                + "- GATEWAY\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: PAYMENT\n";
+        String expected = """
+                description: Foo
+                defaultValue:
+                - CARD
+                - GATEWAY
+                expression: Baz
+                serverExpression: John
+                type: PAYMENT
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);
@@ -247,7 +259,7 @@ public class FeatureSerializerTest {
     }
 
     @Test
-    public void given_SupportFeature_should_SerializeToMap() {
+    void given_SupportFeature_should_SerializeToMap() {
 
         Support support = new Support();
         support.setDescription("Foo");
@@ -257,11 +269,13 @@ public class FeatureSerializerTest {
 
         Map<String, Object> map = support.serializeFeature();
 
-        String expected = "description: Foo\n"
-                + "defaultValue: Bar\n"
-                + "expression: Baz\n"
-                + "serverExpression: John\n"
-                + "type: SUPPORT\n";
+        String expected = """
+                description: Foo
+                defaultValue: Bar
+                expression: Baz
+                serverExpression: John
+                type: SUPPORT
+                """;
         String output = yaml.dump(map);
 
         assertEquals(expected, output);

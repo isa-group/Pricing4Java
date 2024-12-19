@@ -23,20 +23,29 @@ import io.github.isagroup.services.serializer.PricingManagerSerializer;
  */
 public class YamlUtils {
 
-    private static final String DEFAULT_YAML_WRITE_PATH = "src/main/resources/";
+    // Private constructor to hide the implicit public one
+    private YamlUtils() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
+    private static final String DEFAULT_YAML_WRITE_MAIN_PATH = "src/main/resources/";
+    private static final String DEFAULT_YAML_WRITE_TEST_PATH = "src/test/resources/";
 
     /**
      * This method maps the content of the YAML file located in {@code yamlPath}
      * into a {@link PricingManager} object.
      *
-     * @param yamlPath Path of the YAML file, relative to the resources folder
+     * @param receivedYamlPath Path of the YAML file, relative to the resources folder
      * @return PricingManager object that represents the content of the YAML file
      */
 
-    public static PricingManager retrieveManagerFromYaml(String yamlPath) {
+    public static PricingManager retrieveManagerFromYaml(String receivedYamlPath) {
         Yaml yaml = new Yaml();
         try {
-            String result = new String(Files.readAllBytes(Paths.get(DEFAULT_YAML_WRITE_PATH + yamlPath)));
+            
+            String yamlPath = getYamlPath(receivedYamlPath);
+
+            String result = new String(Files.readAllBytes(Paths.get(yamlPath)));
             Map<String, Object> configFile = yaml.load(result);
             YamlUpdater.update(configFile);
             return PricingManagerParser.parseMapToPricingManager(configFile);
@@ -52,13 +61,13 @@ public class YamlUtils {
     /**
      * Writes a {@link PricingManager} object into a YAML file.
      *
-     * @param pricingManager a {@link PricingManager} object that represents a
-     *                       pricing configuration
-     * @param yamlPath       Path of the YAML file, relative to the resources folder
+     * @param pricingManager   a {@link PricingManager} object that represents a
+     *                         pricing configuration
+     * @param receivedYamlPath Path of the YAML file, relative to the resources folder
      */
-    public static void writeYaml(PricingManager pricingManager, String yamlPath) {
+    public static void writeYaml(PricingManager pricingManager, String receivedYamlPath) {
 
-        if (yamlPath == null) {
+        if (receivedYamlPath == null) {
             throw new FilepathException("Either the file path is invalid or the file does not exist.");
         }
 
@@ -70,7 +79,18 @@ public class YamlUtils {
         Representer representer = new SkipNullRepresenter();
 
         PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer();
-        try (FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + yamlPath)) {
+        try {
+
+            String yamlPath = null;
+
+            try{
+                yamlPath = getYamlPath(receivedYamlPath);
+            }catch(IOException e){
+                yamlPath = DEFAULT_YAML_WRITE_MAIN_PATH + receivedYamlPath;
+            }
+
+            FileWriter writer = new FileWriter(yamlPath);
+
             Map<String, Object> serializedPricingManager = pricingManagerSerializer.serialize(pricingManager);
             Yaml yaml = new Yaml(representer, dump);
             yaml.dump(serializedPricingManager, writer);
@@ -90,12 +110,25 @@ public class YamlUtils {
 
         Representer representer = new SkipNullRepresenter();
 
-        try (FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_PATH + "yaml-testing/errored.yml")) {
+        try {
+            FileWriter writer = new FileWriter(DEFAULT_YAML_WRITE_MAIN_PATH + "yaml-testing/errored.yml");
+
             Yaml yaml = new Yaml(representer, dump);
             yaml.dump(configFile, writer);
 
         } catch (IOException e) {
             throw new FilepathException("Either the file path is invalid or the file does not exist.");
+        }
+    }
+
+    private static String getYamlPath(String receivedPath) throws IOException {
+        if (!Files.exists(Paths.get(DEFAULT_YAML_WRITE_MAIN_PATH + receivedPath))) {
+            if (!Files.exists(Paths.get(DEFAULT_YAML_WRITE_TEST_PATH + receivedPath))) {
+                throw new IOException("Either the file path is invalid or the file does not exist.");
+            }
+            return DEFAULT_YAML_WRITE_TEST_PATH + receivedPath;
+        } else {
+            return DEFAULT_YAML_WRITE_MAIN_PATH + receivedPath;
         }
     }
 }

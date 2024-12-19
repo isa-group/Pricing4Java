@@ -1,7 +1,6 @@
 package io.github.isagroup.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,17 +19,16 @@ public class PricingManager {
 
     private Version version;
     private String saasName;
+    private String url;
     private LocalDate createdAt;
-    private Date starts;
-    private Date ends;
     private String currency;
-    private Boolean hasAnnualPayment;
+    private List<String> tags;
+    private Map<String, Double> billing;
+    private Map<String, Object> variables;
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
     private Map<String, Plan> plans;
     private Map<String, AddOn> addOns;
-    private Map<String, Object> variables;
-    private List<String> tags;
 
     /**
      * TODO: Check if this method should be here or where

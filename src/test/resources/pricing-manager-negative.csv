@@ -5,8 +5,6 @@ createdAt-is-null;'createdAt' is mandatory. Check your config file.
 createdAt-is-wrong-format;"createdAt" "Invalid date format :(" is invalid, use the following yyyy-MM-dd
 currency-is-boolean;'currency' has to be a string
 currency-is-null;Currency was not defined
-ends-is-invalid-timestamp;"ends" type is String and must be a Date
 saasName-is-boolean;'saasName' has to be a string
 saasName-is-null;SaasName was not defined
-starts-is-invalid-timestamp;"starts" type is String and must be a Date
 variables-is-boolean;variables must be a map but found Boolean instead

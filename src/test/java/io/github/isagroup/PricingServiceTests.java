@@ -87,8 +87,7 @@ public class PricingServiceTests {
 
         newAddOn = new AddOn();
         newAddOn.setName("newAddOn");
-        newAddOn.setMonthlyPrice(5.0);
-        newAddOn.setAnnualPrice(4.0);
+        newAddOn.setPrice(5.0);
         newAddOn.setUnit("owner/month");
         List<String> availableFor = new ArrayList<>();
         availableFor.add("BASIC");
@@ -606,14 +605,12 @@ public class PricingServiceTests {
         pricingService.addAddOnToConfiguration(newAddOn);
 
         AddOn updatedAddOn = newAddOn;
-        updatedAddOn.setMonthlyPrice(10.0);
-        updatedAddOn.setAnnualPrice(100.0);
+        updatedAddOn.setPrice(10.0);
         updatedAddOn.setUnit("owner/year");
 
         pricingService.updateAddOnFromConfiguration(newAddOn.getName(), updatedAddOn);
 
-        assertEquals(10.0, pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getMonthlyPrice());
-        assertEquals(100.0, pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getAnnualPrice());
+        assertEquals(10.0, pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getPrice());
         assertEquals("owner/year", pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getUnit());
     }
 

@@ -18,7 +18,7 @@ import io.github.isagroup.models.featuretypes.Domain;
 import io.github.isagroup.models.usagelimittypes.Renewable;
 import io.github.isagroup.services.serializer.PricingManagerSerializer;
 
-public class PricingManagerSerializerTest {
+class PricingManagerSerializerTest {
 
     private PricingManager initPricingManager() {
         PricingManager pricingManager = new PricingManager();
@@ -49,7 +49,7 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoFeaturesShouldThrowException() {
+    void givenNoFeaturesShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
 
@@ -66,7 +66,7 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoPlansAndAddOnsShouldThrowException() {
+    void givenNoPlansAndAddOnsShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
         pricingManager.setPlans(null);
@@ -83,7 +83,7 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoAddOnsShouldSerializeNullAddOns() {
+    void givenNoAddOnsShouldSerializeNullAddOns() {
 
         PricingManager pricingManager = initPricingManager();
 

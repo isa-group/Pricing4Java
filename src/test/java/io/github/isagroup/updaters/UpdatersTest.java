@@ -14,7 +14,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
-public class UpdatersTest {
+class UpdatersTest {
 
 
     @Test
@@ -50,22 +50,6 @@ public class UpdatersTest {
     }
 
     @Test
-    void givenBothNullAnnualAndMonthlyPriceShouldThrow() {
-
-        Yaml yaml = new Yaml();
-
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/updating/v11-v20/monthly-annual-price-are-null.yml")) {
-            Map<String,Object> configFile = yaml.load(fileInputStream);
-            YamlUpdater.update(configFile);
-            fail();
-        } catch (IOException e) {
-            fail(e.getMessage());
-        } catch (UpdateException e) {
-            assertEquals("You have to specify, at least, either a monthlyPrice or an annualPrice for the plan BASIC", e.getMessage());
-        }
-    }
-
-    @Test
     void givenV20PriceShouldHoldMonthlyPriceV11() {
 
         Yaml yaml = new Yaml();
@@ -76,10 +60,8 @@ public class UpdatersTest {
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
             Double actualPrice = (Double) ((Map<String,Object>) plans.get("BASIC")).get("price");
             assertEquals(14.99, actualPrice);
-        } catch (IOException e) {
+        } catch (IOException | UpdateException e) {
             fail(e.getMessage());
-        } catch (UpdateException e) {
-             fail(e.getMessage());
         }
     }
 
@@ -94,9 +76,7 @@ public class UpdatersTest {
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
             Double actualPrice = (Double) ((Map<String,Object>) plans.get("BASIC")).get("price");
             assertEquals(17.99, actualPrice);
-        } catch (IOException e) {
-            fail(e.getMessage());
-        } catch (UpdateException e) {
+        } catch (IOException | UpdateException e) {
             fail(e.getMessage());
         }
     }

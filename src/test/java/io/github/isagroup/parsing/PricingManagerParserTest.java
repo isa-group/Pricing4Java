@@ -2,19 +2,16 @@ package io.github.isagroup.parsing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.expression.EvaluationException;
-import org.yaml.snakeyaml.Yaml;
 
 import io.github.isagroup.exceptions.FilepathException;
 import io.github.isagroup.exceptions.InvalidPlanException;
@@ -24,7 +21,7 @@ import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.updaters.Version;
 import io.github.isagroup.services.yaml.YamlUtils;
 
-public class PricingManagerParserTest {
+class PricingManagerParserTest {
 
     @Test
     void givenPetclinicShouldGetPricingManager() {
@@ -75,8 +72,6 @@ public class PricingManagerParserTest {
             PricingManager pm = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(Version.V2_0, pm.getVersion());
             assertEquals(LocalDate.of(2024, 8, 31), pm.getCreatedAt());
-            assertNull(pm.getStarts());
-            assertNull(pm.getEnds());
 
         } catch (PricingParsingException e) {
             fail(e.getMessage());
@@ -128,17 +123,11 @@ public class PricingManagerParserTest {
 
     @Test
     void givenVersionV11ShouldParse() {
-
-        Yaml yaml = new Yaml();
         String path = "parsing/pricing-manager/positive/v1.1.yml";
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(Version.V2_0, pricingManager.getVersion());
             assertEquals(LocalDate.of(2024, 8, 30), pricingManager.getCreatedAt());
-            // 1704110400000 milliseconds => 2024-01-01 12:00:00
-            assertEquals(new Date(1704110400000L), pricingManager.getStarts());
-            // 1735732800000 milliseconds => 2025-01-01 12:00:00
-            assertEquals(new Date(1735732800000L), pricingManager.getEnds());
         } catch (PricingParsingException e) {
             fail(e.getMessage());
         }
@@ -200,11 +189,8 @@ public class PricingManagerParserTest {
         try {
             YamlUtils.retrieveManagerFromYaml(path);
             fail();
-        } catch (PricingParsingException e) {
+        } catch (PricingParsingException | InvalidPlanException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
-        } catch (InvalidPlanException e) {
-            assertEquals(expectedErrorMessage, e.getMessage());
-
         }
     }
 

@@ -1,6 +1,6 @@
 FILENAME;EXPECTED_ERROR_MESSAGE
 feature-null-as-key;A feature cannot have the name null
-feature-is-key-value;The feature foo is not defined correctly. All its options must be specified, and it cannot be defined as a key-value pair
+feature-is-key-value;Feature 'foo' must be a Map but found String instead
 null-type;feature 'type' is mandatory
 null-value-type;Feature value type is null
 unsuported-value-type;The feature foo does not have a supported valueType. Current valueType: foo

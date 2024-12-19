@@ -13,7 +13,6 @@ import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.featuretypes.Payment;
-import io.github.isagroup.services.updaters.Version;
 
 public class AddOnParser {
 
@@ -27,8 +26,34 @@ public class AddOnParser {
             throw new PricingParsingException("An add on name cannot be null");
         }
 
+        // ---------- name ----------
         addOn.setName(addOnName);
+        
+        // ---------- description ----------
+        addOn.setDescription((String) addOnMap.get("description"));
+        
+        // ---------- availableFor ----------
         setAvailableFor(addOnMap, pricingManager, addOn);
+
+        // ---------- dependsOn ----------
+        setDependsOn(addOnMap, pricingManager, addOn);
+
+        // ---------- excludes ----------
+        setExcludes(addOnMap, pricingManager, addOn);
+
+        // ---------- private ----------
+
+        if (addOnMap.get("private") != null) {
+            if (!(addOnMap.get("private") instanceof Boolean)) {
+                throw new PricingParsingException("The field \"private\" should be a boolean");
+            }
+            
+            addOn.setIsPrivate((Boolean) addOnMap.get("private"));
+        }else{
+            addOn.setIsPrivate(false);
+        }
+
+        // ---------- price ----------
 
         if (addOnMap.containsKey("price")
             && (addOnMap.containsKey("monthlyPrice") || addOnMap.containsKey("annualPrice"))) {
@@ -46,31 +71,24 @@ public class AddOnParser {
             }
         }
 
-        if (addOnMap.containsKey("monthlyPrice") && addOnMap.containsKey("annualPrice")) {
-
-            if (isValidPrice(addOnMap.get("monthlyPrice")) && isValidPrice(addOnMap.get("annualPrice"))) {
-                addOn.setMonthlyPrice(addOnMap.get("monthlyPrice"));
-                addOn.setAnnualPrice(addOnMap.get("annualPrice"));
-            } else {
-                throw new PricingParsingException("Either the monthlyPrice or annualPrice of the add on " + addOnName
-                    + " is neither a valid number nor String");
-            }
-
-        }
+        // ---------- unit ----------
         addOn.setUnit((String) addOnMap.get("unit"));
 
+        // ---------- features ----------
         if (addOnMap.get("features") == null) {
             addOn.setFeatures(null);
         } else {
             setAddOnFeatures(addOnName, addOnMap, pricingManager, addOn);
         }
 
+        // ---------- usageLimits ----------
         if (addOnMap.get("usageLimits") == null) {
             addOn.setUsageLimits(null);
         } else {
             setAddOnUsageLimits(addOnName, addOnMap, pricingManager, addOn, false);
         }
 
+        // ---------- usageLimitsExtensions ----------
         if (addOnMap.get("usageLimitsExtensions") == null) {
             addOn.setUsageLimitsExtensions(null);
         } else {
@@ -93,6 +111,44 @@ public class AddOnParser {
         }
 
         addOn.setAvailableFor(plansAvailable);
+
+    }
+
+    public static void setDependsOn(Map<String, Object> addOnMap, PricingManager pricingManager, AddOn addOn) {
+
+        List<String> dependsOn = (List<String>) addOnMap.get("dependsOn");
+
+        if (dependsOn == null) {
+            return;
+        }
+
+        for (String addOnName : dependsOn) {
+            if (!pricingManager.getAddOns().containsKey(addOnName)) {
+                throw new InvalidPlanException(
+                    "The addOn " + addOnName + " is not defined in the pricing manager");
+            }
+        }
+
+        addOn.setDependsOn(dependsOn);
+
+    }
+
+    public static void setExcludes(Map<String, Object> addOnMap, PricingManager pricingManager, AddOn addOn) {
+
+        List<String> excludes = (List<String>) addOnMap.get("excludes");
+
+        if (excludes == null) {
+            return;
+        }
+
+        for (String addOnName : excludes) {
+            if (!pricingManager.getAddOns().containsKey(addOnName)) {
+                throw new InvalidPlanException(
+                    "The addOn " + addOnName + " is not defined in the pricing manager");
+            }
+        }
+
+        addOn.setExcludes(excludes);
 
     }
 
@@ -172,7 +228,7 @@ public class AddOnParser {
                 addOnUsageLimitMap = (Map<String, Object>) addOnUsageLimitsMap.get(addOnUsageLimitName);
             } catch (ClassCastException e) {
                 throw new PricingParsingException("The usage limit " + addOnUsageLimitName + " of the add-on "
-                    + addOnName + " is not a valid map");
+                    + addOnName + " is not a valid map. Maybe 'value' attribute is missing to set the value of the limit");
             }
 
             if (!globalUsageLimitsMap.containsKey(addOnUsageLimitName)) {

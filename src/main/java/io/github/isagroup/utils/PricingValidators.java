@@ -149,32 +149,13 @@ public class PricingValidators {
 
     private static void validateAddOnPrice(AddOn addOn, String item) {
 
-        if (addOn.getPrice() == null && addOn.getMonthlyPrice() == null && addOn.getAnnualPrice() == null) {
+        if (addOn.getPrice() == null) {
             throw new IllegalArgumentException(
                     "Either an " + item + " price or a monthlyPrice/annualPrice configuration must be specified");
         }
 
-        if ((addOn.getMonthlyPrice() != null || addOn.getAnnualPrice() != null) && addOn.getPrice() != null) {
-            throw new IllegalArgumentException(
-                    "You cannot specify both a price and a monthlyPrice/annualPrice configuration");
-        }
-
         if (addOn.getPrice() != null && !(addOn.getPrice() instanceof Double)) {
             throw new IllegalArgumentException("The " + item + " price must be a double");
-        }
-
-        if (addOn.getMonthlyPrice() != null && !(addOn.getMonthlyPrice() instanceof Double)) {
-            throw new IllegalArgumentException("The " + item + " monthlyPrice must be a double");
-        }
-
-        if (addOn.getAnnualPrice() != null && !(addOn.getAnnualPrice() instanceof Double)) {
-            throw new IllegalArgumentException("The " + item + " annualPrice must be a double");
-        }
-
-        if (addOn.getMonthlyPrice() != null && addOn.getAnnualPrice() == null
-                || addOn.getAnnualPrice() != null && addOn.getMonthlyPrice() == null) {
-            throw new IllegalArgumentException(
-                    "You must specify both a monthlyPrice and an annualPrice in a monthlyPrice/annualPrice configuration");
         }
     }
 
