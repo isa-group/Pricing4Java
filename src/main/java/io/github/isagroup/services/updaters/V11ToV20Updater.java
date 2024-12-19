@@ -79,21 +79,28 @@ public class V11ToV20Updater extends VersionUpdater {
     
                 Map<String,Object> containerAttributes = (Map<String, Object>) entry.getValue();
     
-                if (containerAttributes.get("monthlyPrice") == null && containerAttributes.get("annualPrice") == null) {
-                    throw new UpdateException("You have to specify, at least, either a monthlyPrice or an annualPrice for the " + container + " " + entry.getKey(), configFile);
+                if (containerAttributes.get("price") != null){
+                    continue;
+                }else{
+                    if (containerAttributes.get("monthlyPrice") == null && containerAttributes.get("annualPrice") == null) {
+                        throw new UpdateException("You have to specify either a monthlyPrice and/or an annualPrice, or a price; for the " + container + " " + entry.getKey(), configFile);
+                    }
+        
+                    if (!isValidPrice(containerAttributes.get("monthlyPrice")) || !isValidPrice(containerAttributes.get("annualPrice"))) {
+                        throw new UpdateException("Either the monthlyPrice or annualPrice of the " + containerName + " " + entry.getKey()
+                            + " is neither a valid number nor String", configFile);
+                    }
+        
+                    if (containerAttributes.get("monthlyPrice") != null) {
+                        containerAttributes.put("price", containerAttributes.get("monthlyPrice"));
+                    } else {
+                        System.out.println("[V20 UPDATER WARNING] " + containerName + " " + entry.getKey() + " does not have a monthlyPrice but annualPrice instead, keep in mind that we are copying this value to price");
+                        containerAttributes.put("price", containerAttributes.get("annualPrice"));
+                    }   
                 }
-    
-                if (!isValidPrice(containerAttributes.get("monthlyPrice")) || !isValidPrice(containerAttributes.get("annualPrice"))) {
-                    throw new UpdateException("Either the monthlyPrice or annualPrice of the " + containerName + " " + entry.getKey()
-                        + " is neither a valid number nor String", configFile);
-                }
-    
-                if (containerAttributes.get("monthlyPrice") != null) {
-                    containerAttributes.put("price", containerAttributes.get("monthlyPrice"));
-                } else {
-                    System.out.println("[V20 UPDATER WARNING] " + containerName + " " + entry.getKey() + " does not have a monthlyPrice but annualPrice instead, keep in mind that we are copying this value to price");
-                    containerAttributes.put("price", containerAttributes.get("annualPrice"));
-                }
+
+                containerAttributes.remove("monthlyPrice");
+                containerAttributes.remove("annualPrice");
             }
         }
     }

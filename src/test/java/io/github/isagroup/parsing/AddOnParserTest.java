@@ -27,7 +27,7 @@ public class AddOnParserTest {
         Exception ex = assertThrows(PricingParsingException.class,
                 () -> YamlUtils
                         .retrieveManagerFromYaml(NEGATIVE_CASES + "add-ons-usage-limits-not-a-map.yml"));
-        assertEquals("The usage limit fooLimit of the add-on Baz is not a valid map", ex.getMessage());
+        assertEquals("The usage limit fooLimit of the add-on Baz is not a valid map. Maybe 'value' attribute is missing to set the value of the limit", ex.getMessage());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class AddOnParserTest {
         Exception ex = assertThrows(PricingParsingException.class,
                 () -> YamlUtils
                         .retrieveManagerFromYaml(NEGATIVE_CASES + "add-ons-usage-limits-extensions-not-a-map.yml"));
-        assertEquals("The usage limit fooLimit of the add-on Baz is not a valid map", ex.getMessage());
+        assertEquals("The usage limit fooLimit of the add-on Baz is not a valid map. Maybe 'value' attribute is missing to set the value of the limit", ex.getMessage());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class AddOnParserTest {
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(2, pricingManager.getAddOns().size());
-            assertTrue(pricingManager.getAddOns().get("baz").getAvailableFor().contains("bar"));
+            assertTrue(pricingManager.getAddOns().get("baz").getDependsOn().contains("bar"));
         } catch (PricingParsingException e) {
             fail(e.getMessage());
         }

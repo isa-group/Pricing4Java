@@ -13,19 +13,19 @@ import org.yaml.snakeyaml.Yaml;
 import io.github.isagroup.models.ValueType;
 import io.github.isagroup.models.usagelimittypes.Renewable;
 
-public class UsageLimitSerializerTest {
+class UsageLimitSerializerTest {
 
     private Yaml yaml;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         this.yaml = new Yaml(options);
     }
 
     @Test
-    public void given_Renewable_return_Map() {
+    void given_Renewable_return_Map() {
 
         Renewable renewable = new Renewable();
         renewable.setName("Name");
@@ -41,16 +41,18 @@ public class UsageLimitSerializerTest {
         linkedFeatures.add("baz");
         renewable.setLinkedFeatures(linkedFeatures);
 
-        String expected = "description: Foo\n"
-                + "valueType: TEXT\n"
-                + "defaultValue: Bar\n"
-                + "unit: Baz\n"
-                + "type: RENEWABLE\n"
-                + "linkedFeatures:\n"
-                + "- foo\n"
-                + "- bar\n"
-                + "- baz\n"
-                + "expression: 1=1\n";
+        String expected = """
+                description: Foo
+                valueType: TEXT
+                defaultValue: Bar
+                unit: Baz
+                type: RENEWABLE
+                linkedFeatures:
+                - foo
+                - bar
+                - baz
+                expression: 1=1
+                """;
 
         String output = yaml.dump(renewable.serialize());
 

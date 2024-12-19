@@ -229,7 +229,7 @@ public class AddOnParser {
                 addOnUsageLimitMap = (Map<String, Object>) addOnUsageLimitsMap.get(addOnUsageLimitName);
             } catch (ClassCastException e) {
                 throw new PricingParsingException("The usage limit " + addOnUsageLimitName + " of the add-on "
-                    + addOnName + " is not a valid map");
+                    + addOnName + " is not a valid map. Maybe 'value' attribute is missing to set the value of the limit");
             }
 
             if (!globalUsageLimitsMap.containsKey(addOnUsageLimitName)) {

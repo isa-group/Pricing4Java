@@ -29,6 +29,8 @@ addOns:
   baz:
     description: Baz addon
     availableFor:
+      - BASIC
+    dependsOn:
       - bar
     monthlyPrice: 0.0
     annualPrice: 0.0
