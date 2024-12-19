@@ -13,7 +13,6 @@ import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.featuretypes.Payment;
-import io.github.isagroup.services.updaters.Version;
 
 public class AddOnParser {
 

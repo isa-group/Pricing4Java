@@ -60,10 +60,8 @@ class UpdatersTest {
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
             Double actualPrice = (Double) ((Map<String,Object>) plans.get("BASIC")).get("price");
             assertEquals(14.99, actualPrice);
-        } catch (IOException e) {
+        } catch (IOException | UpdateException e) {
             fail(e.getMessage());
-        } catch (UpdateException e) {
-             fail(e.getMessage());
         }
     }
 
@@ -78,9 +76,7 @@ class UpdatersTest {
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
             Double actualPrice = (Double) ((Map<String,Object>) plans.get("BASIC")).get("price");
             assertEquals(17.99, actualPrice);
-        } catch (IOException e) {
-            fail(e.getMessage());
-        } catch (UpdateException e) {
+        } catch (IOException | UpdateException e) {
             fail(e.getMessage());
         }
     }

@@ -12,7 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.expression.EvaluationException;
-import org.yaml.snakeyaml.Yaml;
 
 import io.github.isagroup.exceptions.FilepathException;
 import io.github.isagroup.exceptions.InvalidPlanException;
@@ -22,7 +21,7 @@ import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.updaters.Version;
 import io.github.isagroup.services.yaml.YamlUtils;
 
-public class PricingManagerParserTest {
+class PricingManagerParserTest {
 
     @Test
     void givenPetclinicShouldGetPricingManager() {
@@ -124,8 +123,6 @@ public class PricingManagerParserTest {
 
     @Test
     void givenVersionV11ShouldParse() {
-
-        Yaml yaml = new Yaml();
         String path = "parsing/pricing-manager/positive/v1.1.yml";
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
@@ -192,11 +189,8 @@ public class PricingManagerParserTest {
         try {
             YamlUtils.retrieveManagerFromYaml(path);
             fail();
-        } catch (PricingParsingException e) {
+        } catch (PricingParsingException | InvalidPlanException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
-        } catch (InvalidPlanException e) {
-            assertEquals(expectedErrorMessage, e.getMessage());
-
         }
     }
 
