@@ -35,14 +35,15 @@ public class YamlUtils {
      * This method maps the content of the YAML file located in {@code yamlPath}
      * into a {@link PricingManager} object.
      *
-     * @param receivedYamlPath Path of the YAML file, relative to the resources folder
+     * @param receivedYamlPath Path of the YAML file, relative to the resources
+     *                         folder
      * @return PricingManager object that represents the content of the YAML file
      */
 
     public static PricingManager retrieveManagerFromYaml(String receivedYamlPath) {
         Yaml yaml = new Yaml();
         try {
-            
+
             String yamlPath = getYamlPath(receivedYamlPath);
 
             String result = new String(Files.readAllBytes(Paths.get(yamlPath)));
@@ -63,7 +64,8 @@ public class YamlUtils {
      *
      * @param pricingManager   a {@link PricingManager} object that represents a
      *                         pricing configuration
-     * @param receivedYamlPath Path of the YAML file, relative to the resources folder
+     * @param receivedYamlPath Path of the YAML file, relative to the resources
+     *                         folder
      */
     public static void writeYaml(PricingManager pricingManager, String receivedYamlPath) {
 
@@ -83,9 +85,9 @@ public class YamlUtils {
 
             String yamlPath = null;
 
-            try{
+            try {
                 yamlPath = getYamlPath(receivedYamlPath);
-            }catch(IOException e){
+            } catch (IOException e) {
                 yamlPath = DEFAULT_YAML_WRITE_MAIN_PATH + receivedYamlPath;
             }
 
@@ -94,6 +96,7 @@ public class YamlUtils {
             Map<String, Object> serializedPricingManager = pricingManagerSerializer.serialize(pricingManager);
             Yaml yaml = new Yaml(representer, dump);
             yaml.dump(serializedPricingManager, writer);
+            writer.close();
 
         } catch (IOException e) {
             throw new FilepathException("Either the file path is invalid or the file does not exist.");
@@ -115,7 +118,7 @@ public class YamlUtils {
 
             Yaml yaml = new Yaml(representer, dump);
             yaml.dump(configFile, writer);
-
+            writer.close();
         } catch (IOException e) {
             throw new FilepathException("Either the file path is invalid or the file does not exist.");
         }
