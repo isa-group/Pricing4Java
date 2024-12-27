@@ -1,0 +1,3 @@
+parsing/negative/addOn/private/boolean-string-private.yml;The field "private" should be a boolean
+parsing/negative/addOn/private/number-private.yml;The field "private" should be a boolean
+parsing/negative/addOn/private/string-private.yml;The field "private" should be a boolean

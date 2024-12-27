@@ -1,0 +1,2 @@
+parsing/negative/feature/valueType/null-valueType.yml;Feature value type is null
+parsing/negative/feature/valueType/unsupported-valueType.yml;The feature foo does not have a supported valueType. Current valueType: foo

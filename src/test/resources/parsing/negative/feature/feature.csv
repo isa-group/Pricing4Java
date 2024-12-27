@@ -1,0 +1,2 @@
+parsing/negative/feature/feature-is-key-value.yml;Feature 'foo' must be a Map but found String instead
+parsing/negative/feature/feature-null-as-key.yml;A feature cannot have the name null

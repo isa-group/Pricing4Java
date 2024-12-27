@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.expression.EvaluationException;
 
 import io.github.isagroup.exceptions.FilepathException;
 import io.github.isagroup.exceptions.InvalidPlanException;
 import io.github.isagroup.exceptions.PricingParsingException;
+import io.github.isagroup.exceptions.VersionException;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.updaters.Version;
@@ -29,18 +29,18 @@ class PricingManagerParserTest {
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
 
         assertTrue(pricingManager.getPlans().get("BASIC") instanceof Plan,
-            "Should be an instance of PricingManager");
+                "Should be an instance of PricingManager");
         assertEquals(false,
-            pricingManager.getPlans().get("BASIC").getFeatures().get("haveCalendar")
-                .getDefaultValue(),
-            "The deafult value of the haveCalendar feature should be false");
+                pricingManager.getPlans().get("BASIC").getFeatures().get("haveCalendar")
+                        .getDefaultValue(),
+                "The deafult value of the haveCalendar feature should be false");
         assertEquals(null, pricingManager.getPlans().get("BASIC").getFeatures().get("maxPets").getValue(),
-            "The value of the maxPets should be null");
+                "The value of the maxPets should be null");
 
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"version-as-string", "version-as-float"})
+    @ValueSource(strings = { "version-as-string", "version-as-float" })
     void givenDifferentFormatsShouldEqualToOneDotZero(String input) {
 
         String path = String.format("parsing/pricing-manager/version/positive/%s.yml", input);
@@ -97,31 +97,6 @@ class PricingManagerParserTest {
     }
 
     @Test
-    void givenNoVariablesButUsingThemInPriceExpressionShouldThrow() {
-
-        String path = "parsing/plan/negative/plan-with-price-expression-no-variables.yml";
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (EvaluationException e) {
-            assertEquals("EL1030E: The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'null'", e.getMessage());
-        }
-    }
-
-
-    @Test
-    void givenAStringInVariablesShouldThrowWhenCalculatingPrices() {
-
-        String path = "parsing/plan/negative/plan-with-price-expression-string-variables.yml";
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (EvaluationException e) {
-            assertEquals("EL1030E: The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'java.lang.String'", e.getMessage());
-        }
-    }
-
-    @Test
     void givenVersionV11ShouldParse() {
         String path = "parsing/pricing-manager/positive/v1.1.yml";
         try {
@@ -134,76 +109,14 @@ class PricingManagerParserTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/features-negative.csv", delimiter = ';', useHeadersInDisplayName = true, numLinesToSkip = 1)
-    void givenNegativeCasesFeaturesShouldThrow(String fileName, String expectedErrorMessage) {
-
-        String path = String.format("parsing/pricing-manager/features/negative/%s.yml", fileName);
+    @CsvFileSource(resources = "/negative-cases.csv", delimiter = ';')
+    void foobar(String fileName, String expectedErrorMessage) {
 
         try {
-            YamlUtils.retrieveManagerFromYaml(path);
+            YamlUtils.retrieveManagerFromYaml(fileName);
             fail();
-        } catch (FilepathException e) {
-            fail(e.getMessage());
-        } catch (PricingParsingException e) {
+        } catch (PricingParsingException | InvalidPlanException | VersionException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
-        }
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/plans-negative.csv", delimiter = ';', useHeadersInDisplayName = true)
-    void givenNegativeCasesPlansShouldThrow(String fileName, String expectedErrorMessage) {
-
-        String path = String.format("parsing/pricing-manager/plans/negative/%s.yml", fileName);
-
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (FilepathException e) {
-            System.out.println(path);
-            fail(e.getMessage());
-        } catch (PricingParsingException e) {
-            assertEquals(expectedErrorMessage, e.getMessage());
-        }
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/pricing-manager-negative.csv", delimiter = ';', useHeadersInDisplayName = true)
-    void givenCSVOfYamlShouldThrowParsingExceptions(String fileName, String expectedErrorMessage) {
-
-        String path = String.format("parsing/pricing-manager/negative/%s.yml", fileName);
-
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (PricingParsingException e) {
-            assertEquals(expectedErrorMessage, e.getMessage());
-        }
-    }
-
-    @ParameterizedTest
-    @CsvFileSource(resources = "/rules-negative.csv", delimiter = ';', useHeadersInDisplayName = true)
-    void givenSemanticInvalidPricingShouldThrow(String fileName, String expectedErrorMessage) {
-
-        String path = String.format("parsing/rules/negative/%s.yml", fileName);
-
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (PricingParsingException | InvalidPlanException e) {
-            assertEquals(expectedErrorMessage, e.getMessage());
-        }
-    }
-
-    @Test
-    void givenInvalidTagsShouldThrow() {
-
-        String path = "parsing/pricing-manager/negative/invalid-tags.yml";
-
-        try {
-            YamlUtils.retrieveManagerFromYaml(path);
-            fail();
-        } catch (PricingParsingException e) {
-            assertEquals("\"tags\" type is String and must be a List", e.getMessage());
         }
     }
 

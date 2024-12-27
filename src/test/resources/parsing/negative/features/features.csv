@@ -1,0 +1,6 @@
+parsing/negative/features/features-is-boolean.yml;'features' must be a Map but found Boolean instead
+parsing/negative/features/features-is-float.yml;'features' must be a Map but found Double instead
+parsing/negative/features/features-is-integer.yml;'features' must be a Map but found Integer instead
+parsing/negative/features/features-is-list.yml;'features' must be a Map but found ArrayList instead
+parsing/negative/features/features-is-null.yml;'features' is mandatory. It should be a map of features with their correspoding attributes.
+parsing/negative/features/features-is-string.yml;'features' must be a Map but found String instead

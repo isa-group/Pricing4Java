@@ -1,7 +1,0 @@
-FILENAME;EXPECTED_ERROR_MESSAGE
-features-is-null;'features' is mandatory. It should be a map of features with their correspoding attributes.
-features-is-string;'features' must be a Map but found String instead
-features-is-boolean;'features' must be a Map but found Boolean instead
-features-is-integer;'features' must be a Map but found Integer instead
-features-is-float;'features' must be a Map but found Double instead
-features-is-list;'features' must be a Map but found ArrayList instead

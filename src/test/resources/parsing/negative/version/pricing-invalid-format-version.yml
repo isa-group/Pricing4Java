@@ -1,0 +1,33 @@
+saasName: Plan No Price
+version: "1.0.0"
+createdAt: 2024-01-15
+currency: EUR
+hasAnnualPayment: false
+features:
+  feature1:
+    description: Feature 1 description
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+  feature2:
+    description: Feature 2 description
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+usageLimits: null
+plans:
+  BASIC:
+    description: Basic plan
+    price: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null
+  PRO:
+    description: Advanced plan
+    price: 5.0
+    unit: user/month
+    features:
+      feature2:
+        value: true
+    usageLimits: null
+addOns: null

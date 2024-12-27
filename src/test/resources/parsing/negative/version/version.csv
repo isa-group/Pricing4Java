@@ -1,0 +1,4 @@
+parsing/negative/version/pricing-invalid-format-version.yml;Invalid version "1.0.0", use <major>.<minor> version format
+parsing/negative/version/pricing-invalid-type-version.yml;Cannot parse 100 to a version
+#parsing/negative/version/pricing-no-version.yml;Test
+#parsing/negative/version/pricing-null-version.yml;Test

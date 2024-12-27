@@ -1,0 +1,2 @@
+parsing/negative/tags/invalid-tags.yml;"tags" type is String and must be a List
+#parsing/negative/tags/pricing-tag-not-in-tags.yml;No hay validación
