@@ -15,9 +15,7 @@ import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.featuretypes.Payment;
 import io.github.isagroup.models.featuretypes.PaymentType;
-import org.springframework.expression.Expression;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
+import io.github.isagroup.utils.PricingValidators;
 
 public class PlanParser {
 
@@ -54,11 +52,11 @@ public class PlanParser {
 
         // ---------- price ----------
 
-        checkPriceType(map.get("price"), planName);
+        PricingValidators.checkPriceType(map.get("price"), planName);
 
 
         if (map.get("price") instanceof String && map.get("price").toString().contains("#")) {
-            plan.setPrice(calculateFormula(map.get("price").toString(), pricingManager));
+            plan.setPrice(PricingManagerParser.evaluateFormula(map.get("price").toString(), pricingManager));
         } else {
             plan.setPrice(map.get("price"));
         }
@@ -76,29 +74,6 @@ public class PlanParser {
 
 
         return plan;
-    }
-
-    private static void checkPriceType(Object price, String planName) {
-        if (price == null) {
-            throw new PricingParsingException("plan " + planName + ": \"price\" is mandatory");
-        }
-
-        if (!(price instanceof Long || price instanceof Integer ||
-            price instanceof Double || price instanceof String)) {
-            throw new PricingParsingException("\"price\" is expected to be a real number, a expression or a string");
-        }
-    }
-
-    private static Double calculateFormula(String price, PricingManager pricingManager) {
-        SpelExpressionParser parser = new SpelExpressionParser();
-        StandardEvaluationContext context = new StandardEvaluationContext();
-
-        if (pricingManager.getVariables() != null) {
-            context.setVariables(pricingManager.getVariables());
-        }
-
-        Expression priceExpression = parser.parseExpression(price);
-        return priceExpression.getValue(context, Double.class);
     }
 
     private static void setFeaturesToPlan(String planName, Map<String, Object> map, PricingManager pricingManager, Plan plan) {

@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
 import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.exceptions.VersionException;
 import io.github.isagroup.models.AddOn;
@@ -39,6 +43,18 @@ public class PricingManagerParser {
         }
 
         return pricingManager;
+    }
+
+    protected static Double evaluateFormula(String price, PricingManager pricingManager) {
+        SpelExpressionParser parser = new SpelExpressionParser();
+        StandardEvaluationContext context = new StandardEvaluationContext();
+
+        if (pricingManager.getVariables() != null) {
+            context.setVariables(pricingManager.getVariables());
+        }
+
+        Expression priceExpression = parser.parseExpression(price);
+        return priceExpression.getValue(context, Double.class);
     }
 
     private static void setBasicAttributes(Map<String, Object> yamlConfigMap, PricingManager pricingManager) {

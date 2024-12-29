@@ -13,6 +13,7 @@ import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.models.featuretypes.Payment;
+import io.github.isagroup.utils.PricingValidators;
 
 public class AddOnParser {
 
@@ -55,20 +56,13 @@ public class AddOnParser {
 
         // ---------- price ----------
 
-        if (addOnMap.containsKey("price")
-            && (addOnMap.containsKey("monthlyPrice") || addOnMap.containsKey("annualPrice"))) {
-            throw new PricingParsingException("The add on " + addOnName
-                + " has both a price and monthlyPrice/annualPrice. It should have only one of them");
-        }
+        PricingValidators.checkPriceType(addOnMap.get("price"), addOnName);
 
-        if (addOnMap.containsKey("price")) {
 
-            if (isValidPrice(addOnMap.get("price"))) {
-                addOn.setPrice(addOnMap.get("price"));
-            } else {
-                throw new PricingParsingException(
-                    "The price of the add on " + addOnName + " is neither a valid number nor string");
-            }
+        if (addOnMap.get("price") instanceof String && addOnMap.get("price").toString().contains("#")) {
+            addOn.setPrice(PricingManagerParser.evaluateFormula(addOnMap.get("price").toString(), pricingManager));
+        } else {
+            addOn.setPrice(addOnMap.get("price"));
         }
 
         // ---------- unit ----------
