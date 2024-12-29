@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import io.github.isagroup.exceptions.FeatureNotFoundException;
 import io.github.isagroup.exceptions.InvalidDefaultValueException;
 import io.github.isagroup.exceptions.InvalidValueTypeException;
+import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.models.AddOn;
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
@@ -116,6 +117,17 @@ public class PricingValidators {
                     addOn.getUsageLimitsExtensions().keySet().stream().collect(Collectors.toList()),
                     item);
 
+    }
+
+    public static void checkPriceType(Object price, String planName) {
+        if (price == null) {
+            throw new PricingParsingException("plan " + planName + ": \"price\" is mandatory");
+        }
+
+        if (!(price instanceof Long || price instanceof Integer ||
+            price instanceof Double || price instanceof String)) {
+            throw new PricingParsingException("\"price\" is expected to be a real number, a formula or a string");
+        }
     }
 
     private static void validateName(String name, String item) {
