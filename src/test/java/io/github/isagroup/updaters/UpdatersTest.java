@@ -54,7 +54,7 @@ class UpdatersTest {
 
         Yaml yaml = new Yaml();
 
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/updating/v11-v20/price-holds-monthlyPrice.yml")) {
+        try (FileInputStream fileInputStream = new FileInputStream("src/test/resources/updating/v11-v20/price-holds-monthlyPrice.yml")) {
             Map<String,Object> configFile = yaml.load(fileInputStream);
             YamlUpdater.update(configFile);
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
@@ -70,7 +70,7 @@ class UpdatersTest {
 
         Yaml yaml = new Yaml();
 
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/updating/v11-v20/price-holds-annualPrice.yml")) {
+        try (FileInputStream fileInputStream = new FileInputStream("src/test/resources/updating/v11-v20/price-holds-annualPrice.yml")) {
             Map<String,Object> configFile = yaml.load(fileInputStream);
             YamlUpdater.update(configFile);
             Map<String,Object> plans = (Map<String, Object>) configFile.get("plans");
@@ -85,7 +85,7 @@ class UpdatersTest {
     void givenInvalidTypeInMonthlyPriceShouldThrow() {
         Yaml yaml = new Yaml();
 
-        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/updating/v11-v20/monthlyPrice-is-boolean.yml")) {
+        try (FileInputStream fileInputStream = new FileInputStream("src/test/resources/updating/v11-v20/monthlyPrice-is-boolean.yml")) {
             Map<String,Object> configFile = yaml.load(fileInputStream);
             YamlUpdater.update(configFile);
             fail();
