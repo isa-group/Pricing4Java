@@ -5,6 +5,7 @@ on:
   pull_request:
     branches:
       - main
+      - develop
 jobs:
   publish:
     runs-on: ubuntu-latest
