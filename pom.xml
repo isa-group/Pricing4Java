@@ -7,7 +7,7 @@
 
 	<groupId>io.github.isa-group</groupId>
 	<artifactId>Pricing4Java</artifactId>
-	<version>4.0.2</version>
+	<version>5.0.0</version>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A pricing driven feature toggling library for java</description>
