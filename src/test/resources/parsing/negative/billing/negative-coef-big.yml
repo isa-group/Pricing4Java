@@ -3,7 +3,7 @@ version: "2.0"
 createdAt: 2024-01-15
 currency: EUR
 billing:
-  monthly: -1000.0
+  monthly: -1000
 features:
   feature1:
     description: Feature 1 description
