@@ -1,3 +1,0 @@
-parsing/negative/plan/private/boolean-string-private.yml;The field "private" should be a boolean
-parsing/negative/plan/private/number-private.yml;The field "private" should be a boolean
-parsing/negative/plan/private/string-private.yml;The field "private" should be a boolean

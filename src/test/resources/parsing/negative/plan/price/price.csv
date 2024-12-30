@@ -1,2 +1,0 @@
-#parsing/negative/plan/price/price-expression-no-variables.yml;The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'null'
-#parsing/negative/plan/price/price-expression-string-variables.yml;The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'java.lang.String'

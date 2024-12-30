@@ -1,4 +1,0 @@
-parsing/negative/createdAt/pricing-invalid-format-createdAt.yml;"createdAt" "test" is invalid, use the following yyyy-MM-dd
-parsing/negative/createdAt/pricing-invalid-type-createdAt.yml;"createdAt" detected type is Integer and must be a String or Date formatted like yyyy-MM-dd
-parsing/negative/createdAt/pricing-no-createdAt.yml;'createdAt' is mandatory. Check your config file.
-parsing/negative/createdAt/pricing-null-createdAt.yml;'createdAt' is mandatory. Check your config file.

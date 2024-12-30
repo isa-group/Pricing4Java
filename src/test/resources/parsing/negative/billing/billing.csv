@@ -1,9 +1,0 @@
-parsing/negative/billing/boolean-as-billing-value.yml;The value for billing key 'monthly' must be a Double but found Boolean
-parsing/negative/billing/boolean-in-a-single-entry.yml;The value for billing key 'monthly' must be a Double but found Integer
-#parsing/negative/billing/negative-coef-big.yml;Este caso falla
-#parsing/negative/billing/negative-coef-low.yml;coeficiente negativo debería fallar
-#parsing/negative/billing/null-as-billing-value.yml;Este caso falla
-#parsing/negative/billing/null-in-a-single-entry.yml;Este caso falla
-#parsing/negative/billing/outbound-upper-coef-big.yml;Test
-#parsing/negative/billing/outbound-upper-coef-close.yml;Test
-#parsing/negative/billing/zero-coef.yml;Test

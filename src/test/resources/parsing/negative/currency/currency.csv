@@ -1,2 +1,0 @@
-parsing/negative/currency/currency-is-boolean.yml;'currency' has to be a string
-parsing/negative/currency/currency-is-null.yml;Currency was not defined

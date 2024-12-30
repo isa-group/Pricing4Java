@@ -1,4 +1,0 @@
-parsing/negative/url/boolean-url.yml;If 'url' field is used, it has to be a string
-#parsing/negative/url/invalid-protocol-url.yml;Falta validar
-#parsing/negative/url/invalid-string-url.yml;Falta validar
-parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string

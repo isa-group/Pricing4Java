@@ -1,6 +1,0 @@
-#parsing/negative/saasName/pricing-empty-name.yml;Test
-parsing/negative/saasName/pricing-invalid-name.yml;'saasName' has to be a string
-#parsing/negative/saasName/pricing-long-name.yml;Pasa el test no se valida
-parsing/negative/saasName/pricing-no-name.yml;SaasName was not defined
-parsing/negative/saasName/pricing-null-name.yml;SaasName was not defined
-#parsing/negative/saasName/pricing-short-name.yml;Pasa el test no se valida

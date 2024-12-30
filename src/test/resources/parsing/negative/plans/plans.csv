@@ -1,5 +1,0 @@
-parsing/negative/plans/plans-is-boolean.yml;The plans are not defined correctly. It should be a map of plans and their options
-parsing/negative/plans/plans-is-float.yml;The plans are not defined correctly. It should be a map of plans and their options
-parsing/negative/plans/plans-is-integer.yml;The plans are not defined correctly. It should be a map of plans and their options
-parsing/negative/plans/plans-is-list.yml;The plans are not defined correctly. It should be a map of plans and their options
-parsing/negative/plans/plans-is-string.yml;The plans are not defined correctly. It should be a map of plans and their options
