@@ -95,9 +95,9 @@ class PricingManagerParserTest {
         }
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{0} - {1}")
     @CsvFileSource(resources = "/negative-parsing-tests.csv", delimiter = ';')
-    void negativeTests(String fileName, String expectedErrorMessage) {
+    void negativeTests(String testDescription, String fileName, String expectedErrorMessage) {
 
         try {
             YamlUtils.retrieveManagerFromYaml(fileName);
