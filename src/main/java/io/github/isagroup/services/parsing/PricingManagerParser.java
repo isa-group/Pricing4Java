@@ -77,12 +77,26 @@ public class PricingManagerParser {
             throw new PricingParsingException("'saasName' has to be a string");
         }
 
+        if (((String) yamlConfigMap.get("saasName")).length() > 50 || ((String) yamlConfigMap.get("saasName")).length() < 3) {
+            throw new PricingParsingException("The 'saasName' field must be a String with a length between 3 and 50 characters");
+        }
+
         pricingManager.setSaasName((String) yamlConfigMap.get("saasName"));
 
         // -------------- url --------------
 
         if (yamlConfigMap.get("url") != null && !(yamlConfigMap.get("url") instanceof String)) {
             throw new PricingParsingException("If 'url' field is used, it has to be a string");
+        }
+
+        if (yamlConfigMap.get("url") != null) {
+            String pricingUrl = (String) yamlConfigMap.get("url");
+        
+            if (!pricingUrl.matches("^(http|https)://.*$")) {
+                throw new PricingParsingException("The 'url' field must be a String with a valid URL format, using http or https protocol");
+            }
+
+            pricingManager.setUrl((String) yamlConfigMap.get("url"));
         }
 
         // -------------- createdAt --------------
@@ -213,7 +227,7 @@ public class PricingManagerParser {
 
             try {
                 Map<String, Object> featureMap = (Map<String, Object>) featuresMap.get(featureName);
-                Feature feature = FeatureParser.parseMapToFeature(featureName, featureMap);
+                Feature feature = FeatureParser.parseMapToFeature(featureName, featureMap, pricingManager);
                 pricingFeatures.put(featureName, feature);
             } catch (ClassCastException e) {
                 throw new PricingParsingException(

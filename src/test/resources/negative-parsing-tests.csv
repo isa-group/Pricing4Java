@@ -59,19 +59,19 @@ parsing/negative/plans/plans-is-string.yml;The plans are not defined correctly. 
 # root.csv
 parsing/negative/null-plans-and-addons.yml;The pricing manager does not have any plans or add ons
 # saasName.csv
-#parsing/negative/saasName/pricing-empty-name.yml;Test
+parsing/negative/saasName/pricing-empty-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
 parsing/negative/saasName/pricing-invalid-name.yml;'saasName' has to be a string
-#parsing/negative/saasName/pricing-long-name.yml;Pasa el test no se valida
+parsing/negative/saasName/pricing-long-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
 parsing/negative/saasName/pricing-no-name.yml;SaasName was not defined
 parsing/negative/saasName/pricing-null-name.yml;SaasName was not defined
-#parsing/negative/saasName/pricing-short-name.yml;Pasa el test no se valida
+parsing/negative/saasName/pricing-short-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
 # tags.csv
 parsing/negative/tags/invalid-tags.yml;"tags" type is String and must be a List
-#parsing/negative/tags/pricing-tag-not-in-tags.yml;No hay validación
+parsing/negative/tags/pricing-tag-not-in-tags.yml;The tag Tag 3 is not defined in the global tags.
 # url.csv
 parsing/negative/url/boolean-url.yml;If 'url' field is used, it has to be a string
-#parsing/negative/url/invalid-protocol-url.yml;Falta validar
-#parsing/negative/url/invalid-string-url.yml;Falta validar
+parsing/negative/url/invalid-protocol-url.yml;The 'url' field must be a String with a valid URL format, using http or https protocol
+parsing/negative/url/invalid-string-url.yml;The 'url' field must be a String with a valid URL format, using http or https protocol
 parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string
 # variables.csv
 parsing/negative/variables/variables-is-boolean.yml;variables must be a map but found Boolean instead
@@ -79,4 +79,4 @@ parsing/negative/variables/variables-is-boolean.yml;variables must be a map but 
 parsing/negative/version/pricing-invalid-format-version.yml;Invalid version "1.0.0", use <major>.<minor> version format
 parsing/negative/version/pricing-invalid-type-version.yml;Cannot parse 100 to a version
 parsing/negative/version/pricing-no-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
-#parsing/negative/version/pricing-null-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
+parsing/negative/version/pricing-null-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
