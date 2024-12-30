@@ -49,16 +49,17 @@ public class PricingManagerParser {
 
         try {
             if (yamlConfigMap.get("version") == null) {
-                version = Version.V1_0;
+                throw new PricingParsingException(
+                        "The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted");
             } else if (yamlConfigMap.get("version") instanceof Double
-                || yamlConfigMap.get("version") instanceof String) {
+                    || yamlConfigMap.get("version") instanceof String) {
 
                 version = Version.version(yamlConfigMap.get("version"));
 
             } else {
                 throw new PricingParsingException(
-                    String.format("'version' detected type is %s but 'version' type must be Double or String",
-                        yamlConfigMap.get("version").getClass().getSimpleName()));
+                        String.format("'version' detected type is %s but 'version' type must be Double or String",
+                                yamlConfigMap.get("version").getClass().getSimpleName()));
             }
         } catch (VersionException e) {
             throw new PricingParsingException(e.getMessage());
@@ -98,16 +99,16 @@ public class PricingManagerParser {
 
             } catch (DateTimeParseException err) {
                 throw new PricingParsingException(
-                    String.format(
-                        "\"createdAt\" \"%s\" is invalid, use the following yyyy-MM-dd",
-                        yamlConfigMap.get("createdAt")));
+                        String.format(
+                                "\"createdAt\" \"%s\" is invalid, use the following yyyy-MM-dd",
+                                yamlConfigMap.get("createdAt")));
             }
 
         } else {
             throw new PricingParsingException(
-                String.format(
-                    "\"createdAt\" detected type is %s and must be a String or Date formatted like yyyy-MM-dd",
-                    yamlConfigMap.get("createdAt").getClass().getSimpleName()));
+                    String.format(
+                            "\"createdAt\" detected type is %s and must be a String or Date formatted like yyyy-MM-dd",
+                            yamlConfigMap.get("createdAt").getClass().getSimpleName()));
         }
 
         // -------------- currency --------------
@@ -121,7 +122,7 @@ public class PricingManagerParser {
         }
 
         pricingManager.setCurrency((String) yamlConfigMap.get("currency"));
-        
+
         // -------------- tags --------------
 
         if (yamlConfigMap.get("tags") != null && !(yamlConfigMap.get("tags") instanceof List)) {
@@ -139,10 +140,11 @@ public class PricingManagerParser {
 
         // -------------- billing --------------
 
-        if (yamlConfigMap.get("billing") != null){
+        if (yamlConfigMap.get("billing") != null) {
             if (!(yamlConfigMap.get("billing") instanceof Map)) {
                 throw new PricingParsingException(
-                    String.format("\"billing\" type is %s and must be a Map", yamlConfigMap.get("billing").getClass().getSimpleName()));
+                        String.format("\"billing\" type is %s and must be a Map",
+                                yamlConfigMap.get("billing").getClass().getSimpleName()));
             }
 
             Map<String, Object> billingMap = (Map<String, Object>) yamlConfigMap.get("billing");
@@ -150,13 +152,13 @@ public class PricingManagerParser {
             for (Map.Entry<String, Object> entry : billingMap.entrySet()) {
                 if (!(entry.getValue() instanceof Double)) {
                     throw new PricingParsingException(
-                        String.format("The value for billing key '%s' must be a Double but found %s",
-                            entry.getKey(), entry.getValue().getClass().getSimpleName()));
+                            String.format("The value for billing key '%s' must be a Double but found %s",
+                                    entry.getKey(), entry.getValue().getClass().getSimpleName()));
                 }
 
                 parsedBilling.put(entry.getKey(), (Double) entry.getValue());
             }
-    
+
             pricingManager.setBilling(parsedBilling);
         }
 
@@ -165,7 +167,8 @@ public class PricingManagerParser {
     private static void checkVariables(Map<String, Object> yamlConfigMap) {
         Pattern pattern = Pattern.compile("^[a-zA-Z][a-zA-Z0-9]*$");
         if (yamlConfigMap.get("variables") != null && !(yamlConfigMap.get("variables") instanceof Map)) {
-            throw new PricingParsingException("variables must be a map but found " + yamlConfigMap.get("variables").getClass().getSimpleName() + " instead");
+            throw new PricingParsingException("variables must be a map but found "
+                    + yamlConfigMap.get("variables").getClass().getSimpleName() + " instead");
         }
 
         if (yamlConfigMap.get("variables") != null && yamlConfigMap.get("variables") instanceof Map) {
@@ -179,34 +182,32 @@ public class PricingManagerParser {
             }
         }
 
-
     }
 
     private static void setFeatures(Map<String, Object> map, PricingManager pricingManager) {
 
-
         if (map.get("features") == null) {
             throw new PricingParsingException(
-                "'features' is mandatory. It should be a map of features with their correspoding attributes.");
+                    "'features' is mandatory. It should be a map of features with their correspoding attributes.");
         }
 
         if (!(map.get("features") instanceof Map)) {
             throw new PricingParsingException(
-                "'features' must be a Map but found " + map.get("features").getClass().getSimpleName()
-                    + " instead");
+                    "'features' must be a Map but found " + map.get("features").getClass().getSimpleName()
+                            + " instead");
         }
 
         Map<String, Feature> pricingFeatures = new LinkedHashMap<>();
         Map<String, Object> featuresMap = (Map<String, Object>) map.get("features");
 
         featuresMap.entrySet().stream()
-            .filter(entry -> !(entry.getValue() instanceof Map))
-            .findFirst()
-            .ifPresent(entry -> {
-            throw new PricingParsingException(
-                String.format("Feature '%s' must be a Map but found %s instead",
-                entry.getKey(), entry.getValue().getClass().getSimpleName()));
-            });
+                .filter(entry -> !(entry.getValue() instanceof Map))
+                .findFirst()
+                .ifPresent(entry -> {
+                    throw new PricingParsingException(
+                            String.format("Feature '%s' must be a Map but found %s instead",
+                                    entry.getKey(), entry.getValue().getClass().getSimpleName()));
+                });
 
         for (String featureName : featuresMap.keySet()) {
 
@@ -216,7 +217,8 @@ public class PricingManagerParser {
                 pricingFeatures.put(featureName, feature);
             } catch (ClassCastException e) {
                 throw new PricingParsingException(
-                    "An error has occurred while parsing the feature " + featureName + ". Error: " + e.getMessage());
+                        "An error has occurred while parsing the feature " + featureName + ". Error: "
+                                + e.getMessage());
             }
         }
 
@@ -232,14 +234,15 @@ public class PricingManagerParser {
         }
 
         for (String limitName : usageLimitsMap.keySet()) {
-            try{
+            try {
                 Map<String, Object> limitMap = (Map<String, Object>) usageLimitsMap.get(limitName);
                 UsageLimit limit = UsageLimitParser.parseMapToUsageLimit(limitName, limitMap, pricingManager);
-    
+
                 usageLimits.put(limitName, limit);
-            }catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 throw new PricingParsingException(
-                    "An error has occurred while parsing the usage limit " + limitName + ". Error: " + e.getMessage());
+                        "An error has occurred while parsing the usage limit " + limitName + ". Error: "
+                                + e.getMessage());
             }
         }
 
@@ -254,7 +257,7 @@ public class PricingManagerParser {
             plansMap = (Map<String, Object>) map.get("plans");
         } catch (ClassCastException e) {
             throw new PricingParsingException(
-                "The plans are not defined correctly. It should be a map of plans and their options");
+                    "The plans are not defined correctly. It should be a map of plans and their options");
         }
 
         Map<String, Plan> plans = new LinkedHashMap<>();
@@ -264,14 +267,14 @@ public class PricingManagerParser {
         }
 
         for (String planName : plansMap.keySet()) {
-            try{
+            try {
                 Map<String, Object> planMap = (Map<String, Object>) plansMap.get(planName);
                 Plan plan = PlanParser.parseMapToPlan(planName, planMap, pricingManager);
-    
+
                 plans.put(planName, plan);
-            }catch (ClassCastException e) {
+            } catch (ClassCastException e) {
                 throw new PricingParsingException(
-                    "An error has occurred while parsing the plan " + planName + ". Error: " + e.getMessage());
+                        "An error has occurred while parsing the plan " + planName + ". Error: " + e.getMessage());
             }
         }
 
@@ -288,17 +291,17 @@ public class PricingManagerParser {
         pricingManager.setAddOns(new LinkedHashMap<>());
 
         for (String addOnName : addOnsMap.keySet()) {
-            try{
+            try {
                 Map<String, Object> addOnMap = (Map<String, Object>) addOnsMap.get(addOnName);
                 AddOn addOn = AddOnParser.parseMapToAddOn(addOnName, addOnMap, pricingManager);
 
                 pricingManager.getAddOns().put(addOnName, addOn);
             } catch (ClassCastException e) {
                 throw new PricingParsingException(
-                    "An error has occurred while parsing the add-on " + addOnName + ". Error: " + e.getMessage());
+                        "An error has occurred while parsing the add-on " + addOnName + ". Error: " + e.getMessage());
             }
         }
-        
+
         for (String addOnName : addOnsMap.keySet()) {
             try {
                 AddOn parsedAddOn = pricingManager.getAddOns().get(addOnName);
@@ -310,7 +313,7 @@ public class PricingManagerParser {
                 pricingManager.getAddOns().put(addOnName, parsedAddOn);
             } catch (Exception e) {
                 throw new PricingParsingException(
-                    "An error has occurred while parsing the add-on " + addOnName + ". Error: " + e.getMessage());
+                        "An error has occurred while parsing the add-on " + addOnName + ". Error: " + e.getMessage());
             }
         }
     }

@@ -1,0 +1,193 @@
+# filePath;expectedSaaSName
+# Box
+pricing/box/2019.yml;Box
+pricing/box/2020.yml;Box
+pricing/box/2021.yml;Box
+pricing/box/2022.yml;Box
+pricing/box/2023.yml;Box
+pricing/box/2024.yml;Box
+# Buffer
+pricing/buffer/2019.yml;Buffer - Publish
+pricing/buffer/2020.yml;Buffer - Publish
+pricing/buffer/2021.yml;Buffer
+pricing/buffer/2022.yml;Buffer
+pricing/buffer/2023.yml;Buffer
+pricing/buffer/2024.yml;Buffer
+# Canva
+pricing/canva/2019.yml;Canva
+pricing/canva/2020.yml;Canva
+pricing/canva/2021.yml;Canva
+pricing/canva/2022.yml;Canva
+pricing/canva/2023.yml;Canva
+pricing/canva/2024.yml;Canva
+# Clickup
+pricing/clickup/2019.yml;ClickUp
+pricing/clickup/2020.yml;ClickUp
+pricing/clickup/2021.yml;ClickUp
+pricing/clickup/2022.yml;ClickUp
+pricing/clickup/2023.yml;ClickUp
+pricing/clickup/2024.yml;ClickUp
+# Clockify
+pricing/clockify/2019.yml;Clockify
+pricing/clockify/2020.yml;Clockify
+pricing/clockify/2021.yml;Clockify
+pricing/clockify/2022.yml;Clockify
+pricing/clockify/2023.yml;Clockify
+pricing/clockify/2024.yml;Clockify
+# Crowdcast
+pricing/crowdcast/2020.yml;Crowdcast
+pricing/crowdcast/2021.yml;Crowdcast
+pricing/crowdcast/2022.yml;Crowdcast
+pricing/crowdcast/2023.yml;Crowdcast
+pricing/crowdcast/2024.yml;Crowdcast
+# Databox
+pricing/databox/2019.yml;Databox
+pricing/databox/2020.yml;Databox
+pricing/databox/2021.yml;Databox
+pricing/databox/2022.yml;Databox
+pricing/databox/2023.yml;Databox
+pricing/databox/2024.yml;Databox
+# Deskera
+pricing/deskera/2021.yml;Deskera
+pricing/deskera/2022.yml;Deskera
+pricing/deskera/2023.yml;Deskera
+pricing/deskera/2024.yml;Deskera
+# Dropbox
+pricing/dropbox/2021.yml;Dropbox
+pricing/dropbox/2022.yml;Dropbox
+pricing/dropbox/2023.yml;Dropbox
+pricing/dropbox/2024.yml;Dropbox
+# Evernote
+pricing/evernote/2019.yml;Evernote
+pricing/evernote/2020.yml;Evernote
+pricing/evernote/2021.yml;Evernote
+pricing/evernote/2022.yml;Evernote
+pricing/evernote/2023.yml;Evernote
+pricing/evernote/2024.yml;Evernote
+# Figma
+pricing/figma/2019.yml;Figma
+pricing/figma/2020.yml;Figma
+pricing/figma/2021.yml;Figma
+pricing/figma/2022.yml;Figma
+pricing/figma/2023.yml;Figma
+pricing/figma/2024.yml;Figma
+# GitHub
+pricing/github/2019.yml;Github
+pricing/github/2020.yml;Github
+pricing/github/2021.yml;Github
+pricing/github/2022.yml;Github
+pricing/github/2023.yml;Github
+pricing/github/2024.yml;Github
+# Hypercontext
+pricing/hypercontext/2021.yml;HyperContext
+pricing/hypercontext/2022.yml;HyperContext
+pricing/hypercontext/2023.yml;HyperContext
+pricing/hypercontext/2024.yml;HyperContext
+# Jira
+pricing/jira/2019.yml;Jira
+pricing/jira/2020.yml;Jira
+pricing/jira/2021.yml;Jira
+pricing/jira/2022.yml;Jira
+pricing/jira/2023.yml;Jira
+pricing/jira/2024.yml;Jira
+# Mailchimp
+pricing/mailchimp/2019.yml;MailChimp
+pricing/mailchimp/2020.yml;MailChimp
+pricing/mailchimp/2021.yml;MailChimp - Marketing
+pricing/mailchimp/2022.yml;MailChimp - Marketing
+pricing/mailchimp/2023.yml;MailChimp - Marketing
+pricing/mailchimp/2024.yml;MailChimp - Marketing
+# Microsoft365business
+pricing/microsoft365Business/2019.yml;Office 365 - For Business
+pricing/microsoft365Business/2020.yml;Microsoft 365 - For Business
+pricing/microsoft365Business/2021.yml;Microsoft 365 - For Business
+pricing/microsoft365Business/2022.yml;Microsoft 365 - For Business
+pricing/microsoft365Business/2023.yml;Microsoft 365 - For Business
+pricing/microsoft365Business/2024.yml;Microsoft 365 - For Business
+# Notion
+pricing/notion/2021.yml;Notion
+pricing/notion/2022.yml;Notion
+pricing/notion/2023.yml;Notion
+pricing/notion/2024.yml;Notion
+# Openphone
+pricing/openphone/2020.yml;OpenPhone
+pricing/openphone/2021.yml;OpenPhone
+pricing/openphone/2022.yml;OpenPhone
+pricing/openphone/2023.yml;OpenPhone
+pricing/openphone/2024.yml;OpenPhone
+# Overleaf
+pricing/overleaf/2019.yml;Overleaf
+pricing/overleaf/2020.yml;Overleaf
+pricing/overleaf/2021.yml;Overleaf
+pricing/overleaf/2022.yml;Overleaf
+pricing/overleaf/2023.yml;Overleaf - Individual
+pricing/overleaf/2024.yml;Overleaf - Individual
+# Planable
+pricing/planable/2019.yml;Planable
+pricing/planable/2020.yml;Planable
+pricing/planable/2021.yml;Planable
+pricing/planable/2022.yml;Planable
+pricing/planable/2023.yml;Planable
+pricing/planable/2024.yml;Planable
+# Postman
+pricing/postman/2020.yml;Postman
+pricing/postman/2021.yml;Postman
+pricing/postman/2022.yml;Postman
+pricing/postman/2023.yml;Postman
+pricing/postman/2024.yml;Postman
+# Pumble
+pricing/pumble/2021.yml;Pumble
+pricing/pumble/2022.yml;Pumble
+pricing/pumble/2023.yml;Pumble
+pricing/pumble/2024.yml;Pumble
+# Quip
+pricing/quip/2019.yml;Quip
+pricing/quip/2020.yml;Quip
+pricing/quip/2021.yml;Quip
+pricing/quip/2022.yml;Quip
+pricing/quip/2023.yml;Quip
+pricing/quip/2024.yml;Quip
+# Salesforce
+pricing/salesforce/2019.yml;Salesforce - SalesCloud
+pricing/salesforce/2020.yml;Salesforce - SalesCloud
+pricing/salesforce/2021.yml;Salesforce - SalesCloud
+pricing/salesforce/2022.yml;Salesforce - SalesCloud
+pricing/salesforce/2023.yml;Salesforce - SalesCloud
+pricing/salesforce/2024.yml;Salesforce - SalesCloud
+# Slack
+pricing/slack/2019.yml;Slack
+pricing/slack/2020.yml;Slack
+pricing/slack/2023.yml;Slack
+pricing/slack/2024.yml;Slack
+# Tableau
+pricing/tableau/2019.yml;Tableau
+pricing/tableau/2020.yml;Tableau
+pricing/tableau/2021.yml;Tableau
+pricing/tableau/2022.yml;Tableau
+pricing/tableau/2023.yml;Tableau
+pricing/tableau/2024.yml;Tableau
+# Trustmary
+pricing/trustmary/2020.yml;Trustmary - Full
+pricing/trustmary/2021.yml;Trustmary - Full Suite
+pricing/trustmary/2022.yml;Trustmary
+pricing/trustmary/2023.yml;Trustmary - Collect
+pricing/trustmary/2024.yml;Trustmary - Collect
+# Userguiding
+pricing/userguiding/2020.yml;UserGuiding
+pricing/userguiding/2021.yml;UserGuiding
+pricing/userguiding/2022.yml;UserGuiding
+pricing/userguiding/2023.yml;UserGuiding
+pricing/userguiding/2024.yml;UserGuiding
+# Wrike
+pricing/wrike/2019.yml;Wrike
+pricing/wrike/2020.yml;Wrike
+pricing/wrike/2021.yml;Wrike
+pricing/wrike/2022.yml;Wrike
+pricing/wrike/2023.yml;Wrike
+pricing/wrike/2024.yml;Wrike
+# Zapier
+pricing/zapier/2019.yml;Zapier
+pricing/zapier/2020.yml;Zapier
+pricing/zapier/2022.yml;Zapier
+pricing/zapier/2023.yml;Zapier
+pricing/zapier/2024.yml;Zapier

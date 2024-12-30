@@ -43,7 +43,7 @@ class PricingManagerParserTest {
     @ValueSource(strings = { "version-as-string", "version-as-float" })
     void givenDifferentFormatsShouldEqualToOneDotZero(String input) {
 
-        String path = String.format("parsing/pricing-manager/version/positive/%s.yml", input);
+        String path = String.format("parsing/legacy-tests/pricing-manager/version/positive/%s.yml", input);
         try {
             YamlUtils.retrieveManagerFromYaml(path);
         } catch (PricingParsingException e) {
@@ -52,21 +52,8 @@ class PricingManagerParserTest {
     }
 
     @Test
-    void givenNoVersionInYamlShouldUpdateToLatestVersion() {
-        String path = "parsing/pricing-manager/version/positive/null-version-defaults-to-v1.0.yml";
-        try {
-            PricingManager pm = YamlUtils.retrieveManagerFromYaml(path);
-            assertEquals(Version.V2_0, pm.getVersion());
-        } catch (PricingParsingException e) {
-            fail(e.getMessage());
-        } catch (FilepathException e) {
-            fail();
-        }
-    }
-
-    @Test
     void giveVersionV10ShouldParse() {
-        String path = "parsing/pricing-manager/positive/v1.0.yml";
+        String path = "parsing/legacy-tests/pricing-manager/positive/v1.0.yml";
 
         try {
             PricingManager pm = YamlUtils.retrieveManagerFromYaml(path);
@@ -81,7 +68,7 @@ class PricingManagerParserTest {
 
     @Test
     void givenAMapOfVariablesAndAPriceExpressionShouldComputeResult() {
-        String path = "parsing/pricing-manager/positive/pricing-with-variables.yml";
+        String path = "parsing/legacy-tests/pricing-manager/positive/pricing-with-variables.yml";
 
         try {
             PricingManager pm = YamlUtils.retrieveManagerFromYaml(path);
@@ -98,7 +85,7 @@ class PricingManagerParserTest {
 
     @Test
     void givenVersionV11ShouldParse() {
-        String path = "parsing/pricing-manager/positive/v1.1.yml";
+        String path = "parsing/legacy-tests/pricing-manager/positive/v1.1.yml";
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(Version.V2_0, pricingManager.getVersion());
@@ -109,8 +96,8 @@ class PricingManagerParserTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/negative-cases.csv", delimiter = ';')
-    void foobar(String fileName, String expectedErrorMessage) {
+    @CsvFileSource(resources = "/negative-parsing-tests.csv", delimiter = ';')
+    void negativeTests(String fileName, String expectedErrorMessage) {
 
         try {
             YamlUtils.retrieveManagerFromYaml(fileName);
@@ -123,7 +110,7 @@ class PricingManagerParserTest {
     @Test
     void givenFeatureWithTagShouldParse() {
 
-        String path = "parsing/pricing-manager/positive/feature-tag.yml";
+        String path = "parsing/legacy-tests/pricing-manager/positive/feature-tag.yml";
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(2, pricingManager.getFeatures().size());

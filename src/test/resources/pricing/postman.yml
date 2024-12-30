@@ -864,8 +864,6 @@ addOns:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE
-    monthlyPrice: 15.00
-    annualPrice: 12.00
     unit: user/month
     features:
       postmanFlows:
@@ -883,8 +881,6 @@ addOns:
       - BASIC
       - PROFESSIONAL
       - ENTERPRISE
-    monthlyPrice: 25.00
-    annualPrice: 20.00
     unit: user/month
     features:
       postmanFlows:
