@@ -11,15 +11,15 @@ parsing/negative/addOn/usageLimits/usageLimits-not-a-map.yml;The usage limit foo
 # usageLimitsExtensions.csv
 parsing/negative/addOn/usageLimitsExtensions/usageLimitsExtensions-not-a-map.yml;The usage limit fooLimit of the add-on Baz is not a valid map. Maybe 'value' attribute is missing to set the value of the limit
 # billing.csv
-parsing/negative/billing/boolean-as-billing-value.yml;The value for billing key 'monthly' must be a Double but found Boolean
-parsing/negative/billing/boolean-in-a-single-entry.yml;The value for billing key 'monthly' must be a Double but found Integer
-#parsing/negative/billing/negative-coef-big.yml;Este caso falla
-#parsing/negative/billing/negative-coef-low.yml;coeficiente negativo debería fallar
-#parsing/negative/billing/null-as-billing-value.yml;Este caso falla
-#parsing/negative/billing/null-in-a-single-entry.yml;Este caso falla
-#parsing/negative/billing/outbound-upper-coef-big.yml;Test
-#parsing/negative/billing/outbound-upper-coef-close.yml;Test
-#parsing/negative/billing/zero-coef.yml;Test
+parsing/negative/billing/boolean-as-billing-value.yml;The value for billing key 'monthly' must be a Double or an Integer, but found Boolean
+parsing/negative/billing/boolean-in-a-single-entry.yml;The value for billing key 'annual' must be a Double or an Integer, but found Boolean
+parsing/negative/billing/negative-coef-big.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found -1000.0
+parsing/negative/billing/negative-coef-low.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found -0.1
+parsing/negative/billing/null-as-billing-value.yml;The billing key 'monthly' cannot have a null value
+parsing/negative/billing/null-in-a-single-entry.yml;The billing key 'annual' cannot have a null value
+parsing/negative/billing/outbound-upper-coef-big.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 1000.0
+parsing/negative/billing/outbound-upper-coef-close.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 1.1
+parsing/negative/billing/zero-coef.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 0.0
 # createdAt.csv
 parsing/negative/createdAt/pricing-invalid-format-createdAt.yml;"createdAt" "test" is invalid, use the following yyyy-MM-dd
 parsing/negative/createdAt/pricing-invalid-type-createdAt.yml;"createdAt" detected type is Integer and must be a String or Date formatted like yyyy-MM-dd

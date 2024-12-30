@@ -164,10 +164,24 @@ public class PricingManagerParser {
             Map<String, Object> billingMap = (Map<String, Object>) yamlConfigMap.get("billing");
             Map<String, Double> parsedBilling = new LinkedHashMap<>();
             for (Map.Entry<String, Object> entry : billingMap.entrySet()) {
-                if (!(entry.getValue() instanceof Double)) {
+
+                if (entry.getValue() == null) {
+                    throw new PricingParsingException(String.format("The billing key '%s' cannot have a null value", entry.getKey()));
+                }
+
+                if (!(entry.getValue() instanceof Double || entry.getValue() instanceof Integer)) {
                     throw new PricingParsingException(
-                            String.format("The value for billing key '%s' must be a Double but found %s",
+                            String.format("The value for billing key '%s' must be a Double or an Integer, but found %s",
                                     entry.getKey(), entry.getValue().getClass().getSimpleName()));
+                }
+                
+                if (entry.getValue() instanceof Integer) {
+                    entry.setValue(((Integer) entry.getValue()).doubleValue());
+                }
+
+                if ((Double) entry.getValue() <= 0 || (Double) entry.getValue() > 1) {
+                    throw new PricingParsingException(
+                            String.format("The value for billing key '%s' must be a coeficient in the range (0,1], but found %s", entry.getKey(), entry.getValue()));
                 }
 
                 parsedBilling.put(entry.getKey(), (Double) entry.getValue());
