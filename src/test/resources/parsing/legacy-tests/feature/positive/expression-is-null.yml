@@ -1,0 +1,20 @@
+saasName: Null expression
+version: '1.0'
+currency: EUR
+hasAnnualPayment: false
+day: 31
+month: 8
+year: 2024
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

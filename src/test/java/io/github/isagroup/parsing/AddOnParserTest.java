@@ -13,7 +13,7 @@ public class AddOnParserTest {
     @Test
     void givenAddOnThatDependsOnAnotherAddonCreatesPricingManager() {
 
-        String path = "parsing/rules/positive/add-on-depending-on-another-add-on.yml";
+        String path = "parsing/legacy-tests/rules/positive/add-on-depending-on-another-add-on.yml";
         try {
             PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
             assertEquals(2, pricingManager.getAddOns().size());

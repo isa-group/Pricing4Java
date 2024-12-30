@@ -14,7 +14,7 @@ import io.github.isagroup.services.yaml.YamlUtils;
 
 public class FeatureParserTest {
 
-    private static final String TEST_CASES = "parsing/feature/";
+    private static final String TEST_CASES = "parsing/legacy-tests/feature/";
     private static final String POSITIVE_CASES = TEST_CASES + "positive/";
 
     @Test

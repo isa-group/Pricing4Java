@@ -1,0 +1,38 @@
+saasName: Test
+version: '1.0'
+day: 1
+month: 1
+year: 2024
+currency: EUR
+hasAnnualPayment: false
+features:
+  payment:
+    description: Payment feature
+    valueType: TEXT
+    defaultValue:
+      - CARD
+    type: PAYMENT
+    expression: foo==foo
+    serverExpression: bar==bar
+usageLimits:
+  limit:
+    description: Limit for payment
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: foo
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - payment
+plans:
+  BASIC:
+    description: Foo
+    monthlyPrice: 10
+    annualPrice: 15
+    unit: user/month
+    features:
+      payment:
+        value:
+          - CARD
+          - GATEWAY
+    usageLimits: null
+addOns: null

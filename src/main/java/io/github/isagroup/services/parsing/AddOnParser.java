@@ -3,6 +3,7 @@ package io.github.isagroup.services.parsing;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.github.isagroup.exceptions.FeatureNotFoundException;
 import io.github.isagroup.exceptions.InvalidDefaultValueException;
@@ -101,6 +102,11 @@ public class AddOnParser {
     private static void setAvailableFor(Map<String, Object> addOnMap, PricingManager pricingManager, AddOn addOn) {
 
         List<String> plansAvailable = (List<String>) addOnMap.get("availableFor");
+
+        if (plansAvailable == null) {
+            List<String> allPlans = pricingManager.getPlans().keySet().stream().toList();
+            addOn.setAvailableFor(allPlans);
+        }
 
         for (String planName : plansAvailable) {
             if (!pricingManager.getPlans().containsKey(planName)
