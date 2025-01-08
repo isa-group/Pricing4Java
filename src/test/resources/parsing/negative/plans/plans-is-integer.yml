@@ -1,0 +1,10 @@
+saasName: integer in plans
+version: '2.0'
+createdAt: '2024-08-31'
+currency: EUR
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans: 1

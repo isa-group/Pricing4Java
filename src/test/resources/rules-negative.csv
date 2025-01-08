@@ -1,3 +1,0 @@
-FILENAME;EXPECTED_ERROR_MESSAGE
-add-on-depending-on-unexistent-add-on;The plan or addOn bax is not defined in the pricing manager
-null-plans-and-addons;The pricing manager does not have any plans or add ons

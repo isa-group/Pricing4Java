@@ -17,8 +17,9 @@ public class YamlUpdater {
 
     public static void update(Map<String, Object> configFile) throws UpdateException {
 
-
-        configFile.putIfAbsent("version", "1.0");
+        if (configFile.get("version") == null) {
+            throw new VersionException("The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted");
+        }
 
         Version version = Version.version(configFile.get("version"));
         if (updaters.get(version) == null) {

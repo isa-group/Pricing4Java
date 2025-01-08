@@ -1,0 +1,39 @@
+version: "1.1"
+saasName: And add-on depending on another add-on
+currency: EUR
+createdAt: "2012-11-12"
+hasAnnualPayment: false
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null
+addOns:
+  bar:
+    description: Bar addon
+    availableFor:
+      - BASIC
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null
+  baz:
+    description: Baz addon
+    availableFor:
+      - BASIC
+    dependsOn:
+      - bar
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

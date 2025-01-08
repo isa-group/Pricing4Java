@@ -1,0 +1,20 @@
+saasName: Variables is a boolean
+version: '1.1'
+createdAt: '2024-08-31'
+currency: EUR
+hasAnnualPayment: false
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    price: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null
+variables: true

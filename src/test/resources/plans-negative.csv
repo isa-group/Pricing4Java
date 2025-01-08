@@ -1,6 +1,0 @@
-FILENAME;EXPECTED_ERROR_MESSAGE
-plans-is-boolean;The plans are not defined correctly. It should be a map of plans and their options
-plans-is-string;The plans are not defined correctly. It should be a map of plans and their options
-plans-is-integer;The plans are not defined correctly. It should be a map of plans and their options
-plans-is-float;The plans are not defined correctly. It should be a map of plans and their options
-plans-is-list;The plans are not defined correctly. It should be a map of plans and their options

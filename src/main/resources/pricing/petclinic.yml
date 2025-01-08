@@ -1,4 +1,5 @@
 saasName: petclinic
+version: "1.0"
 day: 15
 month: 1
 year: 2024
