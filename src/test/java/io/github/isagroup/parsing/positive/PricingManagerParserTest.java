@@ -40,7 +40,6 @@ class PricingManagerParserTest {
 
     @Test
     @DisplayName(value = "Given no 'billing' by default should set a 'monthly: 1'")
-    @Disabled
     void givenNoBillingADefaultMonthlyValueShouldBeSet() {
 
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "billing/no-billing-set.yml");
@@ -51,7 +50,6 @@ class PricingManagerParserTest {
 
     @Test
     @DisplayName(value = "Given a single entry in 'billing' map should parse it")
-    @Disabled
     void givenBillingOneEntryShouldParse() {
 
         PricingManager pricingManager = YamlUtils
