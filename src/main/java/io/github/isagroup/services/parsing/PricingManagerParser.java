@@ -204,6 +204,10 @@ public class PricingManagerParser {
             }
 
             pricingManager.setBilling(parsedBilling);
+        }else{
+            Map<String, Double> billingMap = new LinkedHashMap<>();
+            billingMap.put("monthly", 1.0);
+            pricingManager.setBilling(billingMap);
         }
 
     }
