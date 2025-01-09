@@ -1,5 +1,6 @@
 package io.github.isagroup.services.updaters;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +98,22 @@ public class V11ToV20Updater extends VersionUpdater {
                         System.out.println("[V20 UPDATER WARNING] " + containerName + " " + entry.getKey() + " does not have a monthlyPrice but annualPrice instead, keep in mind that we are copying this value to price");
                         containerAttributes.put("price", containerAttributes.get("annualPrice"));
                     }   
+
+                    Map<String, Double> billingMap = new LinkedHashMap<>();
+                    billingMap.put("monthly", 1.0);
+
+                    if (containerAttributes.get("monthlyPrice") != null && containerAttributes.get("annualPrice") != null) {
+                        Double annualCoef = Double.parseDouble(containerAttributes.get("annualPrice").toString()) / Double.parseDouble(containerAttributes.get("monthlyPrice").toString());
+                        if (annualCoef > 1.0){
+                            billingMap.put("annual", 1.0);
+                        }else if(annualCoef < 0.0){
+                            billingMap.put("annual", 0.0);
+                        }else{
+                            billingMap.put("annual", annualCoef);
+                        }
+                    }
+
+                    configFile.put("billing", billingMap);
                 }
 
                 containerAttributes.remove("monthlyPrice");
