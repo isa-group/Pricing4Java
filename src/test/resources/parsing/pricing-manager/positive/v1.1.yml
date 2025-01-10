@@ -1,0 +1,24 @@
+version: "1.1"
+saasName: Yaml4SaaS 1.1 syntax
+createdAt: "2024-08-30"
+starts: 2024-01-01 12:00:00
+ends: 2025-01-01 12:00:00
+currency: EUR
+hasAnnualPayment: false
+features:
+  coreFeature1:
+    type: DOMAIN
+    valueType: BOOLEAN
+    defaultValue: true
+  coreFeature2:
+    type: DOMAIN
+    valueType: BOOLEAN
+    defaultValue: true
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

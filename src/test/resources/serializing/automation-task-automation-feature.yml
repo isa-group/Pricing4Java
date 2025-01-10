@@ -1,0 +1,6 @@
+description: Testing task automation
+valueType: TEXT
+defaultValue: Bar
+expression: 1==1
+type: AUTOMATION
+automationType: TASK_AUTOMATION

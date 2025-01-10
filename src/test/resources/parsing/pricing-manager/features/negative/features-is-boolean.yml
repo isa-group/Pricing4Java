@@ -1,0 +1,6 @@
+saasName: boolean in features
+currency: EUR
+hasAnnualPayment: false
+features: true
+version: '1.1'
+createdAt: '2024-08-31'

@@ -1,0 +1,21 @@
+saasName: Version 1.0 of Yaml syntax
+day: 31
+month: 8
+year: 2024
+currency: EUR
+hasAnnualPayment: false
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+    expression: 1==1
+    serverExpression: 1==1
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

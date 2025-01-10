@@ -35,7 +35,7 @@ public class PricingPlanAwareTests {
     private static final String JWT_SECRET_TEST = "secret";
     private static final Integer JWT_EXPIRATION_TEST = 86400;
     private static final String JWT_SUBJECT_TEST = "admin1";
-    private static final String CONFIG_FILE_PATH_TEST = "yaml-testing/petclinic.yml";
+    private static final String CONFIG_FILE_PATH_TEST = "pricing/petclinic.yml";
 
     @Configuration
     public static class TestConfiguration {

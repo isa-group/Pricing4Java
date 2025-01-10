@@ -16,8 +16,6 @@ import io.github.isagroup.PricingContext;
 import io.github.isagroup.PricingEvaluatorUtil;
 import io.github.isagroup.services.jwt.PricingJwtUtils;
 
-import java.util.Map;
-
 public class RenewTokenFilter extends OncePerRequestFilter {
 
 	@Autowired

@@ -10,30 +10,26 @@ import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.UsageLimit;
+import io.github.isagroup.services.updaters.Version;
 
 public class PricingManagerSerializer {
 
-    private PricingManager pricingManager;
     private Map<String, Object> serializedPricingManager;
 
-    public PricingManagerSerializer(PricingManager pricingManager) {
-        this.pricingManager = pricingManager;
+    public PricingManagerSerializer() {
         this.serializedPricingManager = new LinkedHashMap<>();
     }
 
-    private void initPricingManagerMetadata() {
+    public Map<String, Object> serialize(PricingManager pricingManager) throws SerializerException {
+
+        serializedPricingManager.put("version", Version.LATEST.toString());
         serializedPricingManager.put("saasName", pricingManager.getSaasName());
-        serializedPricingManager.put("day", pricingManager.getDay());
-        serializedPricingManager.put("month", pricingManager.getMonth());
-        serializedPricingManager.put("year", pricingManager.getYear());
+        serializedPricingManager.put("createdAt", pricingManager.getCreatedAt().toString());
+        serializedPricingManager.put("url", pricingManager.getUrl());
+        serializedPricingManager.put("tags", pricingManager.getTags());
+        serializedPricingManager.put("billing", pricingManager.getBilling());
+        serializedPricingManager.put("variables", pricingManager.getVariables());
         serializedPricingManager.put("currency", pricingManager.getCurrency());
-        serializedPricingManager.put("hasAnnualPayment", pricingManager.getHasAnnualPayment());
-
-    }
-
-    public Map<String, Object> serialize() throws SerializerException {
-
-        initPricingManagerMetadata();
 
         if (pricingManager.getFeatures() == null) {
             throw new SerializerException("Features are null. Filling the pricing with features is mandatory.");
@@ -44,15 +40,15 @@ public class PricingManagerSerializer {
                     "Plans and AddOns are null. You have to set at least one of them.");
         }
 
-        serializedPricingManager.put("features", serializeFeatures());
-        serializedPricingManager.put("usageLimits", serializeUsageLimits());
-        serializedPricingManager.put("plans", serializePlans());
-        serializedPricingManager.put("addOns", serializeAddOns().orElse(null));
+        serializedPricingManager.put("features", serializeFeatures(pricingManager));
+        serializedPricingManager.put("usageLimits", serializeUsageLimits(pricingManager));
+        serializedPricingManager.put("plans", serializePlans(pricingManager));
+        serializedPricingManager.put("addOns", serializeAddOns(pricingManager).orElse(null));
 
         return serializedPricingManager;
     }
 
-    private Map<String, Object> serializeFeatures() {
+    private Map<String, Object> serializeFeatures(PricingManager pricingManager) {
 
         Map<String, Object> serializedFeatures = new LinkedHashMap<>();
         for (Feature feature : pricingManager.getFeatures().values()) {
@@ -62,7 +58,7 @@ public class PricingManagerSerializer {
         return serializedFeatures;
     }
 
-    private Map<String, Object> serializeUsageLimits() {
+    private Map<String, Object> serializeUsageLimits(PricingManager pricingManager) {
         Map<String, Object> serializedUsageLimits = new LinkedHashMap<>();
 
         if (pricingManager.getUsageLimits() == null) {
@@ -78,7 +74,7 @@ public class PricingManagerSerializer {
 
     }
 
-    private Map<String, Object> serializePlans() {
+    private Map<String, Object> serializePlans(PricingManager pricingManager) {
         Map<String, Object> serializedPlans = new LinkedHashMap<>();
         for (Plan plan : pricingManager.getPlans().values()) {
             serializedPlans.put(plan.getName(), plan.serializePlan());
@@ -86,7 +82,7 @@ public class PricingManagerSerializer {
         return serializedPlans;
     }
 
-    public Optional<Map<String, Object>> serializeAddOns() {
+    public Optional<Map<String, Object>> serializeAddOns(PricingManager pricingManager) {
 
         if (pricingManager.getAddOns() == null) {
             return Optional.empty();

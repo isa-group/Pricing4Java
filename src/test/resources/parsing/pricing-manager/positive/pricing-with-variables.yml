@@ -1,0 +1,28 @@
+version: "2.0"
+saasName: Basic PLAN has a complex expression
+currency: EUR
+hasAnnualPayment: false
+createdAt: "2024-08-31"
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    price: "#vip ? 0.0 : #x"
+    unit: user/month
+    features: null
+    usageLimits: null
+  PRO:
+    description: Pro plan
+    monthlyPrice: 15.99
+    annualPrice: 11.99
+    price: 15.99
+    unit: user/month
+    features: null
+    usageLimits: null
+variables:
+  vip: true
+  x: 5

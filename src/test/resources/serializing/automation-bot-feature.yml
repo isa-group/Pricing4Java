@@ -1,0 +1,6 @@
+description: Testing bot
+valueType: TEXT
+defaultValue: Bar
+expression: 1==1
+type: AUTOMATION
+automationType: BOT

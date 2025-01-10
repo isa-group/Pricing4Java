@@ -1,0 +1,48 @@
+saasName: Invalid syntax
+version: "1.0"
+day: 1
+month: 1
+year: 2024
+currency: USD
+hasAnnualPayment: false
+features:
+  foo:
+    description: Foo
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+usageLimits:
+  fooLimit:
+    description: Foo
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: machine
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - foo
+plans:
+  Bar:
+    description: Bar
+    monthlyPrice: 60
+    annualPrice: 40
+    unit: user/month
+    features:
+      foo:
+        value: true
+    usageLimits:
+      fooLimit:
+        value: 1
+addOns:
+  Baz:
+    availableFor:
+      - Bar
+    price: 1.0
+    unit: user/month
+    features:
+      foo:
+        value: true
+    usageLimits:
+      fooLimit:
+        value: 10_000_000
+    usageLimitsExtensions:
+      fooLimit: 5_000_000

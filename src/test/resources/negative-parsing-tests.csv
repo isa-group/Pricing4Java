@@ -1,0 +1,81 @@
+# TEST_DESCRIPTION;FILENAME;EXPECTED_ERROR_MESSAGE
+# addOn.dependsOn
+Throw an error when refering to an add-on that does not exist in 'dependsOn';parsing/negative/addOn/dependsOn/unexistent-addOn.yml;The addOn bax is not defined in the pricing manager
+# addOn.private
+Throw an error if add-on 'private' field is not a boolean;parsing/negative/addOn/private/boolean-string-private.yml;The field "private" should be a boolean
+Throw an error if add-on 'private' field is not a boolean;parsing/negative/addOn/private/number-private.yml;The field "private" should be a boolean
+Throw an error if add-on 'private' field is not a boolean;parsing/negative/addOn/private/string-private.yml;The field "private" should be a boolean
+# addOn.usageLimits
+Throw an error if add-on 'usageLimits' is not a map;parsing/negative/addOn/usageLimits/usageLimits-not-a-map.yml;The usage limit fooLimit of the add-on Baz is not a valid map. Maybe 'value' attribute is missing to set the value of the limit
+# addOn.usageLimitsExtensions
+Throw an error if add-on 'usageLimitExtensions' is not a map;parsing/negative/addOn/usageLimitsExtensions/usageLimitsExtensions-not-a-map.yml;The usage limit fooLimit of the add-on Baz is not a valid map. Maybe 'value' attribute is missing to set the value of the limit
+# billing
+Throw an error if billing is not a number;parsing/negative/billing/boolean-as-billing-value.yml;The value for billing key 'monthly' must be a Double or an Integer, but found Boolean
+Throw an error if billing is not a number;parsing/negative/billing/boolean-in-a-single-entry.yml;The value for billing key 'annual' must be a Double or an Integer, but found Boolean
+Throw an error if billing factor is negative;parsing/negative/billing/negative-coef-big.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found -1000.0
+Throw an error if billing factor is negative;parsing/negative/billing/negative-coef-low.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found -0.1
+Throw an error if billing factor is null;parsing/negative/billing/null-as-billing-value.yml;The billing key 'monthly' cannot have a null value
+Throw an error if billing factor is null;parsing/negative/billing/null-in-a-single-entry.yml;The billing key 'annual' cannot have a null value
+Throw an error if billing factor is larger than 1;parsing/negative/billing/outbound-upper-coef-big.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 1000.0
+Throw an error if billing factor is larger than 1;parsing/negative/billing/outbound-upper-coef-close.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 1.1
+Throw an error if billing factor is 0;parsing/negative/billing/zero-coef.yml;The value for billing key 'monthly' must be a coeficient in the range (0,1], but found 0.0
+# createdAt
+Throw an error if 'createdAt' date string is bad formated;parsing/negative/createdAt/pricing-invalid-format-createdAt.yml;"createdAt" "test" is invalid, use the following yyyy-MM-dd
+Throw an error if 'createdAt' is not a string or date;parsing/negative/createdAt/pricing-invalid-type-createdAt.yml;"createdAt" detected type is Integer and must be a String or Date formatted like yyyy-MM-dd
+Throw an error if 'createdAt' is missing;parsing/negative/createdAt/pricing-no-createdAt.yml;'createdAt' is mandatory. Check your config file.
+Throw an error if 'createdAt' is null;parsing/negative/createdAt/pricing-null-createdAt.yml;'createdAt' is mandatory. Check your config file.
+# currency
+Throw an error if 'currency' is not a string;parsing/negative/currency/currency-is-boolean.yml;'currency' has to be a string
+Throw an error if 'currency' is missing;parsing/negative/currency/currency-is-null.yml;Currency was not defined
+# feature
+Throw an error if a feature is not a map of attributes;parsing/negative/feature/feature-is-key-value.yml;Feature 'foo' must be a Map but found String instead
+Throw an error if a feature is named 'null';parsing/negative/feature/feature-null-as-key.yml;A feature cannot have the name null
+# feature.type
+Throw an error if feature 'type' is missing or null;parsing/negative/feature/type/null-type.yml;feature 'type' is mandatory
+# feature.valueType
+Throw an error if feature 'type' is missing or null;parsing/negative/feature/valueType/null-valueType.yml;Feature value type is null
+Throw an error if feature 'type' is not a supported feature type;parsing/negative/feature/valueType/unsupported-valueType.yml;The feature foo does not have a supported valueType. Current valueType: foo
+# features
+Throw an error if 'features' is not a map;parsing/negative/features/features-is-boolean.yml;'features' must be a Map but found Boolean instead
+Throw an error if 'features' is not a map;parsing/negative/features/features-is-float.yml;'features' must be a Map but found Double instead
+Throw an error if 'features' is not a map;parsing/negative/features/features-is-integer.yml;'features' must be a Map but found Integer instead
+Throw an error if 'features' is not a map;parsing/negative/features/features-is-list.yml;'features' must be a Map but found ArrayList instead
+Throw an error if 'features' is missing or null;parsing/negative/features/features-is-null.yml;'features' is mandatory. It should be a map of features with their correspoding attributes.
+Throw an error if 'features' is not a map;parsing/negative/features/features-is-string.yml;'features' must be a Map but found String instead
+# plan.price
+#parsing/negative/plan/price/price-expression-no-variables.yml;The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'null'
+#parsing/negative/plan/price/price-expression-string-variables.yml;The operator 'MULTIPLY' is not supported between objects of type 'java.lang.Integer' and 'java.lang.String'
+# plan.private
+Throw an error if plan 'private' is not a boolean;parsing/negative/plan/private/boolean-string-private.yml;The field "private" should be a boolean
+Throw an error if plan 'private' is not a boolean;parsing/negative/plan/private/number-private.yml;The field "private" should be a boolean
+Throw an error if plan 'private' is not a boolean;parsing/negative/plan/private/string-private.yml;The field "private" should be a boolean
+# plans
+Throw an error if 'plans' is not a map;parsing/negative/plans/plans-is-boolean.yml;The plans are not defined correctly. It should be a map of plans and their options
+Throw an error if 'plans' is not a map;parsing/negative/plans/plans-is-float.yml;The plans are not defined correctly. It should be a map of plans and their options
+Throw an error if 'plans' is not a map;parsing/negative/plans/plans-is-integer.yml;The plans are not defined correctly. It should be a map of plans and their options
+Throw an error if 'plans' is not a map;parsing/negative/plans/plans-is-list.yml;The plans are not defined correctly. It should be a map of plans and their options
+Throw an error if 'plans' is not a map;parsing/negative/plans/plans-is-string.yml;The plans are not defined correctly. It should be a map of plans and their options
+# saasName
+Throw an error if 'saasName' is empty;parsing/negative/saasName/pricing-empty-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
+Throw an error if 'saasName' is not a string;parsing/negative/saasName/pricing-invalid-name.yml;'saasName' has to be a string
+Throw an error if 'saasName' is too long;parsing/negative/saasName/pricing-long-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
+Throw an error if 'saasName' is missing;parsing/negative/saasName/pricing-no-name.yml;SaasName was not defined
+Throw an error if 'saasName' is null;parsing/negative/saasName/pricing-null-name.yml;SaasName was not defined
+Throw an error if 'saasName' is too short;parsing/negative/saasName/pricing-short-name.yml;The 'saasName' field must be a String with a length between 3 and 50 characters
+# tags
+Throw an error if 'tags' is not a list;parsing/negative/tags/invalid-tags.yml;"tags" type is String and must be a List
+Throw an eror if a feature 'tag' is refering to a non existent tag in 'tags';parsing/negative/tags/pricing-tag-not-in-tags.yml;The tag Tag 3 is not defined in the global tags.
+# url
+Throw an error if 'url' is not a string;parsing/negative/url/boolean-url.yml;If 'url' field is used, it has to be a string
+Throw an error if 'url' protocol is not http or https;parsing/negative/url/invalid-protocol-url.yml;The 'url' field must be a String with a valid URL format, using http or https protocol
+Throw an error if 'url' is a plain string;parsing/negative/url/invalid-string-url.yml;The 'url' field must be a String with a valid URL format, using http or https protocol
+Throw an error if 'url' is not a string;parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string
+# variables
+Throw an error if 'variables' is not a map;parsing/negative/variables/variables-is-boolean.yml;variables must be a map but found Boolean instead
+# version
+Throw an error if 'version' is bad formated;parsing/negative/version/pricing-invalid-format-version.yml;Invalid version "1.0.0", use <major>.<minor> version format
+Throw an error if 'version' is not a string like <major>.<minor>;parsing/negative/version/pricing-invalid-type-version.yml;Cannot parse 100 to a version
+Throw an error if 'version' is missing;parsing/negative/version/pricing-no-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
+Throw an error if 'version' is null;parsing/negative/version/pricing-null-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
+# other checks
+Throw an error if 'plans' and 'addOns' are null at the same time;parsing/negative/null-plans-and-addons.yml;The pricing manager does not have any plans or add ons

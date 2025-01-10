@@ -1,0 +1,20 @@
+version: 1.1
+saasName: version parses as a float
+currency: EUR
+hasAnnualPayment: false
+createdAt: "2024-08-30"
+starts: 2024-01-01 12:00:00
+ends: 2025-01-01 12:00:00
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

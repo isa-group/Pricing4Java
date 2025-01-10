@@ -1,0 +1,12 @@
+saasName: plans and addons are null simultaneously
+currency: EUR
+hasAnnualPayment: false
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans: null
+addOns: null
+version: '1.1'
+createdAt: '2024-08-31'

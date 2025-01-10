@@ -1,0 +1,18 @@
+version: "1.1"
+saasName: createdAt is a string but has an invalid date format
+currency: EUR
+hasAnnualPayment: false
+createdAt: Invalid date format :(
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

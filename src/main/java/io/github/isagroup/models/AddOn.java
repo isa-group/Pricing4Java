@@ -15,11 +15,13 @@ import lombok.Setter;
 public class AddOn {
 
     private String name;
+    private String description;
     private List<String> availableFor;
+    private List<String> dependsOn;
+    private List<String> excludes;
     private Object price;
-    private Object monthlyPrice;
-    private Object annualPrice;
     private String unit;
+    private Boolean isPrivate;
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
     private Map<String, UsageLimit> usageLimitsExtensions;
@@ -27,20 +29,23 @@ public class AddOn {
     public Map<String, Object> serializeAddOn() {
         Map<String, Object> serializedAddOn = new LinkedHashMap<>();
 
+        serializedAddOn.put("description", description);
+
         if (availableFor != null && !availableFor.isEmpty()) {
             serializedAddOn.put("availableFor", availableFor);
         }
 
+        if (dependsOn != null && !availableFor.isEmpty()) {
+            serializedAddOn.put("dependsOn", availableFor);
+        }
+        if (excludes != null && !availableFor.isEmpty()) {
+            serializedAddOn.put("excludes", availableFor);
+        }
+
+        serializedAddOn.put("private", isPrivate);
+
         if (price != null) {
             serializedAddOn.put("price", price);
-        }
-
-        if (monthlyPrice != null) {
-            serializedAddOn.put("monthlyPrice", monthlyPrice);
-        }
-
-        if (annualPrice != null) {
-            serializedAddOn.put("annualPrice", annualPrice);
         }
 
         if (unit != null) {

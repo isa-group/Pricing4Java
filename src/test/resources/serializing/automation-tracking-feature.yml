@@ -1,0 +1,6 @@
+description: Testing tracking
+valueType: TEXT
+defaultValue: Bar
+expression: 1==1
+type: AUTOMATION
+automationType: TRACKING

@@ -22,7 +22,7 @@ public class UsageLimitParser {
     private UsageLimitParser() {
     }
 
-    public static UsageLimit parseMapToFeature(String limitName, Map<String, Object> limitMap,
+    public static UsageLimit parseMapToUsageLimit(String limitName, Map<String, Object> limitMap,
             PricingManager pricingManager) {
 
         Set<String> featureKeys = pricingManager.getFeatures().keySet();

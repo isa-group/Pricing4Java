@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import io.github.isagroup.exceptions.PricingPlanEvaluationException;
-import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.PricingManager;
-import io.github.isagroup.models.UsageLimit;
 import io.github.isagroup.services.yaml.YamlUtils;
 import io.github.isagroup.models.Plan;
 
@@ -39,7 +37,7 @@ public abstract class PricingContext {
      * Returns the secret used to encode the authorization JWT.
      * * @return JWT secret String
      */
-    public String getAuthJwtSecret(){
+    public String getAuthJwtSecret() {
         return this.getJwtSecret();
     }
 
@@ -53,17 +51,17 @@ public abstract class PricingContext {
     }
 
     /**
-     * This method can be used to determine which users are affected 
-     * by the pricing, so a pricing-driven JWT will be only generated 
+     * This method can be used to determine which users are affected
+     * by the pricing, so a pricing-driven JWT will be only generated
      * for them.
      * 
      * @return A {@link Boolean} indicating the condition to include, or not,
-     * the pricing evaluation context in the JWT.
+     *         the pricing evaluation context in the JWT.
      * 
      * @see PricingEvaluatorUtil#generateUserToken
      * 
      */
-    public Boolean userAffectedByPricing(){
+    public Boolean userAffectedByPricing() {
         return true;
     }
 
@@ -98,11 +96,15 @@ public abstract class PricingContext {
         Map<String, Object> planContext = plan.parseToMap();
 
         Map<String, Object> planFeaturesContext = plan.getFeatures().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getValue() != null ? e.getValue().getValue() : e.getValue().getDefaultValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        e -> e.getValue().getValue() != null ? e.getValue().getValue()
+                                : e.getValue().getDefaultValue()));
         planContext.put("features", planFeaturesContext);
 
         Map<String, Object> planUsageLimitMap = plan.getUsageLimits().entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().getValue() != null ? e.getValue().getValue() : e.getValue().getDefaultValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                        e -> e.getValue().getValue() != null ? e.getValue().getValue()
+                                : e.getValue().getDefaultValue()));
         planContext.put("usageLimits", planUsageLimitMap);
 
         return planContext;

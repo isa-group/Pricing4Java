@@ -1,0 +1,17 @@
+version: "1.1"
+saasName: Extra fields in yaml
+currency: EUR
+hasAnnualPayment: false
+extra: Extra field
+createdAt: "2024-08-30"
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: 0.0
+    annualPrice: 0.0
+    unit: user/month

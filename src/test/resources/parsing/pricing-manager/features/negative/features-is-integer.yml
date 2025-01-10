@@ -1,0 +1,6 @@
+saasName: features is string
+currency: EUR
+hasAnnualPayment: false
+features: 1
+version: '1.1'
+createdAt: '2024-08-31'

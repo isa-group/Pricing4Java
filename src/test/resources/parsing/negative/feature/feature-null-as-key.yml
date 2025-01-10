@@ -1,0 +1,31 @@
+saasName: Given a feature named 'null' should throw
+version: '1.0'
+day: 1
+month: 1
+year: 2024
+currency: EUR
+hasAnnualPayment: false
+features:
+  null:
+    description: Key is null
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+usageLimits:
+  limit:
+    description: Limit for null feature
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: foo
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - null
+plans:
+  BASIC:
+    description: Foo
+    monthlyPrice: 10
+    annualPrice: 15
+    unit: user/month
+    features: null
+    usageLimits: null
+addOns: null

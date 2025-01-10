@@ -1,0 +1,11 @@
+saasName: string in plans
+currency: EUR
+hasAnnualPayment: false
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans: Invalid string
+version: '1.1'
+createdAt: '2024-08-31'

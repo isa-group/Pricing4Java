@@ -3,15 +3,13 @@ package io.github.isagroup.serializer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
-import io.github.isagroup.models.AddOn;
+
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
@@ -20,19 +18,12 @@ import io.github.isagroup.models.featuretypes.Domain;
 import io.github.isagroup.models.usagelimittypes.Renewable;
 import io.github.isagroup.services.serializer.PricingManagerSerializer;
 
-public class PricingManagerSerializerTest {
-
-    private Yaml yaml;
-
-    @BeforeEach
-    public void setUp() {
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        this.yaml = new Yaml(options);
-    }
+class PricingManagerSerializerTest {
 
     private PricingManager initPricingManager() {
         PricingManager pricingManager = new PricingManager();
+
+        pricingManager.setCreatedAt(LocalDate.now());
 
         Domain domain = new Domain();
         domain.setName("domain");
@@ -58,14 +49,14 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoFeatures_should_ThrowException() {
+    void givenNoFeaturesShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
 
         pricingManager.setFeatures(null);
-        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
+        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer();
         try {
-            pricingManagerSerializer.serialize();
+            pricingManagerSerializer.serialize(pricingManager);
             fail("Features are not defined");
         } catch (Exception e) {
             String expected = "Features are null. Filling the pricing with features is mandatory.";
@@ -75,14 +66,14 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoPlansAndAddOns_should_ThrowException() {
+    void givenNoPlansAndAddOnsShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
         pricingManager.setPlans(null);
 
-        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
+        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer();
         try {
-            pricingManagerSerializer.serialize();
+            pricingManagerSerializer.serialize(pricingManager);
             fail("Plans are not defined");
         } catch (Exception e) {
             String expected = "Plans and AddOns are null. You have to set at least one of them.";
@@ -92,15 +83,14 @@ public class PricingManagerSerializerTest {
     }
 
     @Test
-    public void givenNoAddOns_should_SerializeNullAddOns() {
+    void givenNoAddOnsShouldSerializeNullAddOns() {
 
         PricingManager pricingManager = initPricingManager();
 
-        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer(pricingManager);
+        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer();
         try {
-            Map<String, Object> res = pricingManagerSerializer.serialize();
-            Object actual = res.getOrDefault("addOns", "Fail");
-            assertEquals(null, actual, "addOns does not serialized as null value");
+            Map<String, Object> res = pricingManagerSerializer.serialize(pricingManager);
+            assertEquals(null, res.get("addOns"));
         } catch (Exception e) {
             fail("addOns key does not exist");
 

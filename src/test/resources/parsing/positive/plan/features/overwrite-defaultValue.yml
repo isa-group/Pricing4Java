@@ -1,0 +1,33 @@
+saasName: Test
+version: '1.0'
+day: 1
+month: 1
+year: 2024
+currency: EUR
+hasAnnualPayment: false
+features:
+  featureA:
+    description: Feature A
+    valueType: BOOLEAN
+    defaultValue: false
+    type: DOMAIN
+usageLimits:
+  limitA:
+    description: Limit for Feature A
+    valueType: NUMERIC
+    defaultValue: 0
+    unit: foo
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - featureA
+plans:
+  BASIC:
+    description: Foo
+    monthlyPrice: 10
+    annualPrice: 15
+    unit: user/month
+    features:
+      featureA:
+        value: true
+    usageLimits: null
+addOns: null

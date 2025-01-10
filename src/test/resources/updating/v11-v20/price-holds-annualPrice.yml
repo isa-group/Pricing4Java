@@ -1,0 +1,20 @@
+version: "1.1"
+saasName: given annualPrice price holds 17.99
+currency: EUR
+hasAnnualPayment: false
+createdAt: "2024-08-30"
+starts: 2024-01-01 12:00:00
+ends: 2025-01-01 12:00:00
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    monthlyPrice: null
+    annualPrice: 17.99
+    unit: user/month
+    features: null
+    usageLimits: null
