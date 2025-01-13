@@ -37,11 +37,7 @@ public class AddOnParser {
         // ---------- availableFor ----------
         setAvailableFor(addOnMap, pricingManager, addOn);
 
-        // ---------- dependsOn ----------
-        setDependsOn(addOnMap, pricingManager, addOn);
-
-        // ---------- excludes ----------
-        setExcludes(addOnMap, pricingManager, addOn);
+        // NOTE: dependsOn and excludes will be added later. This is because we need to have all the addOns parsed before we can check if the dependsOn and excludes are valid.
 
         // ---------- private ----------
 
