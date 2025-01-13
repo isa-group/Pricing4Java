@@ -1,6 +1,6 @@
 # TEST_DESCRIPTION;FILENAME;EXPECTED_ERROR_MESSAGE
 # addOn.dependsOn
-Throw an error when refering to an add-on that does not exist in 'dependsOn';parsing/negative/addOn/dependsOn/unexistent-addOn.yml;The addOn bax is not defined in the pricing manager
+Throw an error when refering to an add-on that does not exist in 'dependsOn';parsing/negative/addOn/dependsOn/unexistent-addOn.yml;An error has occurred while parsing the add-on baz. Error: The addOn bax is not defined in the pricing manager
 # addOn.private
 Throw an error if add-on 'private' field is not a boolean;parsing/negative/addOn/private/boolean-string-private.yml;The field "private" should be a boolean
 Throw an error if add-on 'private' field is not a boolean;parsing/negative/addOn/private/number-private.yml;The field "private" should be a boolean
