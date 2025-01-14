@@ -169,6 +169,6 @@ class PricingManagerParserTest {
 
         String path = String.format(TEST_CASES + "version/%s.yml", input);
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
-        assertInstanceOf(Version.class, pricingManager.getVersion());
+        assertInstanceOf(Version.class, pricingManager.getSyntaxVersion());
     }
 }

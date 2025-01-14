@@ -22,9 +22,10 @@ public class PricingManagerSerializer {
 
     public Map<String, Object> serialize(PricingManager pricingManager) throws SerializerException {
 
-        serializedPricingManager.put("version", Version.LATEST.toString());
+        serializedPricingManager.put("syntaxVersion", Version.LATEST.toString());
         serializedPricingManager.put("saasName", pricingManager.getSaasName());
         serializedPricingManager.put("createdAt", pricingManager.getCreatedAt().toString());
+        serializedPricingManager.put("version", pricingManager.getVersion());
         serializedPricingManager.put("url", pricingManager.getUrl());
         serializedPricingManager.put("tags", pricingManager.getTags());
         serializedPricingManager.put("billing", pricingManager.getBilling());
