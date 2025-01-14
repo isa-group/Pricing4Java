@@ -17,10 +17,11 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class PricingManager {
 
-    private Version version;
+    private Version syntaxVersion;
     private String saasName;
     private String url;
     private LocalDate createdAt;
+    private String version;
     private String currency;
     private List<String> tags;
     private Map<String, Double> billing;

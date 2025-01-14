@@ -72,10 +72,10 @@ Throw an error if 'url' is a plain string;parsing/negative/url/invalid-string-ur
 Throw an error if 'url' is not a string;parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string
 # variables
 Throw an error if 'variables' is not a map;parsing/negative/variables/variables-is-boolean.yml;variables must be a map but found Boolean instead
-# version
-Throw an error if 'version' is bad formated;parsing/negative/version/pricing-invalid-format-version.yml;Invalid version "1.0.0", use <major>.<minor> version format
-Throw an error if 'version' is not a string like <major>.<minor>;parsing/negative/version/pricing-invalid-type-version.yml;Cannot parse 100 to a version
-Throw an error if 'version' is missing;parsing/negative/version/pricing-no-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
-Throw an error if 'version' is null;parsing/negative/version/pricing-null-version.yml;The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
+# syntaxVersion
+Throw an error if 'syntaxVersion' is bad formated;parsing/negative/syntaxVersion/pricing-invalid-format-version.yml;Invalid syntax version "1.0.0", use <major>.<minor> version format
+Throw an error if 'syntaxVersion' is not a string like <major>.<minor>;parsing/negative/syntaxVersion/pricing-invalid-type-version.yml;The syntax version field of the pricing must be a string or a double. Please ensure that the version field is present and correctly formatted
+Throw an error if 'syntaxVersion' is missing;parsing/negative/syntaxVersion/pricing-no-version.yml;The syntax version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
+Throw an error if 'syntaxVersion' is null;parsing/negative/syntaxVersion/pricing-null-version.yml;The syntax version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted
 # other checks
 Throw an error if 'plans' and 'addOns' are null at the same time;parsing/negative/null-plans-and-addons.yml;The pricing manager does not have any plans or add ons
