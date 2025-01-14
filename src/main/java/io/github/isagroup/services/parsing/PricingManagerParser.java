@@ -2,6 +2,7 @@ package io.github.isagroup.services.parsing;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -59,29 +60,29 @@ public class PricingManagerParser {
 
     private static void setBasicAttributes(Map<String, Object> yamlConfigMap, PricingManager pricingManager) {
 
-        // -------------- version --------------
+        // -------------- syntaxVersion --------------
 
-        Version version = null;
+        Version syntaxVersion = null;
 
         try {
-            if (yamlConfigMap.get("version") == null) {
+            if (yamlConfigMap.get("syntaxVersion") == null) {
                 throw new PricingParsingException(
-                        "The version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted");
-            } else if (yamlConfigMap.get("version") instanceof Double
-                    || yamlConfigMap.get("version") instanceof String) {
+                        "The syntaxVersion field of the pricing must not be null or undefined. Please ensure that the syntaxVersion field is present and correctly formatted");
+            } else if (yamlConfigMap.get("syntaxVersion") instanceof Double
+                    || yamlConfigMap.get("syntaxVersion") instanceof String) {
 
-                version = Version.version(yamlConfigMap.get("version"));
+                        syntaxVersion = Version.version(yamlConfigMap.get("syntaxVersion"));
 
             } else {
                 throw new PricingParsingException(
-                        String.format("'version' detected type is %s but 'version' type must be Double or String",
-                                yamlConfigMap.get("version").getClass().getSimpleName()));
+                        String.format("'syntaxVersion' detected type is %s but 'syntaxVersion' type must be Double or String",
+                                yamlConfigMap.get("syntaxVersion").getClass().getSimpleName()));
             }
         } catch (VersionException e) {
             throw new PricingParsingException(e.getMessage());
         }
 
-        pricingManager.setVersion(version);
+        pricingManager.setSyntaxVersion(syntaxVersion);
 
         // -------------- saasName --------------
 
@@ -139,6 +140,17 @@ public class PricingManagerParser {
                     String.format(
                             "\"createdAt\" detected type is %s and must be a String or Date formatted like yyyy-MM-dd",
                             yamlConfigMap.get("createdAt").getClass().getSimpleName()));
+        }
+
+        // -------------- version --------------
+
+        if (yamlConfigMap.get("version") == null) {
+            pricingManager.setVersion(pricingManager.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }else{
+            if (!(yamlConfigMap.get("version") instanceof String)) {
+                throw new PricingParsingException("'version' has to be a string");
+            }
+            pricingManager.setVersion((String) yamlConfigMap.get("version"));
         }
 
         // -------------- currency --------------

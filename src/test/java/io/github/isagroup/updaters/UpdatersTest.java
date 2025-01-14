@@ -45,7 +45,7 @@ class UpdatersTest {
         try {
             Version.version("alpha");
         } catch (VersionException e) {
-            assertEquals("Invalid version \"alpha\", use <major>.<minor> version format", e.getMessage());
+            assertEquals("Invalid syntax version \"alpha\", use <major>.<minor> version format", e.getMessage());
         }
     }
 

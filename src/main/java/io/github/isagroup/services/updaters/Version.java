@@ -6,16 +6,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Version {
-    V1_0(1, 0), V1_1(1, 1), V2_0(2, 0);
+    V1_0(1, 0), V1_1(1, 1), V2_0(2, 0), V2_1(2, 1);
 
     private final int major;
     private final int minor;
 
-    public static final Version LATEST = V2_0;
+    public static final Version LATEST = V2_1;
 
     Version(int major, int minor) {
         if (!isValid(major, minor)) {
-            throw new IllegalStateException(String.format("Version of yaml %d.%d is unsupported", major, minor));
+            throw new IllegalStateException(String.format("Version of Pricing2Yaml %d.%d is unsupported", major, minor));
         }
 
         this.major = major;
@@ -32,7 +32,7 @@ public enum Version {
         } else if (version instanceof String) {
             return Version.version((String) version);
         } else {
-            throw new VersionException("Cannot parse " + version + " to a version");
+            throw new VersionException("Cannot parse " + version + " to a syntax version");
         }
 
     }
@@ -45,7 +45,7 @@ public enum Version {
     private static Version version(String version) {
 
         if (version.isEmpty() || version.isBlank()) {
-            throw new VersionException("Version is blank");
+            throw new VersionException("SyntaxVersion is blank");
         }
 
         String regex = "(\\d+)\\.(\\d+)";
@@ -54,7 +54,7 @@ public enum Version {
         Matcher matcher = pattern.matcher(version);
 
         if (!matcher.matches()) {
-            throw new VersionException("Invalid version \"" + version + "\", use <major>.<minor> version format");
+            throw new VersionException("Invalid syntax version \"" + version + "\", use <major>.<minor> version format");
         }
 
         int major;
@@ -77,7 +77,7 @@ public enum Version {
         Version versionObj = Version.version(major, minor);
 
         if (versionObj == null) {
-            throw new VersionException("Unsupported version " + major + "." + minor);
+            throw new VersionException("Unsupported syntax version " + major + "." + minor);
         }
 
         return versionObj;
@@ -97,6 +97,9 @@ public enum Version {
             if (minor == 0) {
                 return V2_0;
             }
+            if (minor == 1) {
+                return V2_1;
+            }
         }
 
         return null;
@@ -112,7 +115,7 @@ public enum Version {
 
     public static boolean isValid(int major, int minor) {
         boolean oneDotVersions = major == 1 && (minor == 0 || minor == 1);
-        boolean twoDotVersions = major == 2 && minor == 0;
+        boolean twoDotVersions = major == 2 && (minor == 0 || minor == 1);
         return oneDotVersions || twoDotVersions;
     }
 
