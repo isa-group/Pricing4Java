@@ -15,6 +15,7 @@ public class YamlUpdater {
         updaters.put(Version.V1_0, new V10ToV11Updater(null));
         updaters.put(Version.V1_1, new V11ToV20Updater(updaters.get(Version.V1_0)));
         updaters.put(Version.V2_0, new V20ToV21Updater(updaters.get(Version.V1_1)));
+        updaters.put(Version.V2_1, new V21ToV22Updater(updaters.get(Version.V2_0)));
     }
 
     public static void update(Map<String, Object> configFile) throws UpdateException {
@@ -40,7 +41,7 @@ public class YamlUpdater {
                 return;
             }
 
-            updaters.get(Version.V2_0).update(configFile);
+            updaters.get(Version.V2_1).update(configFile);
         }else{
             throw new PricingParsingException("The syntax version field of the pricing must be a string or a double. Please ensure that the version field is present and correctly formatted");
         }

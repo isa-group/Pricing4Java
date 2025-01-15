@@ -16,14 +16,7 @@ public class V11ToV20Updater extends VersionUpdater {
     @Override
     public void update(Map<String, Object> configFile) throws UpdateException {
 
-        try {
-            if (Version.version(configFile.get("version")).compare(this.getSource()) < 0) {
-                super.update(configFile);
-
-            }
-        } catch (VersionException e) {
-            throw new UpdateException(e.getMessage(), configFile);
-        }
+        super.update(configFile);
 
         updateContainersWithOnlyOnePriceField(configFile);
         removeHasAnnualPaymentField(configFile);

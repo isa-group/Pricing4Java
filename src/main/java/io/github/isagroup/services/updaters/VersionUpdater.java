@@ -21,10 +21,19 @@ public abstract class VersionUpdater implements Updater {
             return;
         }
 
-        this.versionUpdater.update(configFile);
+        Object version = configFile.getOrDefault("syntaxVersion", configFile.get("version"));
+
+        if (isSpecOutdated(version)) {
+            this.versionUpdater.update(configFile);
+        }
     }
 
     public Version getSource() {
         return source;
+    }
+
+    private boolean isSpecOutdated(Object version) {
+        return Version.version(version).lessThan(this.getSource());
+
     }
 }

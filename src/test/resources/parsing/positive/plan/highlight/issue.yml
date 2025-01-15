@@ -1,0 +1,19 @@
+saasName: Test
+syntaxVersion: "2.1"
+createdAt: 2024-01-09
+currency: EUR
+features:
+  feature1:
+    description: Feature 1 description
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+plans:
+  BASIC:
+    description: Basic plan
+    price: 0.0
+    unit: user/month
+  PRO:
+    description: Pro plan
+    price: 10.0
+    unit: user/month
