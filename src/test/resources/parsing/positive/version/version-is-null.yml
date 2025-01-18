@@ -1,0 +1,16 @@
+syntaxVersion: "2.1"
+saasName: Testing 'version' default value
+createdAt: 2025-01-14
+currency: EUR
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    price: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

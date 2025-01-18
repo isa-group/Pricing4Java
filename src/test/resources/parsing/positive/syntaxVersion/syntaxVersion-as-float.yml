@@ -1,0 +1,16 @@
+syntaxVersion: 2.1
+saasName: Syntax version as string
+createdAt: 2024-09-23
+currency: EUR
+features:
+  foo:
+    type: DOMAIN
+    valueType: TEXT
+    defaultValue: baz
+plans:
+  BASIC:
+    description: Basic plan
+    price: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null

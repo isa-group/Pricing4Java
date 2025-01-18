@@ -72,6 +72,8 @@ Throw an error if 'url' is a plain string;parsing/negative/url/invalid-string-ur
 Throw an error if 'url' is not a string;parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string
 # variables
 Throw an error if 'variables' is not a map;parsing/negative/variables/variables-is-boolean.yml;variables must be a map but found Boolean instead
+# version
+Throw an error if 'version' is not a str;parsing/negative/version/version-is-bool.yml;'version' has to be a string
 # syntaxVersion
 Throw an error if 'syntaxVersion' is bad formated;parsing/negative/syntaxVersion/pricing-invalid-format-version.yml;Invalid syntax version "1.0.0", use <major>.<minor> version format
 Throw an error if 'syntaxVersion' is not a string like <major>.<minor>;parsing/negative/syntaxVersion/pricing-invalid-type-version.yml;The syntax version field of the pricing must be a string or a double. Please ensure that the version field is present and correctly formatted

@@ -1,23 +1,16 @@
 package io.github.isagroup.parsing.positive;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import io.github.isagroup.exceptions.PricingParsingException;
 import io.github.isagroup.models.Feature;
-import io.github.isagroup.models.Plan;
 import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.updaters.Version;
 import io.github.isagroup.services.yaml.YamlUtils;
@@ -163,12 +156,33 @@ class PricingManagerParserTest {
         assertEquals(15.99, pm.getPlans().get("PRO").getPrice());
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = { "version-as-string", "version-as-float" })
-    void givenVersionShouldParse(String input) {
+    @Test
+    @DisplayName(value = "Given 'syntaxVersion' as string should parse")
+    void givenSyntaxVersionAsStringShouldParse() {
 
-        String path = String.format(TEST_CASES + "version/%s.yml", input);
-        PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(path);
-        assertInstanceOf(Version.class, pricingManager.getSyntaxVersion());
+        PricingManager pm = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "syntaxVersion/syntaxVersion-as-string.yml");
+        assertEquals(Version.V2_1, pm.getSyntaxVersion());
+    }
+
+    @Test
+    @DisplayName(value = "Given 'syntaxVersion' as timestamp should parse")
+    void givenSyntaxVersionAsTimestampShouldParse() {
+        PricingManager pm = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "syntaxVersion/syntaxVersion-as-float.yml");
+        assertEquals(Version.V2_1, pm.getSyntaxVersion());
+
+    }
+
+    @Test
+    @DisplayName(value = "Given no 'version', default value should be stringify timestamp of 'createdAt'")
+    void givenNullVersionShouldHaveDefaultValue() {
+        PricingManager pm = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "version/version-is-null.yml");
+        assertEquals("2025-01-14", pm.getVersion());
+    }
+
+    @Test
+    @DisplayName(value = "Setting a 'version' should parse")
+    void givenAVersionShouldParse() {
+        PricingManager pm = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "version/version-is-set.yml");
+        assertEquals("alpha", pm.getVersion());
     }
 }
