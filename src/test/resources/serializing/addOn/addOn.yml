@@ -1,0 +1,28 @@
+saasName: petclinic
+syntaxVersion: "2.1"
+createdAt: 2025-01-27
+currency: EUR
+features:
+  storage:
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+usageLimits:
+  storageLimit:
+    valueType: NUMERIC
+    defaultValue: 10
+    unit: GB
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - storage
+plans:
+  foo:
+    price: 15
+addOns:
+  TEST-ADDON:
+    price: 10
+    availableFor:
+      - foo
+    usageLimitsExtensions:
+      storageLimit:
+        value: 20
