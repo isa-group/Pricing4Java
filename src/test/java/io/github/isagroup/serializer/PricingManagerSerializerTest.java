@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.github.isagroup.models.Feature;
@@ -49,6 +50,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("When features are not provided it should not serialize")
     void givenNoFeaturesShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
@@ -66,6 +68,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("At least plans or add-ons should be provided otherwise serializing fails")
     void givenNoPlansAndAddOnsShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
@@ -83,6 +86,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("Dump null when add-ons are not present in PricingManager")
     void givenNoAddOnsShouldSerializeNullAddOns() {
 
         PricingManager pricingManager = initPricingManager();
@@ -99,7 +103,8 @@ class PricingManagerSerializerTest {
     }
 
     @Test
-    void givenNoValuesInOptionalPropertiesShouldNotSerializeThem() {
+    @DisplayName("Optional root pricing fields should not be dumped")
+    void givenNoValuesInPlanOptionalPropertiesShouldNotSerializeThem() {
 
         PricingManager pricingManager = new PricingManager();
         pricingManager.setCreatedAt(LocalDate.now());
@@ -124,5 +129,4 @@ class PricingManagerSerializerTest {
         assertFalse(res.containsKey("tags"));
         assertFalse(res.containsKey("variables"));
     }
-
 }
