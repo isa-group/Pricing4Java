@@ -23,7 +23,7 @@ public class Plan {
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
 
-    public Map<String, Object> parseToMap(){
+    public Map<String, Object> parseToMap() {
         Map<String, Object> planMap = new LinkedHashMap<>();
         planMap.put("name", name);
         planMap.put("description", description);
@@ -37,16 +37,21 @@ public class Plan {
 
     public Map<String, Object> serializePlan() {
         Map<String, Object> attributes = new LinkedHashMap<>();
-        attributes.put("description", description);
+        if (this.description != null) {
+            attributes.put("description", description);
+        }
+
         attributes.put("price", price);
-        attributes.put("unit", unit);
-        attributes.put("private", isPrivate);
+        if (this.unit != null) {
+            attributes.put("unit", this.unit);
+        }
 
-        Map<String, Object> features = serializeFeatures().orElse(null);
-        Map<String, Object> usageLimits = serializeUsageLimits().orElse(null);
+        if (this.isPrivate != null && this.isPrivate) {
+            attributes.put("private", isPrivate);
+        }
 
-        attributes.put("features", features);
-        attributes.put("usageLimits", usageLimits);
+        attributes.put("features", serializeFeatures().orElse(null));
+        attributes.put("usageLimits", serializeUsageLimits().orElse(null));
 
         return attributes;
     }

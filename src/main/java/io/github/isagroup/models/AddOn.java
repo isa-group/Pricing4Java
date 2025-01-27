@@ -29,7 +29,9 @@ public class AddOn {
     public Map<String, Object> serializeAddOn() {
         Map<String, Object> serializedAddOn = new LinkedHashMap<>();
 
-        serializedAddOn.put("description", description);
+        if (description != null) {
+            serializedAddOn.put("description", description);
+        }
 
         if (availableFor != null && !availableFor.isEmpty()) {
             serializedAddOn.put("availableFor", availableFor);
@@ -42,7 +44,9 @@ public class AddOn {
             serializedAddOn.put("excludes", availableFor);
         }
 
-        serializedAddOn.put("private", isPrivate);
+        if (isPrivate != null && isPrivate) {
+            serializedAddOn.put("private", isPrivate);
+        }
 
         if (price != null) {
             serializedAddOn.put("price", price);
@@ -58,7 +62,7 @@ public class AddOn {
 
         serializedAddOn.put("features", features);
         serializedAddOn.put("usageLimits", usageLimits);
-        serializedAddOn.put("usageLimitExtensions", usageLimitExtensions);
+        serializedAddOn.put("usageLimitsExtensions", usageLimitExtensions);
 
         return serializedAddOn;
     }
@@ -123,13 +127,13 @@ public class AddOn {
 
     private Optional<Map<String, Object>> serializeUsageLimitExtensions() {
 
-        if (usageLimits == null) {
+        if (usageLimitsExtensions == null) {
             return Optional.empty();
         }
 
         Map<String, Object> serializedUsageLimitExtensions = new LinkedHashMap<>();
 
-        for (UsageLimit usageLimitExtension : usageLimits.values()) {
+        for (UsageLimit usageLimitExtension : usageLimitsExtensions.values()) {
             Optional<Map<String, Object>> serializedUsageLimit = serializeValue(usageLimitExtension.getValue());
             if (serializedUsageLimit.isPresent()) {
 
