@@ -23,7 +23,6 @@ public class YamlUpdater {
             throw new VersionException("The syntax version field of the pricing must not be null or undefined. Please ensure that the version field is present and correctly formatted");
         }
 
-
         Object versionField = configFile.get("syntaxVersion");
 
         if (versionField == null) {
@@ -35,8 +34,7 @@ public class YamlUpdater {
         }
 
         if (versionField instanceof Double || versionField instanceof String) {
-            Version version = Version.version(versionField);
-            if (updaters.get(version) == null) {
+            if (!Version.version(versionField).lessThan(Version.LATEST)) {
                 return;
             }
 

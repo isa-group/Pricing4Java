@@ -1,0 +1,54 @@
+saasName: Pricing with inconsistencies
+version: "2.0"
+createdAt: "2024-07-02"
+currency: USD
+features:
+  feature1:
+    valueType: BOOLEAN
+    defaultValue: false
+    type: INFORMATION
+  feature2:
+    valueType: BOOLEAN
+    defaultValue: true
+    type: DOMAIN
+usageLimits:
+  usageLimit1:
+    valueType: NUMERIC
+    defaultValue: 25
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - feature1
+  usageLimit2:
+    valueType: NUMERIC
+    defaultValue: 0
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - feature2
+plans:
+  ALPHA:
+    price: 0
+    unit: user/month
+    features: null
+    usageLimits:
+      usageLimit2:
+        value: 10
+  BETA:
+    price: 5.99
+    unit: user/month
+    features:
+      feature1:
+        value: true
+    usageLimits:
+      usageLimit2:
+        value: 30
+  CHARLIE:
+    price: 9.99
+    unit: user/month
+    features:
+      feature1:
+        value: true
+    usageLimits:
+      usageLimit1:
+        value: 50
+      usageLimit2:
+        value: 50
