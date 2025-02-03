@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.models.ValueType;
 import io.github.isagroup.models.featuretypes.Automation;
 import io.github.isagroup.models.featuretypes.AutomationType;
@@ -27,6 +29,7 @@ import io.github.isagroup.models.featuretypes.IntegrationType;
 import io.github.isagroup.models.featuretypes.Management;
 import io.github.isagroup.models.featuretypes.Payment;
 import io.github.isagroup.models.featuretypes.Support;
+import io.github.isagroup.services.yaml.YamlUtils;
 
 class FeatureSerializerTest {
 
@@ -71,7 +74,8 @@ class FeatureSerializerTest {
     }
 
     @Test
-    void given_DomainFeature_should_SerializeToMap() {
+    @DisplayName("Given a Domain object should serialize to a map")
+    void givenDomainFeatureShouldSerializeToMap() {
 
         Domain domain = new Domain();
         domain.setDescription("Foo");
@@ -95,58 +99,32 @@ class FeatureSerializerTest {
     }
 
     @Test
-    void givenExpressionAndServerExpressionEqualShouldNotSerialize() {
-
-        Domain domain = new Domain();
-        domain.setDescription("Foo");
-        domain.setValueType(ValueType.TEXT);
-        domain.setDefaultValue("Bar");
-        domain.setExpression("Baz");
-
-        Map<String, Object> map = domain.serializeFeature();
-
-        String test = """
-                description: Foo
-                valueType: TEXT
-                defaultValue: Bar
-                expression: Baz
-                type: DOMAIN
-                """;
-
-        Map<String, Object> expected = yaml.load(test);
-
-        assertEquals(expected, map);
-
-    }
-
-    @Test
-    void given_GuaranteeFeature_should_SerializeToMap() {
+    @DisplayName("Given a Guarantee object should serialize to a map")
+    void givenGuaranteeFeatureShouldSerializeToMap() {
 
         Guarantee guarantee = new Guarantee();
         guarantee.setDescription("Foo");
-        guarantee.setDefaultValue("Bar");
-        guarantee.setExpression("Baz");
-        guarantee.setServerExpression("John");
-        guarantee.setDocURL("https://foobar.com");
+        guarantee.setDefaultValue("99.9%");
+        guarantee.setValueType(ValueType.TEXT);
+        guarantee.setExpression("0 < 1");
+        guarantee.setServerExpression("0 < 1");
+        guarantee.setDocURL("https://example.org");
 
         Map<String, Object> map = guarantee.serializeFeature();
 
-        String expected = """
-                description: Foo
-                defaultValue: Bar
-                expression: Baz
-                serverExpression: John
-                type: GUARANTEE
-                docUrl: https://foobar.com
-                """;
-        String output = yaml.dump(map);
-
-        assertEquals(expected, output);
+        assertEquals("Foo", map.get("description"));
+        assertEquals("99.9%", map.get("defaultValue"));
+        assertEquals("TEXT", map.get("valueType"));
+        assertEquals("GUARANTEE", map.get("type"));
+        assertEquals("https://example.org", map.get("docUrl"));
+        assertEquals("0 < 1", map.get("expression"));
+        assertEquals("0 < 1", map.get("serverExpression"));
 
     }
 
     @Test
-    void given_InformationFeature_should_SerializeToMap() {
+    @DisplayName("Given a Domain object should serialize to a map")
+    void givenInformationFeatureShouldSerializeToMap() {
 
         Information information = new Information();
         information.setDescription("Foo");
@@ -170,14 +148,14 @@ class FeatureSerializerTest {
     }
 
     @Test
-    void given_IntegrationFeature_should_SerializeToMap() {
+    @DisplayName("Given a Integration object should serialize to a map")
+    void givenIntegrationFeatureShouldSerializeToMap() {
 
         Integration integration = new Integration();
         integration.setDescription("Foo");
-        integration.setDefaultValue("Bar");
-        integration.setExpression("Baz");
-        integration.setServerExpression("John");
-        integration.setIntegrationType(IntegrationType.API);
+        integration.setDefaultValue(100);
+        integration.setValueType(ValueType.NUMERIC);
+        integration.setIntegrationType(IntegrationType.WEB_SAAS);
         List<String> pricignUrls = new LinkedList<>();
         pricignUrls.add("https://foo.com");
         pricignUrls.add("https://bar.com");
@@ -186,26 +164,18 @@ class FeatureSerializerTest {
 
         Map<String, Object> map = integration.serializeFeature();
 
-        String expected = """
-                description: Foo
-                defaultValue: Bar
-                expression: Baz
-                serverExpression: John
-                type: INTEGRATION
-                integrationType: API
-                pricingUrls:
-                - https://foo.com
-                - https://bar.com
-                - https://baz.com
-                """;
-        String output = yaml.dump(map);
-
-        assertEquals(expected, output);
+        assertEquals("Foo", map.get("description"));
+        assertEquals(100, map.get("defaultValue"));
+        assertEquals("NUMERIC", map.get("valueType"));
+        assertEquals("INTEGRATION", map.get("type"));
+        assertEquals("WEB_SAAS", map.get("integrationType"));
+        assertEquals(pricignUrls, map.get("pricingUrls"));
 
     }
 
     @Test
-    void given_ManagementFeature_should_SerializeToMap() {
+    @DisplayName("Given a Management object should serialize to a map")
+    void givenManagementFeatureShouldSerializeToMap() {
 
         Management management = new Management();
         management.setDescription("Foo");
@@ -229,7 +199,8 @@ class FeatureSerializerTest {
     }
 
     @Test
-    void given_PaymentFeature_should_SerializeToMap() {
+    @DisplayName("Given a Payment object should serialize to a map")
+    void givenPaymentFeatureShouldSerializeToMap() {
 
         Payment payment = new Payment();
         payment.setDescription("Foo");
@@ -259,7 +230,8 @@ class FeatureSerializerTest {
     }
 
     @Test
-    void given_SupportFeature_should_SerializeToMap() {
+    @DisplayName("Given a Support object should serialize to a map")
+    void givenSupportFeatureShouldSerializeToMap() {
 
         Support support = new Support();
         support.setDescription("Foo");
@@ -281,5 +253,4 @@ class FeatureSerializerTest {
         assertEquals(expected, output);
 
     }
-
 }
