@@ -29,7 +29,8 @@ public class FeatureParser {
     private FeatureParser() {
     }
 
-    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap, PricingManager pricingManager) {
+    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap,
+            PricingManager pricingManager) {
 
         if (featureMap.get("type") == null) {
             throw new PricingParsingException("feature 'type' is mandatory");
@@ -72,7 +73,8 @@ public class FeatureParser {
         }
     }
 
-    private static Information parseMapToInformation(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Information parseMapToInformation(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Information information = new Information();
 
         loadBasicAttributes(information, featureName, map, pricingManager);
@@ -80,7 +82,8 @@ public class FeatureParser {
         return information;
     }
 
-    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Integration integration = new Integration();
 
         loadBasicAttributes(integration, featureName, map, pricingManager);
@@ -108,7 +111,8 @@ public class FeatureParser {
         return domain;
     }
 
-    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Automation automation = new Automation();
 
         loadBasicAttributes(automation, featureName, map, pricingManager);
@@ -124,7 +128,8 @@ public class FeatureParser {
         return automation;
     }
 
-    private static Management parseMapToManagement(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Management parseMapToManagement(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Management management = new Management();
 
         loadBasicAttributes(management, featureName, map, pricingManager);
@@ -132,17 +137,24 @@ public class FeatureParser {
         return management;
     }
 
-    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Guarantee guarantee = new Guarantee();
 
         loadBasicAttributes(guarantee, featureName, map, pricingManager);
 
-        guarantee.setDocURL((String) map.get("docURL"));
+        if (map.get("docUrl") != null && !(map.get("docUrl") instanceof String)) {
+            throw new PricingParsingException("\'docUrl\' must be a String but found a "
+                    + map.get("docUrl").getClass().getSimpleName() + " instead");
+        }
+
+        guarantee.setDocURL((String) map.get("docUrl"));
 
         return guarantee;
     }
 
-    private static Support parseMapToSupport(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Support parseMapToSupport(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Support support = new Support();
 
         loadBasicAttributes(support, featureName, map, pricingManager);
@@ -150,7 +162,8 @@ public class FeatureParser {
         return support;
     }
 
-    private static Payment parseMapToPayment(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Payment parseMapToPayment(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Payment payment = new Payment();
 
         loadBasicAttributes(payment, featureName, map, pricingManager);
@@ -158,7 +171,8 @@ public class FeatureParser {
         return payment;
     }
 
-    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
 
         if (featureName == null) {
             throw new PricingParsingException("A feature cannot have the name null");
@@ -200,7 +214,7 @@ public class FeatureParser {
                     }
                     break;
             }
-            
+
         } catch (ClassCastException e) {
             throw new ClassCastException("The feature " + featureName
                     + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString()
@@ -215,13 +229,12 @@ public class FeatureParser {
                     + " does not have either an evaluation expression or serverExpression.");
         }
 
-        
         String featureTag = (String) map.get("tag");
 
         if (featureTag != null) {
-            if (pricingManager.getTags().contains(featureTag)){
+            if (pricingManager.getTags().contains(featureTag)) {
                 feature.setTag((String) featureTag);
-            }else{
+            } else {
                 throw new PricingParsingException("The tag " + featureTag + " is not defined in the global tags.");
             }
         }

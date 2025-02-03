@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -65,6 +66,41 @@ public class AddOnSerializerTest {
         assertFalse(serializedAddOn.containsKey("availableFor"));
         assertFalse(serializedAddOn.containsKey("dependsOn"));
         assertFalse(serializedAddOn.containsKey("excludes"));
+
+    }
+
+    @Test
+    @DisplayName("Given defined add-on should serialize")
+    void givenAddOnAttributesShouldSerialize() {
+
+        AddOn addOn = new AddOn();
+        addOn.setDescription("foo");
+        addOn.setIsPrivate(true);
+        addOn.setUnit("foo/bar");
+
+        List<String> availableFor = new ArrayList<>();
+        availableFor.add("ABC");
+        availableFor.add("XYZ");
+        addOn.setAvailableFor(availableFor);
+
+        List<String> dependsOn = new ArrayList<>();
+        dependsOn.add("depend1");
+        dependsOn.add("depend2");
+        addOn.setDependsOn(dependsOn);
+
+        List<String> excludes = new ArrayList<>();
+        excludes.add("exclude1");
+        excludes.add("exclude2");
+        addOn.setExcludes(excludes);
+
+        Map<String, Object> serializedAddOn = addOn.serializeAddOn();
+
+        assertEquals("foo", serializedAddOn.get("description"));
+        assertEquals(true, serializedAddOn.get("private"));
+        assertEquals("foo/bar", serializedAddOn.get("unit"));
+        assertEquals(availableFor, serializedAddOn.get("availableFor"));
+        assertEquals(excludes, serializedAddOn.get("excludes"));
+        assertEquals(dependsOn, serializedAddOn.get("dependsOn"));
 
     }
 

@@ -37,11 +37,11 @@ public class AddOn {
             serializedAddOn.put("availableFor", availableFor);
         }
 
-        if (dependsOn != null && !availableFor.isEmpty()) {
-            serializedAddOn.put("dependsOn", availableFor);
+        if (dependsOn != null && !dependsOn.isEmpty()) {
+            serializedAddOn.put("dependsOn", dependsOn);
         }
-        if (excludes != null && !availableFor.isEmpty()) {
-            serializedAddOn.put("excludes", availableFor);
+        if (excludes != null && !excludes.isEmpty()) {
+            serializedAddOn.put("excludes", excludes);
         }
 
         if (isPrivate != null && isPrivate) {
