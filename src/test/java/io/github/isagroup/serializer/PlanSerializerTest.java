@@ -16,7 +16,7 @@ public class PlanSerializerTest {
     void givenOptionalPropertiesShouldNotSerializeThem() {
 
         Plan plan = new Plan();
-        plan.setIsPrivate(false);
+        plan.setPrivate(false);
 
         Map<String, Object> serializedPlan = plan.serializePlan();
 

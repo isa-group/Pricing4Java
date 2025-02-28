@@ -5,14 +5,9 @@ import java.util.Map;
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.FeatureType;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true)
 public class Integration extends Feature {
+
     private IntegrationType integrationType;
     private List<String> pricingUrls;
 
@@ -32,10 +27,25 @@ public class Integration extends Feature {
         return attributes;
     }
 
+    public IntegrationType getIntegrationType() {
+        return integrationType;
+    }
+
+    public void setIntegrationType(IntegrationType integrationType) {
+        this.integrationType = integrationType;
+    }
+
+    public List<String> getPricingUrls() {
+        return pricingUrls;
+    }
+
+    public void setPricingUrls(List<String> pricingUrls) {
+        this.pricingUrls = pricingUrls;
+    }
+
     @Override
     public String toString() {
         return "Integration[name: " + name + ", valueType: " + valueType + ", defaultValue: " + defaultValue
                 + ", value: " + value + ", integrationType: " + integrationType + ", pricingUrls: " + pricingUrls + "]";
     }
-
 }

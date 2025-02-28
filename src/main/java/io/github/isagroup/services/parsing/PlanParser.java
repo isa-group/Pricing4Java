@@ -45,9 +45,9 @@ public class PlanParser {
                 throw new PricingParsingException("The field \"private\" should be a boolean");
             }
             
-            plan.setIsPrivate((Boolean) map.get("private"));
+            plan.setPrivate((Boolean) map.get("private"));
         }else{
-            plan.setIsPrivate(false);
+            plan.setPrivate(false);
         }
 
         // ---------- price ----------
