@@ -2,18 +2,12 @@ package io.github.isagroup.models;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Object to model pricing plans
  */
-@Getter
-@Setter
-@EqualsAndHashCode
 public class Plan {
     private String name;
     private String description;
@@ -22,6 +16,81 @@ public class Plan {
     private Boolean isPrivate;
     private Map<String, Feature> features;
     private Map<String, UsageLimit> usageLimits;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Object getPrice() {
+        return price;
+    }
+
+    public void setPrice(Object price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
+    }
+
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
+    }
+
+    public Map<String, Feature> getFeatures() {
+        return features;
+    }
+
+    public void setFeatures(Map<String, Feature> features) {
+        this.features = features;
+    }
+
+    public Map<String, UsageLimit> getUsageLimits() {
+        return usageLimits;
+    }
+
+    public void setUsageLimits(Map<String, UsageLimit> usageLimits) {
+        this.usageLimits = usageLimits;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plan plan = (Plan) o;
+        return Objects.equals(name, plan.name) && Objects.equals(description, plan.description) && Objects.equals(price, plan.price) && Objects.equals(unit, plan.unit) && Objects.equals(isPrivate, plan.isPrivate) && Objects.equals(features, plan.features) && Objects.equals(usageLimits, plan.usageLimits);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, price, unit, isPrivate, features, usageLimits);
+    }
+
+    @Override
+    public String toString() {
+        return "Plan [name=" + name + ", description=" + description + ", price=" + price + ", unit=" + unit
+            + ", isPrivate=" + isPrivate + ", features=" + features + ", usageLimits=" + usageLimits + "]";
+    }
 
     public Map<String, Object> parseToMap() {
         Map<String, Object> planMap = new LinkedHashMap<>();
@@ -114,9 +183,4 @@ public class Plan {
         return Optional.of(serializedUsageLimits);
     }
 
-    @Override
-    public String toString() {
-        return "Plan[name=" + name + ", price=" + price + ", unit="
-                + unit + ", features: " + features.get("superAdminRole") + "]";
-    }
 }
