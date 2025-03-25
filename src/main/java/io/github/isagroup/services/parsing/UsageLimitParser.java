@@ -1,5 +1,6 @@
 package io.github.isagroup.services.parsing;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,7 +49,7 @@ public class UsageLimitParser {
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The usage limit " + limitName
-                    + " does not have a supported type. Current type value: " + (String) limitMap.get("type"));
+                    + " does not have a supported type (" + Arrays.toString(UsageLimitType.values()) + "). Current type value: " + (String) limitMap.get("type"));
         }
     }
 
@@ -100,6 +101,15 @@ public class UsageLimitParser {
                     + " does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
         }
         try {
+            Object defaultValue = map.get("defaultValue");
+            boolean isValueNull = (defaultValue == null);
+            
+            if (isValueNull){
+                throw new InvalidDefaultValueException("The usageLimit " + limit.getName()
+                    + " does not have a valid defaultValue. Current valueType: "
+                    + limit.getValueType().toString() + "; Current defaultValue is null");
+            }
+
             switch (limit.getValueType()) {
                 case NUMERIC:
                     limit.setDefaultValue(map.get("defaultValue"));

@@ -1,5 +1,6 @@
 package io.github.isagroup.services.parsing;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -69,7 +70,7 @@ public class FeatureParser {
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The feature " + featureName
-                    + " does not have a supported feature type. Current value: " + (String) featureMap.get("type"));
+                    + " does not have a supported feature type (" + Arrays.toString(FeatureType.values()) + "). Current value: " + (String) featureMap.get("type"));
         }
     }
 
@@ -92,7 +93,7 @@ public class FeatureParser {
             integration.setIntegrationType(IntegrationType.valueOf((String) map.get("integrationType")));
         } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidIntegrationTypeException(
-                    "The feature " + featureName + " does not have a supported integrationType. Current value: "
+                    "The feature " + featureName + " does not have a supported integrationType (" + Arrays.toString(IntegrationType.values()) + "). Current value: "
                             + (String) map.get("integrationType"));
         }
 
@@ -121,7 +122,7 @@ public class FeatureParser {
             automation.setAutomationType(AutomationType.valueOf((String) map.get("automationType")));
         } catch (IllegalArgumentException e) {
             throw new InvalidAutomationTypeException(
-                    "The feature " + featureName + " does not have a supported automationType. Current value: "
+                    "The feature " + featureName + " does not have a supported automationType (" + Arrays.toString(AutomationType.values()) + "). Current value: "
                             + (String) map.get("automationType"));
         }
 
@@ -192,6 +193,15 @@ public class FeatureParser {
                     + " does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
         }
         try {
+            Object defaultValue = map.get("defaultValue");
+            boolean isValueNull = (defaultValue == null);
+            
+            if (isValueNull){
+                throw new InvalidDefaultValueException("The feature " + feature.getName()
+                    + " does not have a valid defaultValue. Current valueType: "
+                    + feature.getValueType().toString() + "; Current defaultValue is null");
+            }
+
             switch (feature.getValueType()) {
                 case NUMERIC:
                     feature.setDefaultValue(map.get("defaultValue"));
