@@ -169,6 +169,15 @@ public class AddOnParser {
 
             Feature addOnFeature = Feature.cloneFeature(globalFeaturesMap.get(addOnFeatureName));
 
+            Object value = addOnFeaturesMap.get("value");
+            boolean isValueNull = (value == null);
+            
+            if (isValueNull){
+                throw new InvalidDefaultValueException("The feature " + addOnFeature.getName()
+                    + " does not have a valid value. Current valueType: "
+                    + addOnFeature.getValueType().toString() + "; Current value in addOn " + addOn.getName() + " is null");
+            }
+
             switch (addOnFeature.getValueType()) {
                 case NUMERIC:
                     addOnFeature.setValue(addOnFeatureMap.get("value"));
@@ -230,17 +239,26 @@ public class AddOnParser {
 
             if (!globalUsageLimitsMap.containsKey(addOnUsageLimitName)) {
                 throw new FeatureNotFoundException(
-                        "The feature " + addOnUsageLimitName + " is not defined in the global features");
+                        "The usageLimit " + addOnUsageLimitName + " is not defined in the global features");
             }
 
             UsageLimit addOnUsageLimit = UsageLimit.cloneUsageLimit(globalUsageLimitsMap.get(addOnUsageLimitName));
+
+            Object value = addOnUsageLimitMap.get("value");
+            boolean isValueNull = (value == null);
+            
+            if (isValueNull){
+                throw new InvalidDefaultValueException("The usageLimit " + addOnUsageLimit.getName()
+                    + " does not have a valid value. Current valueType: "
+                    + addOnUsageLimit.getValueType().toString() + "; Current value in addOn " + addOn.getName() + " is null");
+            }
 
             switch (addOnUsageLimit.getValueType()) {
                 case NUMERIC:
                     addOnUsageLimit.setValue(addOnUsageLimitMap.get("value"));
                     if (!(addOnUsageLimit.getValue() instanceof Integer || addOnUsageLimit.getValue() instanceof Double
                             || addOnUsageLimit.getValue() instanceof Long)) {
-                        throw new InvalidDefaultValueException("The feature " + addOnUsageLimitName
+                        throw new InvalidDefaultValueException("The usageLimit " + addOnUsageLimitName
                                 + " does not have a valid value. Current valueType:"
                                 + addOnUsageLimit.getValueType().toString() + "; Current defaultValue: "
                                 + addOnUsageLimitMap.get("value").toString());
