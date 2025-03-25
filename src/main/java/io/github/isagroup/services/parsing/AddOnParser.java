@@ -169,7 +169,7 @@ public class AddOnParser {
 
             Feature addOnFeature = Feature.cloneFeature(globalFeaturesMap.get(addOnFeatureName));
 
-            Object value = addOnFeaturesMap.get("value");
+            Object value = addOnFeatureMap.get("value");
             boolean isValueNull = (value == null);
             
             if (isValueNull){
