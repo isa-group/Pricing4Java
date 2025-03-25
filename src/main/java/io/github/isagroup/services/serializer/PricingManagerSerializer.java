@@ -25,11 +25,19 @@ public class PricingManagerSerializer {
         serializedPricingManager.put("syntaxVersion", Version.LATEST.toString());
         serializedPricingManager.put("saasName", pricingManager.getSaasName());
         serializedPricingManager.put("createdAt", pricingManager.getCreatedAt().toString());
-        serializedPricingManager.put("version", pricingManager.getVersion());
-        serializedPricingManager.put("url", pricingManager.getUrl());
-        serializedPricingManager.put("tags", pricingManager.getTags());
+        if (pricingManager.getVersion() != null) {
+            serializedPricingManager.put("version", pricingManager.getVersion());
+        }
+        if (pricingManager.getUrl() != null) {
+            serializedPricingManager.put("url", pricingManager.getUrl());
+        }
+        if (pricingManager.getVariables() != null) {
+            serializedPricingManager.put("variables", pricingManager.getVariables());
+        }
+        if (pricingManager.getTags() != null) {
+            serializedPricingManager.put("tags", pricingManager.getTags());
+        }
         serializedPricingManager.put("billing", pricingManager.getBilling());
-        serializedPricingManager.put("variables", pricingManager.getVariables());
         serializedPricingManager.put("currency", pricingManager.getCurrency());
 
         if (pricingManager.getFeatures() == null) {

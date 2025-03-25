@@ -1,5 +1,6 @@
 package io.github.isagroup.services.parsing;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -29,7 +30,8 @@ public class FeatureParser {
     private FeatureParser() {
     }
 
-    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap, PricingManager pricingManager) {
+    public static Feature parseMapToFeature(String featureName, Map<String, Object> featureMap,
+            PricingManager pricingManager) {
 
         if (featureMap.get("type") == null) {
             throw new PricingParsingException("feature 'type' is mandatory");
@@ -68,11 +70,12 @@ public class FeatureParser {
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("The feature " + featureName
-                    + " does not have a supported feature type. Current value: " + (String) featureMap.get("type"));
+                    + " does not have a supported feature type (" + Arrays.toString(FeatureType.values()) + "). Current value: " + (String) featureMap.get("type"));
         }
     }
 
-    private static Information parseMapToInformation(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Information parseMapToInformation(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Information information = new Information();
 
         loadBasicAttributes(information, featureName, map, pricingManager);
@@ -80,7 +83,8 @@ public class FeatureParser {
         return information;
     }
 
-    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Integration parseMapToIntegration(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Integration integration = new Integration();
 
         loadBasicAttributes(integration, featureName, map, pricingManager);
@@ -89,7 +93,7 @@ public class FeatureParser {
             integration.setIntegrationType(IntegrationType.valueOf((String) map.get("integrationType")));
         } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidIntegrationTypeException(
-                    "The feature " + featureName + " does not have a supported integrationType. Current value: "
+                    "The feature " + featureName + " does not have a supported integrationType (" + Arrays.toString(IntegrationType.values()) + "). Current value: "
                             + (String) map.get("integrationType"));
         }
 
@@ -108,7 +112,8 @@ public class FeatureParser {
         return domain;
     }
 
-    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Automation parseMapToAutomation(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Automation automation = new Automation();
 
         loadBasicAttributes(automation, featureName, map, pricingManager);
@@ -117,14 +122,15 @@ public class FeatureParser {
             automation.setAutomationType(AutomationType.valueOf((String) map.get("automationType")));
         } catch (IllegalArgumentException e) {
             throw new InvalidAutomationTypeException(
-                    "The feature " + featureName + " does not have a supported automationType. Current value: "
+                    "The feature " + featureName + " does not have a supported automationType (" + Arrays.toString(AutomationType.values()) + "). Current value: "
                             + (String) map.get("automationType"));
         }
 
         return automation;
     }
 
-    private static Management parseMapToManagement(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Management parseMapToManagement(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Management management = new Management();
 
         loadBasicAttributes(management, featureName, map, pricingManager);
@@ -132,17 +138,24 @@ public class FeatureParser {
         return management;
     }
 
-    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Guarantee parseMapToGuarantee(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Guarantee guarantee = new Guarantee();
 
         loadBasicAttributes(guarantee, featureName, map, pricingManager);
 
-        guarantee.setDocURL((String) map.get("docURL"));
+        if (map.get("docUrl") != null && !(map.get("docUrl") instanceof String)) {
+            throw new PricingParsingException("\'docUrl\' must be a String but found a "
+                    + map.get("docUrl").getClass().getSimpleName() + " instead");
+        }
+
+        guarantee.setDocURL((String) map.get("docUrl"));
 
         return guarantee;
     }
 
-    private static Support parseMapToSupport(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Support parseMapToSupport(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Support support = new Support();
 
         loadBasicAttributes(support, featureName, map, pricingManager);
@@ -150,7 +163,8 @@ public class FeatureParser {
         return support;
     }
 
-    private static Payment parseMapToPayment(String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static Payment parseMapToPayment(String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
         Payment payment = new Payment();
 
         loadBasicAttributes(payment, featureName, map, pricingManager);
@@ -158,7 +172,8 @@ public class FeatureParser {
         return payment;
     }
 
-    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map, PricingManager pricingManager) {
+    private static void loadBasicAttributes(Feature feature, String featureName, Map<String, Object> map,
+            PricingManager pricingManager) {
 
         if (featureName == null) {
             throw new PricingParsingException("A feature cannot have the name null");
@@ -178,6 +193,15 @@ public class FeatureParser {
                     + " does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
         }
         try {
+            Object defaultValue = map.get("defaultValue");
+            boolean isValueNull = (defaultValue == null);
+            
+            if (isValueNull){
+                throw new InvalidDefaultValueException("The feature " + feature.getName()
+                    + " does not have a valid defaultValue. Current valueType: "
+                    + feature.getValueType().toString() + "; Current defaultValue is null");
+            }
+
             switch (feature.getValueType()) {
                 case NUMERIC:
                     feature.setDefaultValue(map.get("defaultValue"));
@@ -200,7 +224,7 @@ public class FeatureParser {
                     }
                     break;
             }
-            
+
         } catch (ClassCastException e) {
             throw new ClassCastException("The feature " + featureName
                     + " does not have a valid defaultValue. Current valueType:" + feature.getValueType().toString()
@@ -215,13 +239,12 @@ public class FeatureParser {
                     + " does not have either an evaluation expression or serverExpression.");
         }
 
-        
         String featureTag = (String) map.get("tag");
 
         if (featureTag != null) {
-            if (pricingManager.getTags().contains(featureTag)){
+            if (pricingManager.getTags().contains(featureTag)) {
                 feature.setTag((String) featureTag);
-            }else{
+            } else {
                 throw new PricingParsingException("The tag " + featureTag + " is not defined in the global tags.");
             }
         }

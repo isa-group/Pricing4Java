@@ -138,6 +138,10 @@ public enum Version {
         return 0;
     }
 
+    public boolean lessThan(Version version) {
+        return this.compare(version) < 0;
+    }
+
     @Override
     public String toString() {
         return this.major + "." + this.minor;

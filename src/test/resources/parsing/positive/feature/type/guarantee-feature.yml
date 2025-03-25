@@ -1,0 +1,19 @@
+saasName: Guarantee feature
+version: "1.1"
+createdAt: "2024-12-31"
+currency: EUR
+hasAnnualPayment: false
+features:
+  guarantee:
+    defaultValue: 99.9%
+    valueType: TEXT
+    type: GUARANTEE
+    docUrl: https://example.org
+plans:
+  BASIC:
+    description: Foo
+    monthlyPrice: 10
+    annualPrice: 15
+    unit: user/month
+    features: null
+    usageLimits: null

@@ -4,13 +4,7 @@ import java.util.Map;
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.FeatureType;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode(callSuper = true)
 public class Payment extends Feature {
 
     @Override
@@ -21,9 +15,4 @@ public class Payment extends Feature {
         return attributes;
     }
 
-    @Override
-    public String toString() {
-        return "Payment[name: " + name + ", valueType: " + valueType + ", defaultValue: " + defaultValue + ", value: "
-                + value + "]";
-    }
 }

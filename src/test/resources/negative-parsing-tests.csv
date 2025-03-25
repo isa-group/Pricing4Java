@@ -30,6 +30,8 @@ Throw an error if 'currency' is missing;parsing/negative/currency/currency-is-nu
 # feature
 Throw an error if a feature is not a map of attributes;parsing/negative/feature/feature-is-key-value.yml;Feature 'foo' must be a Map but found String instead
 Throw an error if a feature is named 'null';parsing/negative/feature/feature-null-as-key.yml;A feature cannot have the name null
+# feature.docUrl
+Throw an error if feature 'docUrl' is not a string;parsing/negative/feature/docUrl/is-bool.yml;'docUrl' must be a String but found a Boolean instead
 # feature.type
 Throw an error if feature 'type' is missing or null;parsing/negative/feature/type/null-type.yml;feature 'type' is mandatory
 # feature.valueType
@@ -72,6 +74,8 @@ Throw an error if 'url' is a plain string;parsing/negative/url/invalid-string-ur
 Throw an error if 'url' is not a string;parsing/negative/url/number-url.yml;If 'url' field is used, it has to be a string
 # variables
 Throw an error if 'variables' is not a map;parsing/negative/variables/variables-is-boolean.yml;variables must be a map but found Boolean instead
+# version
+Throw an error if 'version' is not a str;parsing/negative/version/version-is-bool.yml;'version' has to be a string
 # syntaxVersion
 Throw an error if 'syntaxVersion' is bad formated;parsing/negative/syntaxVersion/pricing-invalid-format-version.yml;Invalid syntax version "1.0.0", use <major>.<minor> version format
 Throw an error if 'syntaxVersion' is not a string like <major>.<minor>;parsing/negative/syntaxVersion/pricing-invalid-type-version.yml;The syntax version field of the pricing must be a string or a double. Please ensure that the version field is present and correctly formatted

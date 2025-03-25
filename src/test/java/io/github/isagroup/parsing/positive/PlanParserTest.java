@@ -74,7 +74,7 @@ public class PlanParserTest {
 
         String planName = "BASIC";
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "private/is-private.yml");
-        assertTrue(pricingManager.getPlans().get(planName).getIsPrivate());
+        assertTrue(pricingManager.getPlans().get(planName).getPrivate());
 
     }
 
@@ -84,7 +84,7 @@ public class PlanParserTest {
 
         String planName = "BASIC";
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "private/is-not-private.yml");
-        assertFalse(pricingManager.getPlans().get(planName).getIsPrivate());
+        assertFalse(pricingManager.getPlans().get(planName).getPrivate());
 
     }
 
@@ -94,7 +94,7 @@ public class PlanParserTest {
 
         String planName = "BASIC";
         PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml(TEST_CASES + "private/no-private.yml");
-        assertFalse(pricingManager.getPlans().get(planName).getIsPrivate());
+        assertFalse(pricingManager.getPlans().get(planName).getPrivate());
 
     }
 

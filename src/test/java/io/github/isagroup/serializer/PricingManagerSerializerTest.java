@@ -1,14 +1,15 @@
 package io.github.isagroup.serializer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 
 import io.github.isagroup.models.Feature;
 import io.github.isagroup.models.Plan;
@@ -49,6 +50,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("When features are not provided it should not serialize")
     void givenNoFeaturesShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
@@ -66,6 +68,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("At least plans or add-ons should be provided otherwise serializing fails")
     void givenNoPlansAndAddOnsShouldThrowException() {
 
         PricingManager pricingManager = initPricingManager();
@@ -83,6 +86,7 @@ class PricingManagerSerializerTest {
     }
 
     @Test
+    @DisplayName("Dump null when add-ons are not present in PricingManager")
     void givenNoAddOnsShouldSerializeNullAddOns() {
 
         PricingManager pricingManager = initPricingManager();
@@ -98,4 +102,31 @@ class PricingManagerSerializerTest {
 
     }
 
+    @Test
+    @DisplayName("Optional root pricing fields should not be dumped")
+    void givenNoValuesInPlanOptionalPropertiesShouldNotSerializeThem() {
+
+        PricingManager pricingManager = new PricingManager();
+        pricingManager.setCreatedAt(LocalDate.now());
+
+        PricingManagerSerializer pricingManagerSerializer = new PricingManagerSerializer();
+
+        Domain domain = new Domain();
+        domain.setName("domain");
+        domain.setDefaultValue("Bar");
+        Map<String, Feature> features = new LinkedHashMap<>();
+        features.put("bar", domain);
+        pricingManager.setFeatures(features);
+
+        Map<String, Plan> plans = new LinkedHashMap<>();
+        Plan plan = new Plan();
+        plan.setName("BASIC");
+        plans.put("BASIC", plan);
+        pricingManager.setPlans(plans);
+
+        Map<String, Object> res = pricingManagerSerializer.serialize(pricingManager);
+        assertFalse(res.containsKey("url"));
+        assertFalse(res.containsKey("tags"));
+        assertFalse(res.containsKey("variables"));
+    }
 }

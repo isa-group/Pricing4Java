@@ -7,16 +7,35 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.SimpleEvaluationContext;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class FeatureStatus {
 
     private Boolean eval;
     private Object used;
     private Object limit;
+
+    public Boolean getEval() {
+        return eval;
+    }
+
+    public void setEval(Boolean eval) {
+        this.eval = eval;
+    }
+
+    public Object getUsed() {
+        return used;
+    }
+
+    public void setUsed(Object used) {
+        this.used = used;
+    }
+
+    public Object getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Object limit) {
+        this.limit = limit;
+    }
 
     public static Optional<Boolean> computeFeatureEvaluation(String expression, PlanContextManager planContextManager) {
         ExpressionParser expressionParser = new SpelExpressionParser();

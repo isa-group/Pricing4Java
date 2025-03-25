@@ -1,5 +1,6 @@
 package io.github.isagroup.services.parsing;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,9 +46,9 @@ public class PlanParser {
                 throw new PricingParsingException("The field \"private\" should be a boolean");
             }
             
-            plan.setIsPrivate((Boolean) map.get("private"));
+            plan.setPrivate((Boolean) map.get("private"));
         }else{
-            plan.setIsPrivate(false);
+            plan.setPrivate(false);
         }
 
         // ---------- price ----------
@@ -109,6 +110,15 @@ public class PlanParser {
                     "The feature " + planFeatureName + " is not defined in the global features");
             } else {
                 Feature feature = plan.getFeatures().get(planFeatureName);
+                
+                Object value = planFeatureMap.get("value");
+                boolean isValueNull = (value == null);
+                
+                if (isValueNull){
+                    throw new InvalidDefaultValueException("The feature " + feature.getName()
+                        + " does not have a valid value. Current valueType: "
+                        + feature.getValueType().toString() + "; Current value in plan " + plan.getName() + " is null");
+                }
 
                 switch (feature.getValueType()) {
                     case NUMERIC:
@@ -186,6 +196,15 @@ public class PlanParser {
             } else {
                 UsageLimit usageLimit = plan.getUsageLimits().get(planUsageLimitName);
 
+                Object value = planUsageLimitMap.get("value");
+                boolean isValueNull = (value == null);
+                
+                if (isValueNull){
+                    throw new InvalidDefaultValueException("The usageLimit " + usageLimit.getName()
+                        + " does not have a valid value. Current valueType: "
+                        + usageLimit.getValueType().toString() + "; Current value in plan " + plan.getName() + " is null");
+                }
+
                 switch (usageLimit.getValueType()) {
                     case NUMERIC:
                         usageLimit.setValue(planUsageLimitMap.get("value"));
@@ -222,7 +241,10 @@ public class PlanParser {
         Object paymentValue = map.get("value");
         if (paymentValue instanceof String) {
             throw new PricingParsingException(
-                "\"" + featureName + "\"" + "should be a list of supported payment types");
+                "Invalid value for \"" + featureName + "\": expected a list of supported payment types (" 
+                + Arrays.toString(PaymentType.values()) + "), but found a string. "
+                + "To specify a list, use a dash (-) before each value. "
+                + "Problematic value: \"" + paymentValue + "\".");        
         }
 
         List<String> allowedPaymentTypes = (List<String>) paymentValue;
@@ -230,8 +252,10 @@ public class PlanParser {
             try {
                 PaymentType.valueOf(type);
             } catch (IllegalArgumentException e) {
-                throw new InvalidDefaultValueException("The feature " + featureName
-                    + " does not have a supported paymentType. PaymentType that generates the issue: " + type);
+                throw new InvalidDefaultValueException(
+                    "Invalid payment type for feature \"" + featureName + "\": \"" + type + "\" is not a supported payment type. "
+                    + "Supported types are: " + Arrays.toString(PaymentType.values()) + ". "
+                );
             }
         }
 
