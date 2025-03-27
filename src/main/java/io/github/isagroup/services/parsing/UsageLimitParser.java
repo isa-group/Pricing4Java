@@ -98,7 +98,7 @@ public class UsageLimitParser {
             limit.setValueType(ValueType.valueOf((String) map.get("valueType")));
         } catch (IllegalArgumentException e) {
             throw new InvalidValueTypeException("The feature " + limitName
-                    + " does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
+                    + " does not have a supported valueType (" + Arrays.toString(ValueType.values()) + "). Current valueType: " + (String) map.get("valueType"));
         }
         try {
             Object defaultValue = map.get("defaultValue");
