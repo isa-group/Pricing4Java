@@ -89,12 +89,19 @@ public class FeatureParser {
 
         loadBasicAttributes(integration, featureName, map, pricingManager);
 
+        String integrationType = "";
+        try{
+            integrationType = (String) map.get("integrationType");
+        } catch (NullPointerException e) {
+            throw new InvalidIntegrationTypeException("The feature " + featureName + " is from type INTEGRATION but does not have an integrationType attribute");
+        }
+
         try {
-            integration.setIntegrationType(IntegrationType.valueOf((String) map.get("integrationType")));
+            integration.setIntegrationType(IntegrationType.valueOf(integrationType));
         } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidIntegrationTypeException(
                     "The feature " + featureName + " does not have a supported integrationType (" + Arrays.toString(IntegrationType.values()) + "). Current value: "
-                            + (String) map.get("integrationType"));
+                            + integrationType);
         }
 
         if (integration.getIntegrationType().equals(IntegrationType.WEB_SAAS)) {
@@ -118,12 +125,19 @@ public class FeatureParser {
 
         loadBasicAttributes(automation, featureName, map, pricingManager);
 
+        String automationType = "";
+        try{
+            automationType = (String) map.get("automationType");
+        } catch (NullPointerException e) {
+            throw new InvalidAutomationTypeException("The feature " + featureName + " is from type AUTOMATION but does not have an automationType attribute");
+        }
+
         try {
-            automation.setAutomationType(AutomationType.valueOf((String) map.get("automationType")));
+            automation.setAutomationType(AutomationType.valueOf(automationType));
         } catch (IllegalArgumentException e) {
             throw new InvalidAutomationTypeException(
                     "The feature " + featureName + " does not have a supported automationType (" + Arrays.toString(AutomationType.values()) + "). Current value: "
-                            + (String) map.get("automationType"));
+                            + automationType);
         }
 
         return automation;
@@ -190,7 +204,7 @@ public class FeatureParser {
             feature.setValueType(ValueType.valueOf((String) map.get("valueType")));
         } catch (IllegalArgumentException e) {
             throw new PricingParsingException("The feature " + featureName
-                    + " does not have a supported valueType. Current valueType: " + (String) map.get("valueType"));
+                    + " does not have a supported valueType (" + Arrays.toString(ValueType.values()) + "). Current valueType: " + (String) map.get("valueType"));
         }
         try {
             Object defaultValue = map.get("defaultValue");
@@ -204,6 +218,10 @@ public class FeatureParser {
 
             switch (feature.getValueType()) {
                 case NUMERIC:
+                    if (feature instanceof Payment) {
+                        throw new InvalidDefaultValueException("The feature " + featureName
+                                + " is from type PAYMENT but has a valueType of NUMERIC. It should be TEXT.");
+                    }
                     feature.setDefaultValue(map.get("defaultValue"));
                     if (!(feature.getDefaultValue() instanceof Integer || feature.getDefaultValue() instanceof Double
                             || feature.getDefaultValue() instanceof Long)) {
@@ -251,18 +269,21 @@ public class FeatureParser {
     }
 
     private static void parsePaymentValue(Feature feature, String featureName, Map<String, Object> map) {
-
-        List<String> allowedPaymentTypes = (List<String>) map.get("defaultValue");
-        for (String type : allowedPaymentTypes) {
+        List<String> allowedPaymentTypes;
+        try{
+            allowedPaymentTypes = (List<String>) map.get("defaultValue");
+        } catch (ClassCastException e) {
+            throw new InvalidDefaultValueException("The feature " + featureName
+                    + " is from type PAYMENT but has a valueType of TEXT. It should be a list of supported paymentType ("+Arrays.toString(PaymentType.values())+"). To specify a list, use a dash (-) before each value. The defaultValue that generates the issue: " + map.get("defaultValue"));
+        }
+        for (String paymentType : allowedPaymentTypes) {
             try {
-                PaymentType.valueOf(type);
+                PaymentType.valueOf(paymentType);
             } catch (IllegalArgumentException e) {
                 throw new InvalidDefaultValueException("The feature " + featureName
-                        + " does not have a supported paymentType. PaymentType that generates the issue: " + type);
+                        + " does not have a valid defaultValue consisting on a list of supported paymentType ("+Arrays.toString(PaymentType.values())+"). PaymentType that generates the issue: " + paymentType);
             }
         }
-
         feature.setDefaultValue(allowedPaymentTypes);
-
     }
 }
