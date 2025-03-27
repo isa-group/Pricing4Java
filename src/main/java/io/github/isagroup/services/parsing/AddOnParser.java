@@ -93,7 +93,8 @@ public class AddOnParser {
 
         List<String> plansAvailable = (List<String>) addOnMap.get("availableFor");
 
-        if (plansAvailable == null) {
+        if (plansAvailable == null || plansAvailable.isEmpty()) {
+            // If no plans are defined, the addOn is available for all plans
             plansAvailable = pricingManager.getPlans().keySet().stream().toList();
         }
 
