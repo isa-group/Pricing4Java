@@ -94,8 +94,7 @@ public class AddOnParser {
         List<String> plansAvailable = (List<String>) addOnMap.get("availableFor");
 
         if (plansAvailable == null) {
-            List<String> allPlans = pricingManager.getPlans().keySet().stream().toList();
-            addOn.setAvailableFor(allPlans);
+            plansAvailable = pricingManager.getPlans().keySet().stream().toList();
         }
 
         for (String planName : plansAvailable) {
