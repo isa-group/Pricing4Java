@@ -36,7 +36,7 @@ Throw an error if feature 'docUrl' is not a string;parsing/negative/feature/docU
 Throw an error if feature 'type' is missing or null;parsing/negative/feature/type/null-type.yml;feature 'type' is mandatory
 # feature.valueType
 Throw an error if feature 'type' is missing or null;parsing/negative/feature/valueType/null-valueType.yml;Feature value type is null
-Throw an error if feature 'type' is not a supported feature type;parsing/negative/feature/valueType/unsupported-valueType.yml;The feature foo does not have a supported valueType. Current valueType: foo
+Throw an error if feature 'type' is not a supported feature type;parsing/negative/feature/valueType/unsupported-valueType.yml;The feature foo does not have a supported valueType ([NUMERIC, TEXT, BOOLEAN]). Current valueType: foo
 # features
 Throw an error if 'features' is not a map;parsing/negative/features/features-is-boolean.yml;'features' must be a Map but found Boolean instead
 Throw an error if 'features' is not a map;parsing/negative/features/features-is-float.yml;'features' must be a Map but found Double instead
