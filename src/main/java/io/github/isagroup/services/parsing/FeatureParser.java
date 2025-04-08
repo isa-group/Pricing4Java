@@ -134,7 +134,7 @@ public class FeatureParser {
 
         try {
             automation.setAutomationType(AutomationType.valueOf(automationType));
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidAutomationTypeException(
                     "The feature " + featureName + " does not have a supported automationType (" + Arrays.toString(AutomationType.values()) + "). Current value: "
                             + automationType);
@@ -279,7 +279,7 @@ public class FeatureParser {
         for (String paymentType : allowedPaymentTypes) {
             try {
                 PaymentType.valueOf(paymentType);
-            } catch (IllegalArgumentException e) {
+            } catch (NullPointerException | IllegalArgumentException e) {
                 throw new InvalidDefaultValueException("The feature " + featureName
                         + " does not have a valid defaultValue consisting on a list of supported paymentType ("+Arrays.toString(PaymentType.values())+"). PaymentType that generates the issue: " + paymentType);
             }
