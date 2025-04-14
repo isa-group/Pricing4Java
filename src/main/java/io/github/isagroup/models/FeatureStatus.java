@@ -38,12 +38,18 @@ public class FeatureStatus {
     }
 
     public static Optional<Boolean> computeFeatureEvaluation(String expression, PlanContextManager planContextManager) {
-        ExpressionParser expressionParser = new SpelExpressionParser();
-        EvaluationContext evaluationContext = SimpleEvaluationContext.forReadOnlyDataBinding().build();
+
+        if (expression == null) {
+            throw new IllegalArgumentException(
+                    "expression was null. A expression must be provided to compute its evaluation");
+        }
 
         if (expression.trim().isEmpty()) {
             return Optional.of(false);
         }
+
+        ExpressionParser expressionParser = new SpelExpressionParser();
+        EvaluationContext evaluationContext = SimpleEvaluationContext.forReadOnlyDataBinding().build();
 
         return Optional.ofNullable(expressionParser.parseExpression(expression).getValue(evaluationContext,
                 planContextManager,
