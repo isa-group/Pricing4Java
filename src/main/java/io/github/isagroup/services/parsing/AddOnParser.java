@@ -91,14 +91,32 @@ public class AddOnParser {
 
     private static void setAvailableFor(Map<String, Object> addOnMap, PricingManager pricingManager, AddOn addOn) {
 
-        List<String> plansAvailable = (List<String>) addOnMap.get("availableFor");
+        Object plansAvailable = addOnMap.get("availableFor");
+        List<String> plansAvailableList;
 
         if (plansAvailable == null) {
-            List<String> allPlans = pricingManager.getPlans().keySet().stream().toList();
-            addOn.setAvailableFor(allPlans);
+            // If no plans are defined, the addOn is available for all plans
+            plansAvailable = pricingManager.getPlans().keySet().stream().toList();
         }
 
-        for (String planName : plansAvailable) {
+        if (!(plansAvailable instanceof List<?>)) {
+            throw new PricingParsingException("The field \"availableFor\" should be a list");
+        }
+
+        if (plansAvailable instanceof List<?>) {
+            plansAvailableList = ((List<?>) plansAvailable).stream()
+                    .filter(item -> item instanceof String)
+                    .map(item -> (String) item)
+                    .toList();
+        } else {
+            throw new PricingParsingException("The field \"availableFor\" should be a list of strings");
+        }
+
+        if (plansAvailableList.isEmpty()) {
+            plansAvailableList = pricingManager.getPlans().keySet().stream().toList();
+        }
+
+        for (String planName : plansAvailableList) {
             if (!pricingManager.getPlans().containsKey(planName)
                     && !pricingManager.getAddOns().containsKey(planName)) {
                 throw new InvalidPlanException(
@@ -106,7 +124,7 @@ public class AddOnParser {
             }
         }
 
-        addOn.setAvailableFor(plansAvailable);
+        addOn.setAvailableFor(plansAvailableList);
 
     }
 
