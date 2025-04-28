@@ -101,7 +101,7 @@ public abstract class PricingContext {
      * the user
      * from the configuration.
      * 
-     * @return List<String> with the current user's contracted add-ons. Add-on names
+     * @return List of strings with the current user's contracted add-ons. Add-on names
      *         should be the same as in the pricing configuration file.
      * 
      */
