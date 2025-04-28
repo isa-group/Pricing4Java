@@ -96,10 +96,9 @@ public abstract class PricingContext {
 
     /**
      * This method should return a list with the name of the add-ons contracted by
-     * the current user.
+     * the current user. If the pricing don't include add-ons, then just return an empty array.
      * With this information, the library will be able to build the subscription of
-     * the user
-     * from the configuration.
+     * the user from the configuration.
      * 
      * @return {@code List<String>} with the current user's contracted add-ons. Add-on names
      *         should be the same as in the pricing configuration file.
