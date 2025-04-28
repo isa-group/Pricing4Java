@@ -15,7 +15,7 @@ public class PricingEvaluatorUtilTests {
     private static final String JWT_SECRET_TEST = "secret";
     private static final Integer JWT_EXPIRATION_TEST = 86400;
     private static final String JWT_SUBJECT_TEST = "admin1";
-    private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['maxPets']";
+    private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['usageLimits']['pets']";
 
     private static final String USER_PLAN = "ADVANCED";
     private static final String YAML_CONFIG_PATH = "pricing/petclinic.yml";
@@ -54,8 +54,8 @@ public class PricingEvaluatorUtilTests {
         Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(token);
 
         assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertTrue((Boolean) features.get("maxPets").get("eval"), "Features is not a string");
-        assertFalse((Boolean) features.get("maxVisitsPerMonthAndPet").get("eval"), "Features is not a string");
+        assertTrue((Boolean) features.get("pets").get("eval"), "Features is not a string");
+        assertTrue((Boolean) features.get("visits").get("eval"), "Features is not a string");
         assertTrue((Boolean) features.get("haveCalendar").get("eval"),
                 "haveCalendar evaluation should be true");
         assertFalse((Boolean) features.get("haveOnlineConsultation").get("eval"),
@@ -80,14 +80,14 @@ public class PricingEvaluatorUtilTests {
 
         String firstToken = pricingEvaluatorUtil.generateUserToken();
 
-        String newToken = pricingEvaluatorUtil.addExpressionToToken(firstToken, "maxVisitsPerMonthAndPet",
+        String newToken = pricingEvaluatorUtil.addExpressionToToken(firstToken, "visits",
                 JWT_EXPRESSION_TEST);
 
         Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(newToken);
 
         assertTrue(jwtUtils.validateJwtToken(newToken), "Token is not valid");
-        assertEquals(JWT_EXPRESSION_TEST, (String) features.get("maxVisitsPerMonthAndPet").get("eval"),
-                "The expression for the feature maxVisitsPerMonthAndPet has not being correctly set");
+        assertEquals(JWT_EXPRESSION_TEST, (String) features.get("visits").get("eval"),
+                "The expression for the feature visits has not being correctly set");
 
     }
 
@@ -99,9 +99,9 @@ public class PricingEvaluatorUtilTests {
         Map<String, Object> tokenicedPlanContext = jwtUtils.getPlanContextFromJwtToken(token);
 
         assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertEquals((Integer) pricingContext.getPlanContext().get("maxPets"),
-                (Integer) tokenicedPlanContext.get("maxPets"),
-                "PlanContext maxPets value is not the same after token codification");
+        assertEquals((Integer) pricingContext.getPlanContext().get("pets"),
+                (Integer) tokenicedPlanContext.get("pets"),
+                "PlanContext pets value is not the same after token codification");
         assertEquals((Boolean) pricingContext.getPlanContext().get("havePetsDashboard"),
                 (Boolean) tokenicedPlanContext.get("havePetsDashboard"),
                 "PlanContext havePetsDashboard value is not the same after token codification");

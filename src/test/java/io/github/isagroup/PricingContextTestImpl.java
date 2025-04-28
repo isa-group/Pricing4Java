@@ -1,5 +1,7 @@
 package io.github.isagroup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class PricingContextTestImpl extends PricingContext {
@@ -8,6 +10,7 @@ public class PricingContextTestImpl extends PricingContext {
     private String secret;
     private Integer jwtExpiration;
     private String userPlan;
+    private List<String> userAddOns;
     private Map<String, Object> userContext;
 
     public PricingContextTestImpl() {
@@ -15,6 +18,7 @@ public class PricingContextTestImpl extends PricingContext {
         this.secret = "defualtSecret";
         this.jwtExpiration = 86400;
         this.userPlan = null;
+        this.userAddOns = new ArrayList<>();
         this.userContext = null;
     }
 
@@ -22,8 +26,6 @@ public class PricingContextTestImpl extends PricingContext {
     public String getConfigFilePath() {
         return path;
     }
-
-    ;
 
     public void setConfigFilePath(String path) {
         this.path = path;
@@ -63,6 +65,19 @@ public class PricingContextTestImpl extends PricingContext {
 
     public void setUserPlan(String userPlan) {
         this.userPlan = userPlan;
+    }
+
+    @Override
+    public List<String> getUserAddOns() {
+        return userAddOns;
+    }
+
+    public void setUserAddOns(List<String> userAddOns) {
+        this.userAddOns = userAddOns;
+    }
+
+    public void addUserAddOns(String userAddOn) {
+        this.userAddOns.add(userAddOn);
     }
 
 }

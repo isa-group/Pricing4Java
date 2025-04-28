@@ -1,5 +1,6 @@
 package io.github.isagroup.services.parsing;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +125,7 @@ public class AddOnParser {
             }
         }
 
-        addOn.setAvailableFor(plansAvailableList);
+        addOn.setAvailableFor(new ArrayList<>(plansAvailableList)); // From java 16, stream().toList() generates an immutable list
 
     }
 

@@ -103,7 +103,7 @@ public class PricingServiceTests {
         addOnUsageLimitExtension.setValueType(ValueType.NUMERIC);
         addOnUsageLimitExtension.setDefaultValue(5);
         addOnUsageLimitExtension.setUnit("pet");
-        addOnUsageLimitExtension.getLinkedFeatures().add("maxPets");
+        addOnUsageLimitExtension.getLinkedFeatures().add("pets");
         Map<String, UsageLimit> usageLimitsExtensions = new HashMap<>();
         usageLimitsExtensions.put(addOnUsageLimitExtension.getName(), addOnUsageLimitExtension);
         newAddOn.setUsageLimitsExtensions(usageLimitsExtensions);
@@ -352,7 +352,7 @@ public class PricingServiceTests {
         @DisplayName("Given a duplicated name feature should throw")
         void givenExistentFeatureShouldThrowWhenAddingFeature() {
 
-            String featureName = "maxPets";
+            String featureName = "pets";
             YamlUtils.writeYaml(petClinic, getTempPricingPath("petclinic"));
             pricingConfig.setConfigFilePath(getTempPricingPath("petclinic"));
 
@@ -374,9 +374,9 @@ public class PricingServiceTests {
 
             YamlUtils.writeYaml(petClinic, getTempPricingPath("petclinic"));
             pricingConfig.setConfigFilePath(getTempPricingPath("petclinic"));
-            String featureName = "maxPets";
+            String featureName = "pets";
 
-            pricingService.removeFeatureFromConfiguration("maxPets");
+            pricingService.removeFeatureFromConfiguration("pets");
 
             assertFalse(pricingConfig.getPricingManager().getFeatures().containsKey(featureName));
             assertFalse(pricingConfig.getPricingManager().getPlans().get("BASIC").getFeatures().containsKey(featureName));
@@ -556,11 +556,11 @@ public class PricingServiceTests {
 
             YamlUtils.writeYaml(petClinic, getTempPricingPath("petclinic"));
             pricingConfig.setConfigFilePath(getTempPricingPath("petclinic"));
-            assertNull(pricingConfig.getPricingManager().getAddOns());
+            assertEquals(3, pricingConfig.getPricingManager().getAddOns().size());
 
             pricingService.addAddOnToConfiguration(newAddOn);
 
-            assertEquals(1, pricingConfig.getPricingManager().getAddOns().size());
+            assertEquals(4, pricingConfig.getPricingManager().getAddOns().size());
             assertEquals(newAddOn.getName(),
                 pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getName());
         }
@@ -571,11 +571,11 @@ public class PricingServiceTests {
 
             YamlUtils.writeYaml(petClinic, getTempPricingPath("petclinic"));
             pricingConfig.setConfigFilePath(getTempPricingPath("petclinic"));
-            assertNull(pricingConfig.getPricingManager().getAddOns());
+            assertEquals(3, pricingConfig.getPricingManager().getAddOns().size());
 
             pricingService.addAddOnToConfiguration(newAddOn);
 
-            assertEquals(1, pricingConfig.getPricingManager().getAddOns().size());
+            assertEquals(4, pricingConfig.getPricingManager().getAddOns().size());
             assertEquals(newAddOn.getName(),
                 pricingConfig.getPricingManager().getAddOns().get(newAddOn.getName()).getName());
 
@@ -593,7 +593,7 @@ public class PricingServiceTests {
 
             YamlUtils.writeYaml(petClinic, getTempPricingPath("petclinic"));
             pricingConfig.setConfigFilePath(getTempPricingPath("petclinic"));
-            assertNull(pricingConfig.getPricingManager().getAddOns());
+            assertEquals(3, pricingConfig.getPricingManager().getAddOns().size());
 
             pricingService.addAddOnToConfiguration(newAddOn);
 

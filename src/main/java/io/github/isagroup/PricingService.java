@@ -243,6 +243,8 @@ public class PricingService {
 
         pricingManager.setPlans(plans);
 
+        updateAddOnsWithNewPlan(previousName, plan.getName(), pricingManager);
+
         YamlUtils.writeYaml(pricingManager, pricingContext.getConfigFilePath());
     }
 
@@ -278,6 +280,7 @@ public class PricingService {
         } else {
             plans.remove(name);
             pricingManager.setPlans(plans);
+            removePlanFromAddOns(name, pricingManager);
             YamlUtils.writeYaml(pricingManager, pricingContext.getConfigFilePath());
         }
     }
@@ -631,7 +634,7 @@ public class PricingService {
             AddOn addOn = addOns.get(addOnName);
             Map<String, Feature> addOnFeatures = addOn.getFeatures();
 
-            if (addOnFeatures.containsKey(featureName)) {
+            if (addOnFeatures != null && addOnFeatures.containsKey(featureName)) {
                 addOnFeatures.remove(featureName);
                 if (addOnFeatures.isEmpty()) {
                     addOnsToRemove.add(addOnName);
@@ -673,11 +676,53 @@ public class PricingService {
 
         for (AddOn addOn : addOns.values()) {
             for (String usageLimitName : usageLimitsToRemove) {
-                addOn.getUsageLimits().remove(usageLimitName);
+                if (addOn.getUsageLimits() != null && addOn.getUsageLimits().get(usageLimitName) != null) {
+                    addOn.getUsageLimits().remove(usageLimitName);
+                }
+
+                if (addOn.getUsageLimitsExtensions() != null && addOn.getUsageLimitsExtensions().get(usageLimitName) != null){
+                    addOn.getUsageLimitsExtensions().remove(usageLimitName);
+                }
             }
         }
 
         pricingManager.setAddOns(addOns);
     }
 
+    private void removePlanFromAddOns(String planName, PricingManager pricingManager){
+        Map<String, AddOn> addOns = pricingManager.getAddOns();
+
+        if (addOns == null) {
+            return;
+        }
+
+        for (AddOn addOn : addOns.values()) {
+            if (addOn.getAvailableFor() != null && addOn.getAvailableFor().contains(planName)) {
+                addOn.getAvailableFor().remove(planName);
+            }
+
+            if (addOn.getAvailableFor().isEmpty()) {
+                addOns.remove(addOn.getName());
+            }
+        }
+
+        pricingManager.setAddOns(addOns);
+    }
+
+    private void updateAddOnsWithNewPlan(String previousName, String newName, PricingManager pricingManager){
+        Map<String, AddOn> addOns = pricingManager.getAddOns();
+
+        if (addOns == null) {
+            return;
+        }
+
+        for (AddOn addOn : addOns.values()) {
+            if (addOn.getAvailableFor() != null && addOn.getAvailableFor().contains(previousName)) {
+                addOn.getAvailableFor().remove(previousName);
+                addOn.getAvailableFor().add(newName);
+            }
+        }
+
+        pricingManager.setAddOns(addOns);
+    }
 }
