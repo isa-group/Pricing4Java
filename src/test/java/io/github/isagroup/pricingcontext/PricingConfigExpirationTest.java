@@ -3,6 +3,8 @@ package io.github.isagroup.pricingcontext;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +49,11 @@ public class PricingConfigExpirationTest {
         @Override
         public String getUserPlan() {
             return "BASIC";
+        }
+
+        @Override
+        public List<String> getUserAddOns() {
+            return Arrays.asList("addOnFeature", "extraPets");
         }
 
         public int getJwtExpiration() {

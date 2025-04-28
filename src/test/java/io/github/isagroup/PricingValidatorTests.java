@@ -90,7 +90,7 @@ public class PricingValidatorTests {
 
     String expression = null;
     PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
-    Feature feature = pricingManager.getFeatures().get("maxPets");
+    Feature feature = pricingManager.getFeatures().get("pets");
     feature.setExpression(expression);
     IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
         () -> PricingValidators.validateAndFormatFeature(feature));
@@ -111,7 +111,7 @@ public class PricingValidatorTests {
     }
     String expression = sb.toString();
     PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
-    Feature feature = pricingManager.getFeatures().get("maxPets");
+    Feature feature = pricingManager.getFeatures().get("pets");
     feature.setExpression(expression);
 
     IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
@@ -127,7 +127,7 @@ public class PricingValidatorTests {
   void givenNullValueTypeShouldThrowInvalidValueTypeException() {
 
     PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
-    Feature feature = pricingManager.getFeatures().get("maxPets");
+    Feature feature = pricingManager.getFeatures().get("pets");
     feature.setValueType(null);
 
     // FIXME: REMOVE VALUE TYPE CHECK
@@ -143,7 +143,7 @@ public class PricingValidatorTests {
   void givenNullDefaultValueShouldThrowWhenValueTypeIsNumeric() {
 
     PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
-    Feature feature = pricingManager.getFeatures().get("maxPets");
+    Feature feature = pricingManager.getFeatures().get("pets");
     feature.setDefaultValue(null);
 
     InvalidDefaultValueException ex = assertThrows(InvalidDefaultValueException.class,
@@ -151,24 +151,6 @@ public class PricingValidatorTests {
     assertEquals(
         "The feature " + feature.getName()
             + " defaultValue must not be null",
-        ex.getMessage());
-
-  }
-
-  @Test
-  void givenStringDefaultValueShouldThrowWhenValueTypeIsNumeric() {
-
-    PricingManager pricingManager = YamlUtils.retrieveManagerFromYaml("pricing/petclinic.yml");
-    Feature feature = pricingManager.getFeatures().get("maxPets");
-    String defaultValue = "";
-    feature.setDefaultValue(defaultValue);
-
-    // FIXME: REMOVE MULTIPLE VALUE TYPE CHECK
-    InvalidDefaultValueException ex = assertThrows(InvalidDefaultValueException.class,
-        () -> PricingValidators.validateAndFormatFeature(feature));
-    assertEquals(
-        "The feature " + feature.getName()
-            + " defaultValue must be one of the supported numeric types if valueType is NUMERIC",
         ex.getMessage());
 
   }

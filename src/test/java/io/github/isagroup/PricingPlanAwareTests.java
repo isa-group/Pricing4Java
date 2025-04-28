@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -46,7 +48,7 @@ public class PricingPlanAwareTests {
             private String configFilePath = CONFIG_FILE_PATH_TEST;
             private String jwtSecret = JWT_SECRET_TEST;
             private int jwtExpiration = JWT_EXPIRATION_TEST;
-            private int numberOfPets = 10;
+            private int numberOfPets = 51;
 
             @Override
             public String getConfigFilePath() {
@@ -85,10 +87,6 @@ public class PricingPlanAwareTests {
 
                 userContext.put("username", JWT_SUBJECT_TEST);
                 userContext.put("pets", this.numberOfPets);
-                userContext.put("haveVetSelection", true);
-                userContext.put("haveCalendar", true);
-                userContext.put("havePetsDashboard", true);
-                userContext.put("haveOnlineConsultations", true);
 
                 return userContext;
             }
@@ -96,6 +94,11 @@ public class PricingPlanAwareTests {
             @Override
             public String getUserPlan() {
                 return "BASIC";
+            }
+
+            @Override
+            public List<String> getUserAddOns() {
+                return Arrays.asList("hugePets", "addOnFeature", "extraPets");
             }
 
         }
@@ -123,7 +126,7 @@ public class PricingPlanAwareTests {
         Mockito.when(joinPoint.proceed()).thenReturn("Result");
 
         // Obtener el valor del parámetro featureId que deseas probar
-        String featureId = "maxPets";
+        String featureId = "pets";
 
         pricingPlanAwareAspect.validatePricingPlan(joinPoint, new PricingPlanAware() {
             @Override
@@ -141,12 +144,12 @@ public class PricingPlanAwareTests {
     @Test
     void negativeSimpleAnnotationUseCaseTest() throws Throwable {
 
-        pricingContextImpl.setNumberOfPets(16);
+        pricingContextImpl.setNumberOfPets(52);
 
         Mockito.when(joinPoint.proceed()).thenReturn("Result");
 
         // Obtener el valor del parámetro featureId que deseas probar
-        String featureId = "maxPets";
+        String featureId = "pets";
 
         PricingPlanEvaluationException exception = assertThrows(PricingPlanEvaluationException.class, () -> {
             pricingPlanAwareAspect.validatePricingPlan(joinPoint, new PricingPlanAware() {
@@ -164,7 +167,7 @@ public class PricingPlanAwareTests {
 
         assertEquals("You have reached the limit of the feature: " + featureId, exception.getMessage());
 
-        pricingContextImpl.setNumberOfPets(2);
+        pricingContextImpl.setNumberOfPets(51);
     }
 
     @Test
@@ -173,7 +176,7 @@ public class PricingPlanAwareTests {
         Mockito.when(joinPoint.proceed()).thenReturn("Result");
 
         // Obtener el valor del parámetro featureId que deseas probar
-        String featureId = "maxPets";
+        String featureId = "pets";
 
         pricingPlanAwareAspect.validatePricingPlan(joinPoint, new PricingPlanAware() {
             @Override
