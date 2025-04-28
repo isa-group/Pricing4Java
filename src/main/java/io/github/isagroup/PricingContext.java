@@ -101,7 +101,7 @@ public abstract class PricingContext {
      * the user
      * from the configuration.
      * 
-     * @return List of strings with the current user's contracted add-ons. Add-on names
+     * @return {@code List<String>} with the current user's contracted add-ons. Add-on names
      *         should be the same as in the pricing configuration file.
      * 
      */
@@ -114,7 +114,7 @@ public abstract class PricingContext {
      * Key "plan" contains the plan name of the user.
      * Key "addOns" contains a list with the add-ons contracted by the user.
      * 
-     * @return Map<String, Object> with the current user's contracted subscription.
+     * @return {@code Map<String, Object>} with the current user's contracted subscription.
      */
     public final Map<String, Object> getUserSubscription() {
         Map<String, Object> userSubscription = new HashMap<>();
