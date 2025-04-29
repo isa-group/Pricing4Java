@@ -196,7 +196,16 @@ public class PlanParser {
             } else {
                 UsageLimit usageLimit = plan.getUsageLimits().get(planUsageLimitName);
 
-                Object value = planUsageLimitMap.get("value");
+                Object value = null;
+                try{
+                    value = planUsageLimitMap.get("value");
+                }
+                catch (NullPointerException e){
+                    throw new InvalidDefaultValueException("The usageLimit " + planUsageLimitName
+                        + " does not have a valid value. Current valueType: "
+                        + usageLimit.getValueType().toString() + "; Current value in plan " + plan.getName() + " is null");
+                }
+
                 boolean isValueNull = (value == null);
                 
                 if (isValueNull){
@@ -251,7 +260,7 @@ public class PlanParser {
         for (String type : allowedPaymentTypes) {
             try {
                 PaymentType.valueOf(type);
-            } catch (IllegalArgumentException e) {
+            } catch (NullPointerException | IllegalArgumentException e) {
                 throw new InvalidDefaultValueException(
                     "Invalid payment type for feature \"" + featureName + "\": \"" + type + "\" is not a supported payment type. "
                     + "Supported types are: " + Arrays.toString(PaymentType.values()) + ". "

@@ -342,7 +342,10 @@ public class PricingManagerParser {
     }
 
     private static void setAddOns(Map<String, Object> map, PricingManager pricingManager) {
-        Map<String, Object> addOnsMap = (Map<String, Object>) map.get("addOns");
+        Map<String, Object> addOnsMap = null;
+        if (map.get("addOns") instanceof Map) {
+            addOnsMap = (Map<String, Object>) map.get("addOns");
+        }
 
         if (addOnsMap == null) {
             return;
@@ -356,7 +359,7 @@ public class PricingManagerParser {
                 AddOn addOn = AddOnParser.parseMapToAddOn(addOnName, addOnMap, pricingManager);
 
                 pricingManager.getAddOns().put(addOnName, addOn);
-            } catch (ClassCastException e) {
+            } catch (ClassCastException | NullPointerException | IllegalArgumentException e) {
                 throw new PricingParsingException(
                         "An error has occurred while parsing the add-on " + addOnName + ". Error: " + e.getMessage());
             }
