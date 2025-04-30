@@ -249,13 +249,23 @@ public class FeatureParser {
                     + "; Current defaultValue: " + (String) map.get("defaultValue"));
         }
 
-        try {
-            feature.setExpression((String) map.get("expression"));
-            feature.setServerExpression((String) map.get("serverExpression"));
-        } catch (NoSuchElementException e) {
-            throw new PricingParsingException("The feature " + featureName
-                    + " does not have either an evaluation expression or serverExpression.");
+        if (map.get("expression") != null && !(map.get("expression") instanceof String)) {
+            throw new PricingParsingException("'expression' must be a String");
         }
+        String expression = "";
+        if (map.get("expression") != null) {
+            expression = (String) map.get("expression");
+        }
+        feature.setExpression(expression);
+
+        if (map.get("serverExpression") != null && !(map.get("serverExpression") instanceof String)) {
+            throw new PricingParsingException("'expression' must be a String");
+        }
+        String serverExpression = "";
+        if (map.get("serverExpression") != null) {
+            serverExpression = (String) map.get("serverExpression");
+        }
+        feature.setServerExpression(serverExpression);
 
         String featureTag = (String) map.get("tag");
 

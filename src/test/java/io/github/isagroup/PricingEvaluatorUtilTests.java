@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.expression.spel.SpelEvaluationException;
 
 import io.github.isagroup.services.jwt.PricingJwtUtils;
 
@@ -127,4 +129,46 @@ public class PricingEvaluatorUtilTests {
                 "UserContext havePetsDashboard value is not the same after token codification");
 
     }
+
+    private class NoExpressionsInFeatures extends PricingContext {
+
+        @Override
+        public String getConfigFilePath() {
+            return "pricing/feature-inoperative-no-expression.yaml";
+        }
+
+        @Override
+        public String getJwtSecret() {
+            return "Testing";
+        }
+
+        @Override
+        public Map<String, Object> getUserContext() {
+            Map<String, Object> map = new HashMap<>();
+            map.put("pets", 1);
+            return map;
+        }
+
+        @Override
+        public String getUserPlan() {
+            return "BASIC";
+        }
+
+    }
+
+    @Test
+    @DisplayName("Given a feature with no 'expression' should be disabled in the pricing token")
+    void givenAFeatureWithNoExpressionShouldNotThrowWhenComputingUserToken() {
+
+        PricingContext context = new NoExpressionsInFeatures();
+        PricingEvaluatorUtil pricingEvaluatorUtil = new PricingEvaluatorUtil(context);
+        PricingJwtUtils pricingJwtUtils = new PricingJwtUtils(context);
+        assertDoesNotThrow(() -> pricingEvaluatorUtil.generateUserToken());
+
+        Map<String, Map<String, Object>> featureStatuses = pricingJwtUtils
+                .getFeaturesFromJwtToken(pricingEvaluatorUtil.generateUserToken());
+        assertFalse((boolean) featureStatuses.get("support").get("eval"));
+
+    }
+
 }

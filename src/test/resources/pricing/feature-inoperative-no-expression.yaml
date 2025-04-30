@@ -1,0 +1,30 @@
+saasName: Inoperative support
+syntaxVersion: "2.1"
+createdAt: "2024-01-15"
+currency: EUR
+features:
+  pets:
+    valueType: BOOLEAN
+    defaultValue: true
+    expression: userContext['pets'] < planContext['usageLimits']['maxPets']
+    serverExpression: userContext['pets'] <= planContext['usageLimits']['maxPets']
+    type: DOMAIN
+  support:
+    valueType: BOOLEAN
+    defaultValue: false
+    type: SUPPORT
+usageLimits:
+  maxPets:
+    valueType: NUMERIC
+    defaultValue: 2
+    unit: pet
+    type: NON_RENEWABLE
+    linkedFeatures:
+      - pets
+plans:
+  BASIC:
+    description: Basic plan
+    price: 0.0
+    unit: user/month
+    features: null
+    usageLimits: null
