@@ -34,7 +34,7 @@ import io.github.isagroup.services.jwt.PricingJwtUtils;
         io.github.isagroup.services.jwt.PricingJwtUtils.class })
 public class PricingPlanAwareTests {
 
-    private static final String JWT_SECRET_TEST = "secret";
+    private static final String JWT_SECRET_TEST = "qfqj73ZGIN1XxPvI5mG6dVaXqpY4XVeOOBjp4zf0yNE=";
     private static final Integer JWT_EXPIRATION_TEST = 86400;
     private static final String JWT_SUBJECT_TEST = "admin1";
     private static final String CONFIG_FILE_PATH_TEST = "pricing/petclinic.yml";

@@ -38,7 +38,7 @@ public class PricingConfigExpirationTest {
 
         @Override
         public String getJwtSecret() {
-            return "p3tclinic";
+            return "qfqj73ZGIN1XxPvI5mG6dVaXqpY4XVeOOBjp4zf0yNE=";
         }
 
         @Override
