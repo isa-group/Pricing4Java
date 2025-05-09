@@ -1,17 +1,20 @@
 package io.github.isagroup;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
-import io.github.isagroup.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.stereotype.Component;
 
 import io.github.isagroup.exceptions.PricingPlanEvaluationException;
+import io.github.isagroup.models.Feature;
+import io.github.isagroup.models.FeatureStatus;
+import io.github.isagroup.models.PlanContextManager;
+import io.github.isagroup.models.PricingManager;
 import io.github.isagroup.services.jwt.PricingJwtUtils;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * Utility class that provides methods to generate and manage JWT that contains
@@ -58,23 +61,19 @@ public class PricingEvaluatorUtil {
             planContextManager.setUserContext(pricingContext.getUserContext());
             claims.put("userContext", planContextManager.getUserContext());
         } catch (Exception e) {
-            throw new PricingPlanEvaluationException("Error while retrieving user context! Please check your PricingContext.getUserContext() method");
+            throw new PricingPlanEvaluationException(
+                    "Error while retrieving user context! Please check your PricingContext.getUserContext() method");
         }
 
         if (!pricingContext.userAffectedByPricing()) {
-            return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + pricingContext.getJwtExpiration()))
-                .signWith(SignatureAlgorithm.HS512, pricingContext.getJwtSecret())
-                .compact();
+            return jwtUtils.createJwtToken(claims, subject);
         }
 
         try {
             planContextManager.setPlanContext(pricingContext.getPlanContext());
         } catch (NullPointerException e) {
-            throw new PricingPlanEvaluationException("Error while retrieving plan context! Please check your configuration file or add a plan with the given name");
+            throw new PricingPlanEvaluationException(
+                    "Error while retrieving plan context! Please check your configuration file or add a plan with the given name");
         }
 
         PricingManager pricingManager = pricingContext.getPricingManager();
@@ -86,18 +85,11 @@ public class PricingEvaluatorUtil {
         claims.put("features", featureStatuses);
         claims.put("planContext", planContextManager.getPlanContext());
 
-        return Jwts.builder()
-            .setClaims(claims)
-            .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + pricingContext.getJwtExpiration()))
-            .signWith(SignatureAlgorithm.HS512, pricingContext.getJwtSecret())
-            .compact();
+        return jwtUtils.createJwtToken(claims, subject);
     }
 
-
     private Map<String, FeatureStatus> computeFeatureStatuses(PlanContextManager planContextManager,
-                                                              Map<String, Feature> features) {
+            Map<String, Feature> features) {
 
         Map<String, FeatureStatus> featureStatuses = new HashMap<>();
 
@@ -109,10 +101,11 @@ public class PricingEvaluatorUtil {
             String expression = features.get(featureName).getExpression();
             try {
                 Boolean eval = FeatureStatus.computeFeatureEvaluation(expression, planContextManager)
-                    .orElseThrow(() -> new PricingPlanEvaluationException("Evaluation was null"));
+                        .orElseThrow(() -> new PricingPlanEvaluationException("Evaluation was null"));
                 featureStatus.setEval(eval);
             } catch (SpelEvaluationException e) {
-                throw new PricingPlanEvaluationException("Error while evaluating the expression of the feature " + featureName + "! Please check the expression");
+                throw new PricingPlanEvaluationException("Error while evaluating the expression of the feature "
+                        + featureName + "! Please check the expression");
             }
 
             Optional<String> userContextKey = FeatureStatus.computeUserContextVariable(expression);
@@ -124,9 +117,12 @@ public class PricingEvaluatorUtil {
                 featureStatus.setUsed(planContextManager.getUserContext().get(userContextKey.get()));
                 if (feature.getExpression().contains("usageLimits")) {
                     String usageLimitName = feature.getExpression().split("usageLimits")[1].split("[',\"]")[2];
-                    featureStatus.setLimit(((Map<String, Object>) planContextManager.getPlanContext().get("usageLimits")).get(usageLimitName));
+                    featureStatus
+                            .setLimit(((Map<String, Object>) planContextManager.getPlanContext().get("usageLimits"))
+                                    .get(usageLimitName));
                 } else {
-                    featureStatus.setLimit(((Map<String, Object>) planContextManager.getPlanContext().get("features")).get(featureName));
+                    featureStatus.setLimit(((Map<String, Object>) planContextManager.getPlanContext().get("features"))
+                            .get(featureName));
                 }
 
             }
@@ -148,7 +144,7 @@ public class PricingEvaluatorUtil {
      * @param expression the expression of the feature that will replace its
      *                   evaluation
      * @return Modified version of the provided JWT that contains the new expression
-     * in the "eval" attribute of the feature.
+     *         in the "eval" attribute of the feature.
      */
     public String addExpressionToToken(String token, String featureId, String expression) {
 
@@ -173,13 +169,7 @@ public class PricingEvaluatorUtil {
         claims.put("userContext", pricingContext.getUserContext());
         claims.put("planContext", pricingContext.getPlanContext());
 
-        return Jwts.builder()
-            .setClaims(claims)
-            .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + pricingContext.getJwtExpiration()))
-            .signWith(SignatureAlgorithm.HS512, pricingContext.getJwtSecret())
-            .compact();
+        return jwtUtils.createJwtToken(claims, subject);
     }
 
 }
