@@ -48,6 +48,8 @@ public class FeatureParserTest {
         guaranteeFeature.setDefaultValue("99.9%");
         guaranteeFeature.setValueType(ValueType.TEXT);
         guaranteeFeature.setDocURL("https://example.org");
+        guaranteeFeature.setExpression("");
+        guaranteeFeature.setServerExpression("");
 
         PricingManager pricingManager = YamlUtils
                 .retrieveManagerFromYaml(POSITIVE_CASES + "type/guarantee-feature.yml");
@@ -65,7 +67,7 @@ public class FeatureParserTest {
                 .retrieveManagerFromYaml(POSITIVE_CASES + "expression/expression-is-null.yml");
 
         assertNotNull(pricingManager.getFeatures().get(featName));
-        assertNull(pricingManager.getFeatures().get(featName).getExpression());
+        assertEquals("", pricingManager.getFeatures().get(featName).getExpression());
 
     }
 }
