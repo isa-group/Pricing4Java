@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Encoders;
+
 public class PricingContextTestImpl extends PricingContext {
+
+    static final String JWT_SUBJECT_TEST = "admin1";
 
     private String path;
     private String secret;
@@ -14,12 +19,12 @@ public class PricingContextTestImpl extends PricingContext {
     private Map<String, Object> userContext;
 
     public PricingContextTestImpl() {
-        this.path = null;
-        this.secret = "defualtSecret";
+        this.path = "pricing/petclinic.yml";
+        this.secret = Encoders.BASE64.encode(Jwts.SIG.HS256.key().build().getEncoded());
         this.jwtExpiration = 86400;
-        this.userPlan = null;
+        this.userPlan = "ADVANCED";
         this.userAddOns = new ArrayList<>();
-        this.userContext = null;
+        this.userContext = Map.of("username", JWT_SUBJECT_TEST, "pets", 2);
     }
 
     @Override

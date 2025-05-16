@@ -3,6 +3,8 @@ package io.github.isagroup.services.jwt;
 import java.util.Date;
 import java.util.Map;
 
+import javax.crypto.SecretKey;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +27,25 @@ public class PricingJwtUtils {
     @Autowired
     private PricingContext pricingContext;
 
+    private final SecretKey pricingSecretKey;
+
     public PricingJwtUtils(PricingContext pricingContext) {
         this.pricingContext = pricingContext;
+        this.pricingSecretKey = createKeyForBase64String(pricingContext.getJwtSecret());
+    }
+
+    /**
+     * Given a base64 encoded {@link String} creates a {@link SecretKey} to be used
+     * when signing a JWT token. Given string must meet HMAC-SHA bit length
+     * requirements
+     *
+     * @param base64String
+     * @return {@link javax.crypto.SecretKey}
+     * @throws {@link io.jsonwebtoken.security.WeakKeyException} if the string is
+     *                not strong enough to be used with HMAC-SHA algorithms
+     */
+    private static SecretKey createKeyForBase64String(String base64String) {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64String));
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PricingJwtUtils.class);
@@ -34,7 +53,7 @@ public class PricingJwtUtils {
     /**
      * Given a map claims and subject creates a JWT token given
      * {@link PricingContext} configuation
-     * 
+     *
      * @param claims  a {@link Map} of claims
      * @param subject a target of the token
      * @return The subject of the JWT
@@ -46,7 +65,7 @@ public class PricingJwtUtils {
                 .subject(subject)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + pricingContext.getJwtExpiration()))
-                .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(pricingContext.getJwtSecret())))
+                .signWith(pricingSecretKey)
                 .compact();
     }
 
@@ -57,7 +76,7 @@ public class PricingJwtUtils {
      * @return The subject of the JWT
      */
     public String getSubjectFromJwtToken(String token) {
-        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode((pricingContext.getJwtSecret()))))
+        return Jwts.parser().verifyWith(pricingSecretKey)
                 .build()
                 .parseSignedClaims(token).getPayload().getSubject();
     }
@@ -73,7 +92,7 @@ public class PricingJwtUtils {
      */
     public Map<String, Map<String, Object>> getFeaturesFromJwtToken(String token) {
         return (Map<String, Map<String, Object>>) Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode((pricingContext.getJwtSecret())))).build()
+                .verifyWith(pricingSecretKey).build()
                 .parseSignedClaims(token)
                 .getPayload().get("features");
     }
@@ -89,7 +108,7 @@ public class PricingJwtUtils {
      */
     public Map<String, Object> getPlanContextFromJwtToken(String token) {
         return (Map<String, Object>) Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode((pricingContext.getJwtSecret())))).build()
+                .verifyWith(pricingSecretKey).build()
                 .parseSignedClaims(token)
                 .getPayload().get("planContext");
     }
@@ -105,7 +124,7 @@ public class PricingJwtUtils {
      */
     public Map<String, Object> getUserContextFromJwtToken(String token) {
         return (Map<String, Object>) Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode((pricingContext.getJwtSecret())))).build()
+                .verifyWith(pricingSecretKey).build()
                 .parseSignedClaims(token)
                 .getPayload().get("userContext");
     }
@@ -119,7 +138,7 @@ public class PricingJwtUtils {
      */
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode((pricingContext.getAuthJwtSecret()))))
+            Jwts.parser().verifyWith(createKeyForBase64String(pricingContext.getAuthJwtSecret()))
                     .build()
                     .parseSignedClaims(authToken);
             return true;

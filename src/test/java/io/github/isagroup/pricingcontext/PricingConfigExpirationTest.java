@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import io.github.isagroup.PricingContext;
 import io.github.isagroup.PricingEvaluatorUtil;
 import io.github.isagroup.services.jwt.PricingJwtUtils;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Encoders;
 
 public class PricingConfigExpirationTest {
 
@@ -38,7 +40,7 @@ public class PricingConfigExpirationTest {
 
         @Override
         public String getJwtSecret() {
-            return "qfqj73ZGIN1XxPvI5mG6dVaXqpY4XVeOOBjp4zf0yNE=";
+            return Encoders.BASE64.encode(Jwts.SIG.HS256.key().build().getEncoded());
         }
 
         @Override

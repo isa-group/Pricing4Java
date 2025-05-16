@@ -29,23 +29,44 @@ public abstract class PricingContext {
     private static final Logger logger = LoggerFactory.getLogger(PricingContext.class);
 
     /**
-     * Returns path of the pricing configuration YAML file.
-     * This file should be located in the resources folder, and the path should be
-     * relative to it.
+     * Returns the path to the Pricing2Yaml configuration file. The {@link String}
+     * path given to the implementation of this method should point to a
+     * Pricing2Yaml file under {@code resources} folder.
      * 
-     * @return Configuration file path
+     * @return a path as {@link String} to a Pricing2Yaml configuration file
+     *         relative to the {@code resources} folder
      */
     public abstract String getConfigFilePath();
 
     /**
-     * Returns the secret used to encode the pricing JWT.
-     * * @return JWT secret String
+     * Returns the secret used to sign the pricing JWT. The secret key needs to be
+     * encoded in {@code base64}. Internally JWT library will choose the best
+     * algorithm to sign the JWT ({@code HS256}, {@code HS384} or {@code HS512}), if
+     * the secret key bit length does not conform to the minimun stated by these
+     * algorithms will throw a {@link io.jsonwebtoken.security.WeakKeyException}
+     *
+     * @return a pricing secret encoded in {@code base64}
+     * @see <a href=
+     *      "https://github.com/jwtk/jjwt#signature-algorithms-keys">Signature
+     *      Algorithm Keys</a>
+     * @see <a href="https://datatracker.ietf.org/doc/html/rfc7518#section-3.2">HMAC
+     *      with SHA-2 Functions</a>
      */
     public abstract String getJwtSecret();
 
     /**
-     * Returns the secret used to encode the authorization JWT.
-     * * @return JWT secret String
+     * Returns the secret used to sign the authorization JWT. The secret key needs
+     * to be encoded in {@code base64}. Internally JWT library will choose the best
+     * algorithm to sign the JWT ({@code HS256}, {@code HS384} or {@code HS512}), if
+     * the secret key bit length does not conform to the minimun stated by these
+     * algorithms will throw a {@link io.jsonwebtoken.security.WeakKeyException}
+     *
+     * @return a pricing secret encoded in {@code base64}
+     * @see <a href=
+     *      "https://github.com/jwtk/jjwt#signature-algorithms-keys">Signature
+     *      Algorithm Keys</a>
+     * @see <a href="https://datatracker.ietf.org/doc/html/rfc7518#section-3.2">HMAC
+     *      with SHA-2 Functions</a>
      */
     public String getAuthJwtSecret() {
         return this.getJwtSecret();
@@ -66,7 +87,8 @@ public abstract class PricingContext {
      * for them.
      * 
      * @return A {@link Boolean} indicating the condition to include, or not,
-     *         the pricing evaluation context in the JWT.
+     *         the pricing evaluation context in the JWT. Set to {@code true} by
+     *         default
      * 
      * @see PricingEvaluatorUtil#generateUserToken
      * 
@@ -77,9 +99,8 @@ public abstract class PricingContext {
 
     /**
      * This method should return the user context that will be used to evaluate the
-     * pricing plan.
-     * It should be considered which users has accessed the service and what
-     * information is available.
+     * pricing plan. It should be considered which users has accessed the service
+     * and what information is available.
      * 
      * @return Map with the user context
      */
@@ -90,18 +111,18 @@ public abstract class PricingContext {
      * With this information, the library will be able to build the {@link Plan}
      * object of the user from the configuration.
      * 
-     * @return String with the current user's plan name
+     * @return a {@link String} with the current user's plan name
      */
     public abstract String getUserPlan();
 
     /**
      * This method should return a list with the name of the add-ons contracted by
-     * the current user. If the pricing don't include add-ons, then just return an empty array.
-     * With this information, the library will be able to build the subscription of
-     * the user from the configuration.
+     * the current user. If the pricing does not include add-ons, then just return
+     * an empty {@link List}. With this information, the library will be able to
+     * build the subscription of the user from the configuration.
      * 
-     * @return {@code List<String>} with the current user's contracted add-ons. Add-on names
-     *         should be the same as in the pricing configuration file.
+     * @return a list with the current user's contracted add-ons.
+     *         Add-on names should be the same as in the pricing configuration file.
      * 
      */
     public abstract List<String> getUserAddOns();
@@ -109,11 +130,16 @@ public abstract class PricingContext {
     /**
      * Returns a list with the full subscription contracted by the current user
      * (including plans and add-ons).
+     * <p>
+     * There are two keys inside this {@link Map}:
+     * <ul>
+     * <li>Key {@code plans} contains the plan name of the user
+     * <li>Key {@code addOns} contains a list with the add-ons contracted by the
+     * user
+     * </ul>
      * 
-     * Key "plan" contains the plan name of the user.
-     * Key "addOns" contains a list with the add-ons contracted by the user.
-     * 
-     * @return {@code Map<String, Object>} with the current user's contracted subscription.
+     * @return {@code Map<String, Object>} with the current user's contracted
+     *         subscription.
      */
     public final Map<String, Object> getUserSubscription() {
         Map<String, Object> userSubscription = new HashMap<>();
@@ -164,7 +190,7 @@ public abstract class PricingContext {
      * This method returns the {@link PricingManager} object that is being used to
      * evaluate the pricing plan.
      * 
-     * @return PricingManager object
+     * @return {@link PricingManager} object
      */
     public final PricingManager getPricingManager() {
         try {
