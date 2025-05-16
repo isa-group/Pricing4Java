@@ -1,9 +1,7 @@
 package io.github.isagroup;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.github.isagroup.services.jwt.PricingJwtUtils;
@@ -12,39 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PricingEvaluatorUtilTests {
 
-    private static final String JWT_SECRET_TEST = "secret";
-    private static final Integer JWT_EXPIRATION_TEST = 86400;
-    private static final String JWT_SUBJECT_TEST = "admin1";
-    private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['usageLimits']['pets']";
+    private PricingContext pricingContext = new PricingContextTestImpl();
 
-    private static final String USER_PLAN = "ADVANCED";
-    private static final String YAML_CONFIG_PATH = "pricing/petclinic.yml";
+    private PricingEvaluatorUtil pricingEvaluatorUtil = new PricingEvaluatorUtil(pricingContext);
 
-    private PricingContext pricingContext;
-
-    private PricingEvaluatorUtil pricingEvaluatorUtil;
-
-    private PricingJwtUtils jwtUtils;
-
-    @BeforeEach
-    public void setUp() {
-
-        Map<String, Object> userContext = new HashMap<>();
-        userContext.put("username", JWT_SUBJECT_TEST);
-        userContext.put("pets", 2);
-
-        PricingContextTestImpl pricingContext = new PricingContextTestImpl();
-
-        pricingContext.setJwtExpiration(JWT_EXPIRATION_TEST);
-        pricingContext.setJwtSecret(JWT_SECRET_TEST);
-        pricingContext.setUserContext(userContext);
-        pricingContext.setUserPlan(USER_PLAN);
-        pricingContext.setConfigFilePath(YAML_CONFIG_PATH);
-
-        this.pricingContext = pricingContext;
-        this.pricingEvaluatorUtil = new PricingEvaluatorUtil(pricingContext);
-        this.jwtUtils = new PricingJwtUtils(pricingContext);
-    }
+    private PricingJwtUtils jwtUtils = new PricingJwtUtils(pricingContext);
 
     @Test
     void simpleTokenGenerationTest() {
@@ -71,7 +41,7 @@ public class PricingEvaluatorUtilTests {
         String jwtSubject = jwtUtils.getSubjectFromJwtToken(token);
 
         assertTrue(jwtUtils.validateJwtToken(token), "Token is not valid");
-        assertEquals(JWT_SUBJECT_TEST, jwtSubject, "The subject has not being correctly set");
+        assertEquals(PricingContextTestImpl.JWT_SUBJECT_TEST, jwtSubject, "The subject has not being correctly set");
 
     }
 
@@ -79,14 +49,15 @@ public class PricingEvaluatorUtilTests {
     void tokenExpressionsTest() {
 
         String firstToken = pricingEvaluatorUtil.generateUserToken();
+        String jwtExpressionTest = "userContext['pets']*4 < planContext['usageLimits']['pets']";
 
         String newToken = pricingEvaluatorUtil.addExpressionToToken(firstToken, "visits",
-                JWT_EXPRESSION_TEST);
+                jwtExpressionTest);
 
         Map<String, Map<String, Object>> features = jwtUtils.getFeaturesFromJwtToken(newToken);
 
         assertTrue(jwtUtils.validateJwtToken(newToken), "Token is not valid");
-        assertEquals(JWT_EXPRESSION_TEST, (String) features.get("visits").get("eval"),
+        assertEquals(jwtExpressionTest, (String) features.get("visits").get("eval"),
                 "The expression for the feature visits has not being correctly set");
 
     }
