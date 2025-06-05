@@ -178,7 +178,13 @@ public class AddOnParser {
 
         for (String addOnFeatureName : addOnFeaturesMap.keySet()) {
 
-            Map<String, Object> addOnFeatureMap = (Map<String, Object>) addOnFeaturesMap.get(addOnFeatureName);
+            Object featureObj = addOnFeaturesMap.get(addOnFeatureName);
+            if (!(featureObj instanceof Map)) {
+                throw new PricingParsingException("The feature " + addOnFeatureName
+                        + " of the add-on " + addOnName + " is not a valid map. Maybe 'value' attribute is missing to set the value of the feature");
+            }
+            @SuppressWarnings("unchecked")
+            Map<String, Object> addOnFeatureMap = (Map<String, Object>) featureObj;
 
             if (!globalFeaturesMap.containsKey(addOnFeatureName)) {
                 throw new FeatureNotFoundException(
@@ -232,9 +238,23 @@ public class AddOnParser {
         Map<String, Object> addOnUsageLimitsMap = null;
 
         if (areExtensions) {
-            addOnUsageLimitsMap = (Map<String, Object>) addOnMap.get("usageLimitsExtensions");
+            Object usageLimitsExtensionsObj = addOnMap.get("usageLimitsExtensions");
+            if (usageLimitsExtensionsObj instanceof Map<?, ?>) {
+                addOnUsageLimitsMap = (Map<String, Object>) usageLimitsExtensionsObj;
+            } else if (usageLimitsExtensionsObj != null) {
+                throw new PricingParsingException("The field \"usageLimitsExtensions\" should be a map. It is currently: "
+                        + usageLimitsExtensionsObj.getClass().getSimpleName() + ". "
+                        + "Maybe you forgot to add the 'value' attribute to the usage limit in the add-on definition.");
+            }
         } else {
-            addOnUsageLimitsMap = (Map<String, Object>) addOnMap.get("usageLimits");
+            Object usageLimitsObj = addOnMap.get("usageLimits");
+            if (usageLimitsObj instanceof Map<?, ?>) {
+                addOnUsageLimitsMap = (Map<String, Object>) usageLimitsObj;
+            } else if (usageLimitsObj != null) {
+                throw new PricingParsingException("The field \"usageLimits\" should be a map. It is currently: "
+                        + usageLimitsObj.getClass().getSimpleName() + ". "
+                        + "Maybe you forgot to add the 'value' attribute to the usage limit in the add-on definition.");
+            }
         }
         Map<String, UsageLimit> globalUsageLimitsMap = pricingManager.getUsageLimits();
         Map<String, UsageLimit> addOnUsageLimits = new LinkedHashMap<>();

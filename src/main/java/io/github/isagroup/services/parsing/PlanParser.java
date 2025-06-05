@@ -103,7 +103,13 @@ public class PlanParser {
 
         for (String planFeatureName : planFeaturesMap.keySet()) {
 
-            Map<String, Object> planFeatureMap = (Map<String, Object>) planFeaturesMap.get(planFeatureName);
+            Object planFeatureObj = planFeaturesMap.get(planFeatureName);
+            if (!(planFeatureObj instanceof Map)) {
+                throw new PricingParsingException("The feature " + planFeatureName
+                        + " of the plan " + planName + " is not a valid map. Maybe 'value' attribute is missing to set the value of the feature");
+            }
+            @SuppressWarnings("unchecked")
+            Map<String, Object> planFeatureMap = (Map<String, Object>) planFeatureObj;
 
             if (!plan.getFeatures().containsKey(planFeatureName)) {
                 throw new FeatureNotFoundException(
@@ -188,7 +194,13 @@ public class PlanParser {
 
         for (String planUsageLimitName : planUsageLimitsMap.keySet()) {
 
-            Map<String, Object> planUsageLimitMap = (Map<String, Object>) planUsageLimitsMap.get(planUsageLimitName);
+            Object planUsageLimitObj = planUsageLimitsMap.get(planUsageLimitName);
+            if (!(planUsageLimitObj instanceof Map)) {
+                throw new PricingParsingException("The usageLimit " + planUsageLimitName
+                    + " of the plan " + planName + " is not a valid map. Maybe 'value' attribute is missing to set the value of the usageLimit");
+            }
+            @SuppressWarnings("unchecked")
+            Map<String, Object> planUsageLimitMap = (Map<String, Object>) planUsageLimitObj;
 
             if (!plan.getUsageLimits().containsKey(planUsageLimitName)) {
                 throw new FeatureNotFoundException(
