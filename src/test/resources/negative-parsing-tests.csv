@@ -31,7 +31,7 @@ Throw an error if 'currency' is missing;parsing/negative/currency/currency-is-nu
 Throw an error if a feature is not a map of attributes;parsing/negative/feature/feature-is-key-value.yml;Feature 'foo' must be a Map but found String instead
 Throw an error if a feature is named 'null';parsing/negative/feature/feature-null-as-key.yml;A feature cannot have the name null
 # feature.docUrl
-Throw an error if feature 'docUrl' is not a string;parsing/negative/feature/docUrl/is-bool.yml;'docUrl' must be a String but found a Boolean instead
+Throw an error if feature 'docUrl' is not a string;parsing/negative/feature/docUrl/is-bool.yml;'docUrl' must be a String but found a Boolean instead (feature affected: 'guarantee'). Remember, it is an optional field so you can remove it from the input.
 # feature.type
 Throw an error if feature 'type' is missing or null;parsing/negative/feature/type/null-type.yml;feature 'type' is mandatory
 # feature.valueType
