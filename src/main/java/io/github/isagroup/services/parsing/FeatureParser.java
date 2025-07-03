@@ -105,7 +105,17 @@ public class FeatureParser {
         }
 
         if (integration.getIntegrationType().equals(IntegrationType.WEB_SAAS)) {
-            integration.setPricingUrls((List<String>) map.get("pricingUrls"));
+            if (map.get("pricingUrls") != null) {
+                if (!(map.get("pricingUrls") instanceof List) || ((List<String>) map.get("pricingUrls")).isEmpty()
+                        || ((List<String>) map.get("pricingUrls")).stream().anyMatch(url -> !url.matches("^(http|https)://.*"))) {
+                    throw new PricingParsingException("The feature " + featureName
+                            + " is from type INTEGRATION with integrationType WEB_SAAS but does not have a valid pricingUrls list (each item must be a valid URL with the http or https protocol). Current value: " + map.get("pricingUrls")
+                            + ". To specify a list you must use dash (-) before each item. Remember, it is an optional field so you can remove it from the input.");
+                }
+                integration.setPricingUrls((List<String>) map.get("pricingUrls"));
+            } else {
+                integration.setPricingUrls(List.of());
+            }
         }
 
         return integration;
@@ -134,7 +144,7 @@ public class FeatureParser {
 
         try {
             automation.setAutomationType(AutomationType.valueOf(automationType));
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidAutomationTypeException(
                     "The feature " + featureName + " does not have a supported automationType (" + Arrays.toString(AutomationType.values()) + "). Current value: "
                             + automationType);
@@ -160,7 +170,11 @@ public class FeatureParser {
 
         if (map.get("docUrl") != null && !(map.get("docUrl") instanceof String)) {
             throw new PricingParsingException("\'docUrl\' must be a String but found a "
-                    + map.get("docUrl").getClass().getSimpleName() + " instead");
+                    + map.get("docUrl").getClass().getSimpleName() + " instead (feature affected: '" + featureName + "'). Remember, it is an optional field so you can remove it from the input.");
+        }
+
+        if (map.get("docUrl") != null && !((String) map.get("docUrl")).matches("^(http|https)://.*")) {
+            throw new PricingParsingException("The docUrl field (from feature '" + featureName + "') must be a valid URL with the http or https protocol. Received: " + map.get("docUrl") + ". Remember, it is an optional field so you can remove it from the input.");
         }
 
         guarantee.setDocURL((String) map.get("docUrl"));
@@ -289,7 +303,7 @@ public class FeatureParser {
         for (String paymentType : allowedPaymentTypes) {
             try {
                 PaymentType.valueOf(paymentType);
-            } catch (IllegalArgumentException e) {
+            } catch (NullPointerException | IllegalArgumentException e) {
                 throw new InvalidDefaultValueException("The feature " + featureName
                         + " does not have a valid defaultValue consisting on a list of supported paymentType ("+Arrays.toString(PaymentType.values())+"). PaymentType that generates the issue: " + paymentType);
             }

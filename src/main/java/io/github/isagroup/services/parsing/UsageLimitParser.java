@@ -47,7 +47,7 @@ public class UsageLimitParser {
                 default:
                     return null;
             }
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             throw new IllegalArgumentException("The usage limit " + limitName
                     + " does not have a supported type (" + Arrays.toString(UsageLimitType.values()) + "). Current type value: " + (String) limitMap.get("type"));
         }
@@ -96,7 +96,7 @@ public class UsageLimitParser {
         limit.setDescription((String) map.get("description"));
         try {
             limit.setValueType(ValueType.valueOf((String) map.get("valueType")));
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             throw new InvalidValueTypeException("The feature " + limitName
                     + " does not have a supported valueType (" + Arrays.toString(ValueType.values()) + "). Current valueType: " + (String) map.get("valueType"));
         }
