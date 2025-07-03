@@ -1,6 +1,7 @@
 package io.github.isagroup;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ public class PricingEvaluatorUtilTests {
     private static final String JWT_EXPRESSION_TEST = "userContext['pets']*4 < planContext['usageLimits']['pets']";
 
     private static final String USER_PLAN = "ADVANCED";
+    private static final List<String> USER_ADDONS = List.of("addOnFeature", "extraPets");
     private static final String YAML_CONFIG_PATH = "pricing/petclinic.yml";
 
     private PricingContext pricingContext;
@@ -41,6 +43,7 @@ public class PricingEvaluatorUtilTests {
         pricingContext.setJwtSecret(JWT_SECRET_TEST);
         pricingContext.setUserContext(userContext);
         pricingContext.setUserPlan(USER_PLAN);
+        pricingContext.setUserAddOns(USER_ADDONS);
         pricingContext.setConfigFilePath(YAML_CONFIG_PATH);
 
         this.pricingContext = pricingContext;

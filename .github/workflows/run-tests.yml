@@ -16,6 +16,9 @@ jobs:
                 java-version: '17'
                 distribution: 'temurin'
             
+            - name: Print test file
+              run: cat src/test/java/io/github/isagroup/PricingEvaluatorUtilTests.java
+
             - name: Build with Maven
               run: mvn test
 
