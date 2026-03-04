@@ -40,3 +40,5 @@ target/
 
 # MacOS
 .DS_Store
+
+.metals/
